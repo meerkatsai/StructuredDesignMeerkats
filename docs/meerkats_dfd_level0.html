@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meerkats — Level 0 DFD (Context Diagram)</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #0F172A;
+  padding: 40px;
+  min-width: 1200px;
+}
+h2 { font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px; }
+p.sub { font-size: 10px; color: #94A3B8; margin-bottom: 28px; }
+</style>
+</head>
+<body>
+<h2>Meerkats.ai &mdash; Level 0 DFD (Context Diagram)</h2>
+<p class="sub">The system as a single process. Shows every external entity and the data flows in and out. No internal structure.</p>
+
+<svg viewBox="0 0 1200 860" xmlns="http://www.w3.org/2000/svg"
+     font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+     style="width:100%;display:block;">
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#0F172A"/></marker>
+    <marker id="ab" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1D4ED8"/></marker>
+    <marker id="ag" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#15803D"/></marker>
+    <marker id="ao" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#C2410C"/></marker>
+    <marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#DC2626"/></marker>
+    <marker id="ap" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#7C3AED"/></marker>
+    <marker id="ac" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#0369A1"/></marker>
+  </defs>
+
+  <!-- ═══════════════════════════════════════
+       CENTRAL PROCESS — Meerkats Platform
+  ════════════════════════════════════════ -->
+  <circle cx="600" cy="430" r="148" fill="#F8FAFC" stroke="#0F172A" stroke-width="2.5"/>
+  <circle cx="600" cy="430" r="143" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="600" y="408" text-anchor="middle" font-size="16" font-weight="700" fill="#0F172A">Meerkats.ai</text>
+  <text x="600" y="428" text-anchor="middle" font-size="11" fill="#475569">Revenue Attribution</text>
+  <text x="600" y="444" text-anchor="middle" font-size="11" fill="#475569">Platform</text>
+  <text x="600" y="464" text-anchor="middle" font-size="9" fill="#94A3B8">Node.js · PostgreSQL</text>
+  <text x="600" y="477" text-anchor="middle" font-size="9" fill="#94A3B8">Next.js · LangGraph</text>
+
+  <!-- ═══════════════════════════════════════
+       EXTERNAL ENTITIES
+       Rectangles per DFD convention
+  ════════════════════════════════════════ -->
+
+  <!-- TOP ROW -->
+
+  <!-- Meta Ads -->
+  <rect x="60" y="30" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="145" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Meta Ads</text>
+  <text x="145" y="67" text-anchor="middle" font-size="9" fill="#64748B">Campaigns · Ad Sets</text>
+  <text x="145" y="80" text-anchor="middle" font-size="9" fill="#64748B">Creatives · Audiences</text>
+
+  <!-- Google Ads -->
+  <rect x="280" y="30" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="365" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Google Ads</text>
+  <text x="365" y="67" text-anchor="middle" font-size="9" fill="#64748B">Campaigns · Ad Groups</text>
+  <text x="365" y="80" text-anchor="middle" font-size="9" fill="#64748B">Keywords · Search Terms</text>
+
+  <!-- Shopify -->
+  <rect x="500" y="30" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="585" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Shopify</text>
+  <text x="585" y="67" text-anchor="middle" font-size="9" fill="#64748B">Orders · Customers</text>
+  <text x="585" y="80" text-anchor="middle" font-size="9" fill="#64748B">Products · Fulfilment</text>
+
+  <!-- WhatsApp / CRM -->
+  <rect x="720" y="30" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="805" y="48" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">WhatsApp / CRM</text>
+  <text x="805" y="63" text-anchor="middle" font-size="9" fill="#64748B">Interakt · Zoho</text>
+  <text x="805" y="76" text-anchor="middle" font-size="9" fill="#64748B">Salesforce · LeadSquared</text>
+
+  <!-- PostHog -->
+  <rect x="940" y="30" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="1025" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">PostHog</text>
+  <text x="1025" y="67" text-anchor="middle" font-size="9" fill="#64748B">Web Pixel · JS SDK</text>
+  <text x="1025" y="80" text-anchor="middle" font-size="9" fill="#64748B">Session · Event stream</text>
+
+  <!-- BOTTOM ROW -->
+
+  <!-- Operator / Analyst -->
+  <rect x="60" y="760" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="145" y="782" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Operator / Analyst</text>
+  <text x="145" y="797" text-anchor="middle" font-size="9" fill="#64748B">Brand team · Growth PM</text>
+  <text x="145" y="810" text-anchor="middle" font-size="9" fill="#64748B">Console · API consumer</text>
+
+  <!-- AI Agent -->
+  <rect x="280" y="760" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="365" y="782" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">AI Agent Layer</text>
+  <text x="365" y="797" text-anchor="middle" font-size="9" fill="#64748B">LangGraph · 187 tools</text>
+  <text x="365" y="810" text-anchor="middle" font-size="9" fill="#64748B">Multi-provider LLM routing</text>
+
+  <!-- Ad Platforms (feedback loop) -->
+  <rect x="500" y="760" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="585" y="782" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Ad Platforms</text>
+  <text x="585" y="797" text-anchor="middle" font-size="9" fill="#64748B">Meta CAPI · Google</text>
+  <text x="585" y="810" text-anchor="middle" font-size="9" fill="#64748B">Enhanced Conversions</text>
+
+  <!-- Customer (end user) -->
+  <rect x="720" y="760" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="805" y="782" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">End Customer</text>
+  <text x="805" y="797" text-anchor="middle" font-size="9" fill="#64748B">Browses · Adds to cart</text>
+  <text x="805" y="810" text-anchor="middle" font-size="9" fill="#64748B">Places order · RTO</text>
+
+  <!-- Delhivery / Logistics -->
+  <rect x="940" y="760" width="170" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="1025" y="782" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Logistics</text>
+  <text x="1025" y="797" text-anchor="middle" font-size="9" fill="#64748B">Delhivery · Shiprocket</text>
+  <text x="1025" y="810" text-anchor="middle" font-size="9" fill="#64748B">Delivery status · RTO events</text>
+
+  <!-- LEFT SIDE -->
+
+  <!-- Link Service (internal sub-system shown as external at L0) -->
+  <rect x="20" y="300" width="150" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="95" y="322" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Link Service</text>
+  <text x="95" y="337" text-anchor="middle" font-size="9" fill="#64748B">mk_cid minting</text>
+  <text x="95" y="350" text-anchor="middle" font-size="9" fill="#64748B">Safari ITP fix</text>
+
+  <!-- RIGHT SIDE -->
+
+  <!-- Meerkats Cockpit (output surface) -->
+  <rect x="1030" y="300" width="150" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="1105" y="322" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Operator Console</text>
+  <text x="1105" y="337" text-anchor="middle" font-size="9" fill="#64748B">Next.js dashboard</text>
+  <text x="1105" y="350" text-anchor="middle" font-size="9" fill="#64748B">Recharts · REST API</text>
+
+  <!-- Meerkats Cockpit (output surface) -->
+  <rect x="1030" y="500" width="150" height="64" rx="0" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="1105" y="522" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Alerts / Webhooks</text>
+  <text x="1105" y="537" text-anchor="middle" font-size="9" fill="#64748B">Anomaly notifications</text>
+  <text x="1105" y="550" text-anchor="middle" font-size="9" fill="#64748B">Slack · Email · webhook</text>
+
+  <!-- ═══════════════════════════════════════
+       DATA FLOWS — INBOUND
+  ════════════════════════════════════════ -->
+
+  <!-- Meta → platform: campaign spend + fbclid -->
+  <path d="M 145,94 Q 145,200 468,350" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="60" y="178" width="130" height="28" fill="#fff" stroke="none"/>
+  <text x="125" y="189" text-anchor="middle" font-size="8" fill="#1D4ED8" font-weight="600">campaign spend</text>
+  <text x="125" y="200" text-anchor="middle" font-size="8" fill="#475569">fbclid + UTM on click</text>
+
+  <!-- Google → platform: campaign spend + gclid -->
+  <path d="M 365,94 Q 365,200 510,300" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="290" y="178" width="130" height="28" fill="#fff" stroke="none"/>
+  <text x="355" y="189" text-anchor="middle" font-size="8" fill="#1D4ED8" font-weight="600">campaign spend</text>
+  <text x="355" y="200" text-anchor="middle" font-size="8" fill="#475569">gclid + UTM on click</text>
+
+  <!-- Shopify → platform: orders + customers -->
+  <path d="M 585,94 Q 585,220 585,282" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="512" y="160" width="148" height="28" fill="#fff" stroke="none"/>
+  <text x="586" y="171" text-anchor="middle" font-size="8" fill="#15803D" font-weight="600">orders · customers</text>
+  <text x="586" y="182" text-anchor="middle" font-size="8" fill="#475569">products · fulfilment webhooks</text>
+
+  <!-- WA/CRM → platform: leads + stage updates -->
+  <path d="M 805,94 Q 805,200 700,300" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="718" y="170" width="130" height="28" fill="#fff" stroke="none"/>
+  <text x="783" y="181" text-anchor="middle" font-size="8" fill="#7C3AED" font-weight="600">leads · stage updates</text>
+  <text x="783" y="192" text-anchor="middle" font-size="8" fill="#475569">inbound messages</text>
+
+  <!-- PostHog → platform: sessions + events -->
+  <path d="M 1025,94 Q 1025,200 730,340" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="890" y="178" width="130" height="28" fill="#fff" stroke="none"/>
+  <text x="955" y="189" text-anchor="middle" font-size="8" fill="#7C3AED" font-weight="600">sessions · events</text>
+  <text x="955" y="200" text-anchor="middle" font-size="8" fill="#475569">page_view · ATC · checkout</text>
+
+  <!-- Link Service → platform: mk_cid -->
+  <path d="M 170,332 Q 280,390 452,408" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="178" y="372" width="100" height="24" fill="#fff" stroke="none"/>
+  <text x="228" y="382" text-anchor="middle" font-size="8" fill="#C2410C" font-weight="600">mk_cid · click context</text>
+  <text x="228" y="393" text-anchor="middle" font-size="8" fill="#475569">server-side click capture</text>
+
+  <!-- End Customer → platform: browse + order -->
+  <path d="M 805,760 Q 805,640 720,535" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="728" y="680" width="120" height="28" fill="#fff" stroke="none"/>
+  <text x="788" y="691" text-anchor="middle" font-size="8" fill="#475569" font-weight="600">click · browse · order</text>
+  <text x="788" y="702" text-anchor="middle" font-size="8" fill="#475569">checkout · RTO trigger</text>
+
+  <!-- Logistics → platform: delivery + RTO -->
+  <path d="M 1025,760 Q 1025,640 730,525" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="870" y="680" width="120" height="28" fill="#fff" stroke="none"/>
+  <text x="930" y="691" text-anchor="middle" font-size="8" fill="#DC2626" font-weight="600">delivery status</text>
+  <text x="930" y="702" text-anchor="middle" font-size="8" fill="#475569">RTO confirmed event</text>
+
+  <!-- ═══════════════════════════════════════
+       DATA FLOWS — OUTBOUND
+  ════════════════════════════════════════ -->
+
+  <!-- platform → Operator Console: dashboards + metrics -->
+  <path d="M 748,408 Q 900,380 1030,332" stroke="#C2410C" stroke-width="1.8" fill="none" marker-end="url(#ao)"/>
+  <rect x="845" y="355" width="140" height="28" fill="#fff" stroke="none"/>
+  <text x="915" y="366" text-anchor="middle" font-size="8" fill="#C2410C" font-weight="600">corrected_roas · delta</text>
+  <text x="915" y="377" text-anchor="middle" font-size="8" fill="#475569">campaign metrics · LTV</text>
+
+  <!-- platform → Alerts: anomaly push -->
+  <path d="M 748,460 Q 900,490 1030,520" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <rect x="840" y="476" width="120" height="28" fill="#fff" stroke="none"/>
+  <text x="900" y="487" text-anchor="middle" font-size="8" fill="#DC2626" font-weight="600">anomaly alerts</text>
+  <text x="900" y="498" text-anchor="middle" font-size="8" fill="#475569">spend spike · ROAS drop</text>
+
+  <!-- platform → Operator (bottom): reports -->
+  <path d="M 510,555 Q 300,640 230,760" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <rect x="280" y="650" width="130" height="28" fill="#fff" stroke="none"/>
+  <text x="345" y="661" text-anchor="middle" font-size="8" fill="#C2410C" font-weight="600">attribution reports</text>
+  <text x="345" y="672" text-anchor="middle" font-size="8" fill="#475569">corrected ROAS · CAC</text>
+
+  <!-- platform → AI Agent: metric queries + proposals -->
+  <path d="M 490,555 Q 420,640 400,760" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <rect x="390" y="650" width="110" height="28" fill="#fff" stroke="none"/>
+  <text x="445" y="661" text-anchor="middle" font-size="8" fill="#7C3AED" font-weight="600">metric query results</text>
+  <text x="445" y="672" text-anchor="middle" font-size="8" fill="#475569">approved actions</text>
+
+  <!-- AI Agent → platform: queries + actions -->
+  <path d="M 365,760 Q 365,700 450,570" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#ap)"/>
+  <rect x="360" y="710" width="100" height="26" fill="#fff" stroke="none"/>
+  <text x="410" y="721" text-anchor="middle" font-size="8" fill="#7C3AED" font-weight="600">GAQL queries</text>
+  <text x="410" y="731" text-anchor="middle" font-size="8" fill="#475569">propose → execute</text>
+
+  <!-- platform → Ad Platforms: corrected signals (CAPI / EC) -->
+  <path d="M 560,578 Q 565,660 585,760" stroke="#15803D" stroke-width="1.8" fill="none" marker-end="url(#ag)"/>
+  <rect x="510" y="660" width="140" height="28" fill="#fff" stroke="none"/>
+  <text x="580" y="671" text-anchor="middle" font-size="8" fill="#15803D" font-weight="600">corrected conversion signals</text>
+  <text x="580" y="682" text-anchor="middle" font-size="8" fill="#475569">Meta CAPI · Google EC upload</text>
+
+  <!-- platform → Link Service: redirect instruction -->
+  <path d="M 452,455 Q 280,460 170,364" stroke="#0F172A" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#a)"/>
+  <rect x="230" y="440" width="130" height="24" fill="#fff" stroke="none"/>
+  <text x="295" y="451" text-anchor="middle" font-size="8" fill="#475569">redirect instruction</text>
+  <text x="295" y="462" text-anchor="middle" font-size="8" fill="#475569">mk_cid assignment</text>
+
+  <!-- ═══════════════════════════════════════
+       FOOTNOTE / KEY
+  ════════════════════════════════════════ -->
+  <rect x="20" y="836" width="1160" height="20" rx="3" fill="#F1F5F9"/>
+  <text x="600" y="850" text-anchor="middle" font-size="9" fill="#475569">
+    Convention: rectangles = external entities · circle = system process · solid arrows = primary data flows · dashed arrows = control / configuration flows
+    &nbsp;&nbsp;|&nbsp;&nbsp; All 26 internal tables and sub-processes are hidden at this level — see Level 1 and Level 3 DFDs.
+  </text>
+
+</svg>
+</body>
+</html>
