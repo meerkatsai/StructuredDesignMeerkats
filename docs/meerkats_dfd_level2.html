@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meerkats — Level 2 DFD</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #0F172A;
+  padding: 36px 40px;
+  min-width: 2400px;
+}
+h2 { font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px; }
+p.sub { font-size: 10px; color: #94A3B8; margin-bottom: 24px; }
+
+/* Section title bars */
+.section-label {
+  font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+}
+</style>
+</head>
+<body>
+<h2>Meerkats.ai — Level 2 DFD</h2>
+<p class="sub">Each Level 1 process decomposed into sub-processes. 7 parent processes → 28 sub-processes total. Data stores inherited from Level 1.</p>
+
+<svg viewBox="0 0 2800 3100" xmlns="http://www.w3.org/2000/svg"
+     font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+     style="width:100%;display:block;">
+  <defs>
+    <marker id="ak"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#0F172A"/></marker>
+    <marker id="ab"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#1D4ED8"/></marker>
+    <marker id="ag"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#15803D"/></marker>
+    <marker id="ao"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#C2410C"/></marker>
+    <marker id="ar"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#DC2626"/></marker>
+    <marker id="ap"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#7C3AED"/></marker>
+    <marker id="ac"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#0369A1"/></marker>
+    <marker id="ay"  markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#92400E"/></marker>
+    <marker id="asl" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#64748B"/></marker>
+    <marker id="acn" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#065F46"/></marker>
+  </defs>
+
+  <!-- =============================================================
+       SECTION BACKGROUNDS — one per P1–P7
+  ============================================================== -->
+  <!-- P1 band y=10  h=340 -->
+  <rect x="0"    y="10"   width="2800" height="340" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1"/>
+  <!-- P2 band y=370 h=340 -->
+  <rect x="0"    y="370"  width="2800" height="340" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <!-- P3 band y=730 h=360 -->
+  <rect x="0"    y="730"  width="2800" height="360" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1"/>
+  <!-- P4 band y=1110 h=360 -->
+  <rect x="0"    y="1110" width="2800" height="360" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1"/>
+  <!-- P5 band y=1490 h=380 -->
+  <rect x="0"    y="1490" width="2800" height="380" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
+  <!-- P6 band y=1890 h=360 -->
+  <rect x="0"    y="1890" width="2800" height="360" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
+  <!-- P7 band y=2270 h=380 -->
+  <rect x="0"    y="2270" width="2800" height="380" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1"/>
+  <!-- Legend band -->
+  <rect x="0"    y="2670" width="2800" height="420" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Section label strips -->
+  <rect x="0" y="10"   width="70" height="340" fill="#FED7AA"/>
+  <rect x="0" y="370"  width="70" height="340" fill="#BFDBFE"/>
+  <rect x="0" y="730"  width="70" height="360" fill="#DDD6FE"/>
+  <rect x="0" y="1110" width="70" height="360" fill="#BBF7D0"/>
+  <rect x="0" y="1490" width="70" height="380" fill="#FECACA"/>
+  <rect x="0" y="1890" width="70" height="360" fill="#A7F3D0"/>
+  <rect x="0" y="2270" width="70" height="380" fill="#BAE6FD"/>
+
+  <text transform="translate(35,195)  rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#92400E">P1 CLICK CAPTURE &amp; AD INGESTION</text>
+  <text transform="translate(35,555)  rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">P2 IDENTITY RESOLUTION</text>
+  <text transform="translate(35,920)  rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#6D28D9">P3 SESSION &amp; EVENT PROCESSING</text>
+  <text transform="translate(35,1300) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">P4 ORDER &amp; COMMERCE INGESTION</text>
+  <text transform="translate(35,1690) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">P5 ATTRIBUTION ENGINE</text>
+  <text transform="translate(35,2075) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">P6 METRICS &amp; ANOMALY ENGINE</text>
+  <text transform="translate(35,2465) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#0369A1">P7 QUERY API &amp; AGENT GATE</text>
+
+  <!-- =============================================================
+       HELPER: sub-process circle macro (drawn inline)
+       Sub-process style: smaller circle r=64, coloured stroke
+  ============================================================== -->
+
+  <!-- =============================================================
+       P1 — CLICK CAPTURE & AD INGESTION  (y band 10–350)
+       Sub-processes:
+         1.1 Link Service / Redirect Interceptor  cx=200 cy=185
+         1.2 Click ID Store                        cx=600 cy=185
+         1.3 Ad Platform OAuth & Sync              cx=1050 cy=185
+         1.4 Campaign Metadata Normaliser          cx=1500 cy=185
+         1.5 Spend Ingestor                        cx=1950 cy=185
+  ============================================================== -->
+
+  <!-- External: Meta/Google (top of P1) -->
+  <rect x="80"  y="20" width="130" height="44" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="145" y="38" text-anchor="middle" font-size="9" font-weight="700">Meta / Google</text>
+  <text x="145" y="52" text-anchor="middle" font-size="7" fill="#64748B">ad click + campaign API</text>
+
+  <!-- End Customer (top right of P1) -->
+  <rect x="2580" y="20" width="130" height="44" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="2645" y="38" text-anchor="middle" font-size="9" font-weight="700">End Customer</text>
+  <text x="2645" y="52" text-anchor="middle" font-size="7" fill="#64748B">clicks ad URL</text>
+
+  <!-- 1.1 Link Service / Redirect Interceptor -->
+  <circle cx="260" cy="185" r="68" fill="#FFF7ED" stroke="#C2410C" stroke-width="2"/>
+  <text x="260" y="169" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">1.1</text>
+  <text x="260" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">Link Service</text>
+  <text x="260" y="193" text-anchor="middle" font-size="8" fill="#C2410C">Redirect Interceptor</text>
+  <text x="260" y="207" text-anchor="middle" font-size="7" fill="#475569">Intercepts click before</text>
+  <text x="260" y="218" text-anchor="middle" font-size="7" fill="#475569">landing page redirect</text>
+  <text x="260" y="229" text-anchor="middle" font-size="7" fill="#475569">Extracts gclid/fbclid/UTM</text>
+
+  <!-- 1.2 Click ID Store (mk_cid minting) -->
+  <circle cx="580" cy="185" r="68" fill="#FFF7ED" stroke="#C2410C" stroke-width="2"/>
+  <text x="580" y="169" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">1.2</text>
+  <text x="580" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">mk_cid Minter</text>
+  <text x="580" y="193" text-anchor="middle" font-size="8" fill="#C2410C">&amp; Click ID Store</text>
+  <text x="580" y="207" text-anchor="middle" font-size="7" fill="#475569">Generates UUID mk_cid</text>
+  <text x="580" y="218" text-anchor="middle" font-size="7" fill="#475569">Stores platform_click_id</text>
+  <text x="580" y="229" text-anchor="middle" font-size="7" fill="#475569">server-side (Safari ITP fix)</text>
+
+  <!-- 1.3 Ad Platform OAuth & Sync -->
+  <circle cx="960" cy="185" r="68" fill="#FFF7ED" stroke="#C2410C" stroke-width="2"/>
+  <text x="960" y="169" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">1.3</text>
+  <text x="960" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">Ad Platform</text>
+  <text x="960" y="193" text-anchor="middle" font-size="8" fill="#C2410C">OAuth &amp; Sync</text>
+  <text x="960" y="207" text-anchor="middle" font-size="7" fill="#475569">OAuth token refresh</text>
+  <text x="960" y="218" text-anchor="middle" font-size="7" fill="#475569">GAQL / Marketing API</text>
+  <text x="960" y="229" text-anchor="middle" font-size="7" fill="#475569">scheduled 4h pull</text>
+
+  <!-- 1.4 Campaign Metadata Normaliser -->
+  <circle cx="1340" cy="185" r="68" fill="#FFF7ED" stroke="#C2410C" stroke-width="2"/>
+  <text x="1340" y="169" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">1.4</text>
+  <text x="1340" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">Campaign Metadata</text>
+  <text x="1340" y="193" text-anchor="middle" font-size="8" fill="#C2410C">Normaliser</text>
+  <text x="1340" y="207" text-anchor="middle" font-size="7" fill="#475569">Upserts campaigns/ad_sets</text>
+  <text x="1340" y="218" text-anchor="middle" font-size="7" fill="#475569">platform → canonical names</text>
+  <text x="1340" y="229" text-anchor="middle" font-size="7" fill="#475569">status / objective mapping</text>
+
+  <!-- 1.5 Spend Ingestor -->
+  <circle cx="1720" cy="185" r="68" fill="#FFF7ED" stroke="#C2410C" stroke-width="2"/>
+  <text x="1720" y="169" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">1.5</text>
+  <text x="1720" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">Spend Ingestor</text>
+  <text x="1720" y="207" text-anchor="middle" font-size="7" fill="#475569">Daily spend per campaign</text>
+  <text x="1720" y="218" text-anchor="middle" font-size="7" fill="#475569">impressions · clicks · CPC</text>
+  <text x="1720" y="229" text-anchor="middle" font-size="7" fill="#475569">platform_conversions</text>
+
+  <!-- 1.6 Anon Visitor Creator -->
+  <circle cx="2100" cy="185" r="68" fill="#FFF7ED" stroke="#C2410C" stroke-width="2"/>
+  <text x="2100" y="169" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">1.6</text>
+  <text x="2100" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">Anon Visitor</text>
+  <text x="2100" y="193" text-anchor="middle" font-size="8" fill="#C2410C">Creator</text>
+  <text x="2100" y="207" text-anchor="middle" font-size="7" fill="#475569">PostHog distinct_id</text>
+  <text x="2100" y="218" text-anchor="middle" font-size="7" fill="#475569">device / browser / geo</text>
+  <text x="2100" y="229" text-anchor="middle" font-size="7" fill="#475569">links mk_cid to anon row</text>
+
+  <!-- DS: click_ids (P1 band) -->
+  <line x1="80"  y1="302" x2="80"  y2="332" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"  y1="302" x2="760" y2="302" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"  y1="332" x2="760" y2="332" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="80"   y="302" width="32" height="30" fill="#FED7AA"/>
+  <text x="96"   y="321" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">D1</text>
+  <text x="430"  y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">click_ids</text>
+  <text x="430"  y="326" text-anchor="middle" font-size="7" fill="#475569">mk_cid · platform_click_id · utm_* · workspace_id</text>
+
+  <!-- DS: ad_platform_spend + campaigns (P1 band) -->
+  <line x1="860"  y1="302" x2="860"  y2="332" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="860"  y1="302" x2="2000" y2="302" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="860"  y1="332" x2="2000" y2="332" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="860"   y="302" width="32" height="30" fill="#FED7AA"/>
+  <text x="876"   y="321" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">D6</text>
+  <text x="1430"  y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">ad_platform_spend · ad_platform_campaigns · ad_platform_accounts</text>
+  <text x="1430"  y="326" text-anchor="middle" font-size="7" fill="#475569">date · campaign_id · impressions · clicks · spend · synced_at</text>
+
+  <!-- DS: anonymous_visitors (P1 band far right) -->
+  <line x1="2040" y1="302" x2="2040" y2="332" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="2040" y1="302" x2="2720" y2="302" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="2040" y1="332" x2="2720" y2="332" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="2040"  y="302" width="32" height="30" fill="#BFDBFE"/>
+  <text x="2056"  y="321" text-anchor="middle" font-size="8" font-weight="700" fill="#1D4ED8">D2</text>
+  <text x="2380"  y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">anonymous_visitors</text>
+  <text x="2380"  y="326" text-anchor="middle" font-size="7" fill="#475569">anon_id · mk_cid · device · first_seen_ts · resolved=false</text>
+
+  <!-- P1 FLOWS -->
+  <!-- Customer → 1.1 -->
+  <path d="M 2580,42 Q 2400,100 2168,145" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <text x="2390" y="85" font-size="7" fill="#475569">ad click URL</text>
+  <!-- Meta/Google → 1.1 -->
+  <path d="M 210,64 Q 240,120 240,117" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <text x="175" y="90" font-size="7" fill="#475569">click event</text>
+  <!-- 1.1 → 1.2 -->
+  <path d="M 328,185 Q 512,185 512,185" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="420" y="178" font-size="7" fill="#C2410C" font-weight="600">gclid/fbclid + UTM params</text>
+  <!-- 1.2 → D1 -->
+  <path d="M 530,248 Q 400,285 400,302" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="380" y="278" font-size="7" fill="#C2410C" font-weight="600">write mk_cid row</text>
+  <!-- 1.2 → 1.6 -->
+  <path d="M 648,185 Q 1000,140 2032,145" stroke="#C2410C" stroke-width="1.2" fill="none" marker-end="url(#ao)"/>
+  <text x="1200" y="135" font-size="7" fill="#C2410C">mk_cid reference</text>
+  <!-- 1.6 → D2 -->
+  <path d="M 2100,253 Q 2100,285 2380,302" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="2220" y="275" font-size="7" fill="#C2410C" font-weight="600">write anon_visitor row</text>
+  <!-- Meta/Google API → 1.3 -->
+  <path d="M 210,42 Q 960,42 960,117" stroke="#1D4ED8" stroke-width="1.2" fill="none" marker-end="url(#ab)"/>
+  <text x="580" y="36" font-size="7" fill="#1D4ED8" font-weight="600">campaign/spend API response</text>
+  <!-- 1.3 → 1.4 -->
+  <path d="M 1028,185 Q 1272,185 1272,185" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="1150" y="178" font-size="7" fill="#C2410C" font-weight="600">raw campaign data</text>
+  <!-- 1.4 → D6 campaigns -->
+  <path d="M 1340,253 Q 1340,290 1430,302" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="1360" y="278" font-size="7" fill="#C2410C" font-weight="600">upsert campaigns</text>
+  <!-- 1.4 → 1.5 -->
+  <path d="M 1408,185 Q 1580,185 1652,185" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="1510" y="178" font-size="7" fill="#C2410C" font-weight="600">campaign_id ref</text>
+  <!-- 1.5 → D6 spend -->
+  <path d="M 1720,253 Q 1720,285 1720,302" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="1730" y="278" font-size="7" fill="#C2410C" font-weight="600">write spend rows</text>
+
+  <!-- =============================================================
+       P2 — IDENTITY RESOLUTION  (y band 370–710)
+       Sub-processes:
+         2.1 Stitch Trigger Detector    cx=300  cy=545
+         2.2 PII Hasher                 cx=700  cy=545
+         2.3 Customer Upsert            cx=1100 cy=545
+         2.4 Edge Writer                cx=1500 cy=545
+         2.5 Resolution Propagator      cx=1900 cy=545
+  ============================================================== -->
+
+  <!-- DS D2 ref (top of P2 band) -->
+  <line x1="80"  y1="380" x2="80"  y2="410" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"  y1="380" x2="700" y2="380" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"  y1="410" x2="700" y2="410" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="80"   y="380" width="32" height="30" fill="#BFDBFE"/>
+  <text x="96"   y="399" text-anchor="middle" font-size="8" font-weight="700" fill="#1D4ED8">D2</text>
+  <text x="390"  y="391" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">anonymous_visitors</text>
+  <text x="390"  y="404" text-anchor="middle" font-size="7" fill="#475569">anon_id · mk_cid · resolved flag</text>
+
+  <!-- DS D3 customers + identity_edges -->
+  <line x1="760"  y1="380" x2="760"  y2="410" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="760"  y1="380" x2="2200" y2="380" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="760"  y1="410" x2="2200" y2="410" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="760"   y="380" width="32" height="30" fill="#DDD6FE"/>
+  <text x="776"   y="399" text-anchor="middle" font-size="8" font-weight="700" fill="#7C3AED">D3</text>
+  <text x="1480"  y="391" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">customers · identity_edges</text>
+  <text x="1480"  y="404" text-anchor="middle" font-size="7" fill="#475569">customer_id · email_hash · phone_hash · anon_id ↔ customer_id · confidence · stitch_method</text>
+
+  <!-- External: WhatsApp/CRM -->
+  <rect x="2240" y="375" width="150" height="44" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="2315" y="393" text-anchor="middle" font-size="9" font-weight="700">WhatsApp / CRM</text>
+  <text x="2315" y="407" text-anchor="middle" font-size="7" fill="#64748B">lead events · form submits</text>
+
+  <!-- 2.1 Stitch Trigger Detector -->
+  <circle cx="300" cy="555" r="66" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="300" y="538" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">2.1</text>
+  <text x="300" y="550" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">Stitch Trigger</text>
+  <text x="300" y="562" text-anchor="middle" font-size="8" fill="#1D4ED8">Detector</text>
+  <text x="300" y="576" text-anchor="middle" font-size="7" fill="#475569">Detects checkout / form</text>
+  <text x="300" y="587" text-anchor="middle" font-size="7" fill="#475569">submit events with PII</text>
+  <text x="300" y="598" text-anchor="middle" font-size="7" fill="#475569">routes to PII Hasher</text>
+
+  <!-- 2.2 PII Hasher -->
+  <circle cx="700" cy="555" r="66" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="700" y="538" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">2.2</text>
+  <text x="700" y="550" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">PII Hasher</text>
+  <text x="700" y="576" text-anchor="middle" font-size="7" fill="#475569">SHA-256 email + phone</text>
+  <text x="700" y="587" text-anchor="middle" font-size="7" fill="#475569">never stores raw PII</text>
+  <text x="700" y="598" text-anchor="middle" font-size="7" fill="#475569">GDPR-safe hashing</text>
+
+  <!-- 2.3 Customer Upsert -->
+  <circle cx="1100" cy="555" r="66" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="1100" y="538" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">2.3</text>
+  <text x="1100" y="550" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">Customer Upsert</text>
+  <text x="1100" y="576" text-anchor="middle" font-size="7" fill="#475569">Match email_hash to</text>
+  <text x="1100" y="587" text-anchor="middle" font-size="7" fill="#475569">existing customer or</text>
+  <text x="1100" y="598" text-anchor="middle" font-size="7" fill="#475569">create new customer row</text>
+
+  <!-- 2.4 Edge Writer -->
+  <circle cx="1500" cy="555" r="66" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="1500" y="538" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">2.4</text>
+  <text x="1500" y="550" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">Identity Edge</text>
+  <text x="1500" y="562" text-anchor="middle" font-size="8" fill="#1D4ED8">Writer</text>
+  <text x="1500" y="576" text-anchor="middle" font-size="7" fill="#475569">Writes anon_id ↔ customer_id</text>
+  <text x="1500" y="587" text-anchor="middle" font-size="7" fill="#475569">confidence score</text>
+  <text x="1500" y="598" text-anchor="middle" font-size="7" fill="#475569">stitch_method tag</text>
+
+  <!-- 2.5 Resolution Propagator -->
+  <circle cx="1900" cy="555" r="66" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="1900" y="538" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">2.5</text>
+  <text x="1900" y="550" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">Resolution</text>
+  <text x="1900" y="562" text-anchor="middle" font-size="8" fill="#1D4ED8">Propagator</text>
+  <text x="1900" y="576" text-anchor="middle" font-size="7" fill="#475569">Marks anon row resolved=true</text>
+  <text x="1900" y="587" text-anchor="middle" font-size="7" fill="#475569">backfills customer_id on</text>
+  <text x="1900" y="598" text-anchor="middle" font-size="7" fill="#475569">prior sessions + events</text>
+
+  <!-- P2 FLOWS -->
+  <!-- D2 → 2.1 -->
+  <path d="M 390,410 Q 300,440 300,489" stroke="#1D4ED8" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ab)"/>
+  <text x="260" y="450" font-size="7" fill="#1D4ED8">anon_id lookup</text>
+  <!-- WA/CRM → 2.1 -->
+  <path d="M 2240,397 Q 1200,450 366,520" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <text x="1300" y="445" font-size="7" fill="#475569">email/phone on lead event</text>
+  <!-- 2.1 → 2.2 -->
+  <path d="M 366,555 Q 634,555 634,555" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="500" y="548" font-size="7" fill="#1D4ED8" font-weight="600">raw email/phone</text>
+  <!-- 2.2 → 2.3 -->
+  <path d="M 766,555 Q 1034,555 1034,555" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="900" y="548" font-size="7" fill="#1D4ED8" font-weight="600">email_hash · phone_hash</text>
+  <!-- 2.3 → D3 (write customer) -->
+  <path d="M 1100,489 Q 1100,410 1480,410" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="1240" y="440" font-size="7" fill="#1D4ED8" font-weight="600">upsert customer row</text>
+  <!-- 2.3 → 2.4 -->
+  <path d="M 1166,555 Q 1434,555 1434,555" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="1300" y="548" font-size="7" fill="#1D4ED8" font-weight="600">customer_id</text>
+  <!-- 2.4 → D3 (write edge) -->
+  <path d="M 1500,489 Q 1500,410 1480,410" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="1510" y="450" font-size="7" fill="#1D4ED8" font-weight="600">write identity_edge</text>
+  <!-- 2.4 → 2.5 -->
+  <path d="M 1566,555 Q 1834,555 1834,555" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="1700" y="548" font-size="7" fill="#1D4ED8" font-weight="600">anon_id + customer_id</text>
+  <!-- 2.5 → D2 (update resolved) -->
+  <path d="M 1900,489 Q 1900,410 700,410" stroke="#1D4ED8" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ab)"/>
+  <text x="1400" y="403" font-size="7" fill="#1D4ED8">mark resolved=true · backfill customer_id</text>
+
+  <!-- =============================================================
+       P3 — SESSION & EVENT PROCESSING  (y band 730–1090)
+       Sub-processes:
+         3.1 Event Receiver & Validator   cx=280  cy=910
+         3.2 Session Bucketer             cx=680  cy=910
+         3.3 Canonical Stage Mapper       cx=1080 cy=910
+         3.4 Event Enricher               cx=1480 cy=910
+         3.5 Page View Logger             cx=1880 cy=910
+  ============================================================== -->
+
+  <!-- DS D4 top of P3 -->
+  <line x1="80"   y1="740" x2="80"   y2="770" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="740" x2="2000" y2="740" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="770" x2="2000" y2="770" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="80"    y="740" width="32" height="30" fill="#DDD6FE"/>
+  <text x="96"    y="759" text-anchor="middle" font-size="8" font-weight="700" fill="#7C3AED">D4</text>
+  <text x="1040"  y="751" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">sessions · events · page_views</text>
+  <text x="1040"  y="764" text-anchor="middle" font-size="7" fill="#475569">session_id · visitor_id · mk_cid · utm_* · canonical_stage · event_ts</text>
+
+  <!-- DS D9 (workspace_config/stage_map) top right of P3 -->
+  <line x1="2060"  y1="740" x2="2060"  y2="770" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="2060"  y1="740" x2="2720"  y2="740" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="2060"  y1="770" x2="2720"  y2="770" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="2060"   y="740" width="32" height="30" fill="#FED7AA"/>
+  <text x="2076"   y="759" text-anchor="middle" font-size="8" font-weight="700" fill="#92400E">D9</text>
+  <text x="2390"   y="751" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">workspace_config · workspace_stage_map</text>
+  <text x="2390"   y="764" text-anchor="middle" font-size="7" fill="#475569">event_map JSON · crm_stage → canonical_stage · attribution_window</text>
+
+  <!-- External: PostHog proxy -->
+  <rect x="80" y="755" width="140" height="40" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="150" y="772" text-anchor="middle" font-size="9" font-weight="700">PostHog</text>
+  <text x="150" y="785" text-anchor="middle" font-size="7" fill="#64748B">e.meerkats.ai proxy events</text>
+
+  <!-- 3.1 Event Receiver & Validator -->
+  <circle cx="280" cy="910" r="66" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="280" y="893" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">3.1</text>
+  <text x="280" y="905" text-anchor="middle" font-size="9" font-weight="700" fill="#7C3AED">Event Receiver</text>
+  <text x="280" y="917" text-anchor="middle" font-size="8" fill="#7C3AED">&amp; Validator</text>
+  <text x="280" y="931" text-anchor="middle" font-size="7" fill="#475569">Schema validation</text>
+  <text x="280" y="942" text-anchor="middle" font-size="7" fill="#475569">workspace_id from JWT</text>
+  <text x="280" y="953" text-anchor="middle" font-size="7" fill="#475569">dedup check on event_id</text>
+
+  <!-- 3.2 Session Bucketer -->
+  <circle cx="680" cy="910" r="66" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="680" y="893" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">3.2</text>
+  <text x="680" y="905" text-anchor="middle" font-size="9" font-weight="700" fill="#7C3AED">Session Bucketer</text>
+  <text x="680" y="931" text-anchor="middle" font-size="7" fill="#475569">30-min idle timeout rule</text>
+  <text x="680" y="942" text-anchor="middle" font-size="7" fill="#475569">new session on new UTM</text>
+  <text x="680" y="953" text-anchor="middle" font-size="7" fill="#475569">carries mk_cid forward</text>
+
+  <!-- 3.3 Canonical Stage Mapper -->
+  <circle cx="1080" cy="910" r="66" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1080" y="893" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">3.3</text>
+  <text x="1080" y="905" text-anchor="middle" font-size="9" font-weight="700" fill="#7C3AED">Canonical Stage</text>
+  <text x="1080" y="917" text-anchor="middle" font-size="8" fill="#7C3AED">Mapper</text>
+  <text x="1080" y="931" text-anchor="middle" font-size="7" fill="#475569">Reads workspace_stage_map</text>
+  <text x="1080" y="942" text-anchor="middle" font-size="7" fill="#475569">raw_event_type →</text>
+  <text x="1080" y="953" text-anchor="middle" font-size="7" fill="#475569">canonical_stage</text>
+
+  <!-- 3.4 Event Enricher -->
+  <circle cx="1480" cy="910" r="66" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1480" y="893" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">3.4</text>
+  <text x="1480" y="905" text-anchor="middle" font-size="9" font-weight="700" fill="#7C3AED">Event Enricher</text>
+  <text x="1480" y="931" text-anchor="middle" font-size="7" fill="#475569">Joins customer_id from D3</text>
+  <text x="1480" y="942" text-anchor="middle" font-size="7" fill="#475569">via identity_edges lookup</text>
+  <text x="1480" y="953" text-anchor="middle" font-size="7" fill="#475569">adds mk_cid from D1</text>
+
+  <!-- 3.5 Page View Logger -->
+  <circle cx="1880" cy="910" r="66" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1880" y="893" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">3.5</text>
+  <text x="1880" y="905" text-anchor="middle" font-size="9" font-weight="700" fill="#7C3AED">Page View Logger</text>
+  <text x="1880" y="931" text-anchor="middle" font-size="7" fill="#475569">Writes page_view rows</text>
+  <text x="1880" y="942" text-anchor="middle" font-size="7" fill="#475569">scroll_depth · time_on_page</text>
+  <text x="1880" y="953" text-anchor="middle" font-size="7" fill="#475569">partitioned by date</text>
+
+  <!-- P3 FLOWS -->
+  <path d="M 150,795 Q 200,840 218,844" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <text x="130" y="825" font-size="7" fill="#475569">raw events</text>
+  <path d="M 346,910 Q 614,910 614,910" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <text x="480" y="903" font-size="7" fill="#7C3AED" font-weight="600">validated event</text>
+  <path d="M 746,910 Q 1014,910 1014,910" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <text x="880" y="903" font-size="7" fill="#7C3AED" font-weight="600">session_id assigned</text>
+  <path d="M 1146,910 Q 1414,910 1414,910" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <text x="1280" y="903" font-size="7" fill="#7C3AED" font-weight="600">canonical_stage added</text>
+  <path d="M 1546,910 Q 1814,910 1814,910" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <text x="1680" y="903" font-size="7" fill="#7C3AED" font-weight="600">customer_id enriched</text>
+  <!-- 3.4 → D4 (write sessions + events) -->
+  <path d="M 1480,844 Q 1480,780 1040,770" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <text x="1250" y="800" font-size="7" fill="#7C3AED" font-weight="600">write session + event rows</text>
+  <!-- 3.5 → D4 (write page_views) -->
+  <path d="M 1880,844 Q 1880,780 1040,770" stroke="#7C3AED" stroke-width="1.2" fill="none" marker-end="url(#ap)"/>
+  <!-- D9 → 3.3 (stage_map read) -->
+  <path d="M 2390,770 Q 2390,850 1146,880" stroke="#92400E" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ay)"/>
+  <text x="1800" y="840" font-size="7" fill="#92400E">stage_map lookup</text>
+  <!-- D3 → 3.4 (customer_id lookup) -->
+  <path d="M 1480,410 Q 1480,700 1480,844" stroke="#1D4ED8" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ab)"/>
+  <text x="1492" y="700" font-size="7" fill="#1D4ED8">identity_edge lookup</text>
+
+  <!-- =============================================================
+       P4 — ORDER & COMMERCE INGESTION  (y band 1110–1470)
+         4.1 Webhook Receiver & Validator  cx=300  cy=1290
+         4.2 Order Writer                  cx=700  cy=1290
+         4.3 COD Revenue Handler           cx=1100 cy=1290
+         4.4 RTO Restatement Processor     cx=1500 cy=1290
+         4.5 Order Item Splitter           cx=1900 cy=1290
+  ============================================================== -->
+
+  <!-- DS D5 top of P4 -->
+  <line x1="80"   y1="1120" x2="80"   y2="1150" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="1120" x2="2200" y2="1120" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="1150" x2="2200" y2="1150" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="80"    y="1120" width="32" height="30" fill="#BBF7D0"/>
+  <text x="96"    y="1139" text-anchor="middle" font-size="8" font-weight="700" fill="#15803D">D5</text>
+  <text x="1140"  y="1131" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">orders · order_lifecycle · order_items</text>
+  <text x="1140"  y="1144" text-anchor="middle" font-size="7" fill="#475569">order_id · mk_cid · gmv · net_revenue · cod_flag · rto_restated_at · status · items</text>
+
+  <!-- External: Shopify -->
+  <rect x="2240" y="1115" width="140" height="44" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="2310" y="1133" text-anchor="middle" font-size="9" font-weight="700">Shopify</text>
+  <text x="2310" y="1147" text-anchor="middle" font-size="7" fill="#64748B">order webhooks · GraphQL</text>
+
+  <!-- External: Logistics -->
+  <rect x="2240" y="1168" width="140" height="44" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="2310" y="1186" text-anchor="middle" font-size="9" font-weight="700">Logistics</text>
+  <text x="2310" y="1200" text-anchor="middle" font-size="7" fill="#64748B">Delhivery · RTO event</text>
+
+  <!-- 4.1 Webhook Receiver & Validator -->
+  <circle cx="300" cy="1295" r="66" fill="#F0FDF4" stroke="#15803D" stroke-width="2"/>
+  <text x="300" y="1278" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">4.1</text>
+  <text x="300" y="1290" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">Webhook Receiver</text>
+  <text x="300" y="1302" text-anchor="middle" font-size="8" fill="#15803D">&amp; Validator</text>
+  <text x="300" y="1316" text-anchor="middle" font-size="7" fill="#475569">HMAC signature check</text>
+  <text x="300" y="1327" text-anchor="middle" font-size="7" fill="#475569">idempotency (dedup)</text>
+  <text x="300" y="1338" text-anchor="middle" font-size="7" fill="#475569">workspace routing</text>
+
+  <!-- 4.2 Order Writer -->
+  <circle cx="700" cy="1295" r="66" fill="#F0FDF4" stroke="#15803D" stroke-width="2"/>
+  <text x="700" y="1278" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">4.2</text>
+  <text x="700" y="1290" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">Order Writer</text>
+  <text x="700" y="1316" text-anchor="middle" font-size="7" fill="#475569">Writes orders row</text>
+  <text x="700" y="1327" text-anchor="middle" font-size="7" fill="#475569">Links mk_cid from session</text>
+  <text x="700" y="1338" text-anchor="middle" font-size="7" fill="#475569">customer_id from D3</text>
+
+  <!-- 4.3 COD Revenue Handler -->
+  <circle cx="1100" cy="1295" r="66" fill="#F0FDF4" stroke="#15803D" stroke-width="2"/>
+  <text x="1100" y="1278" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">4.3</text>
+  <text x="1100" y="1290" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">COD Revenue</text>
+  <text x="1100" y="1302" text-anchor="middle" font-size="8" fill="#15803D">Handler</text>
+  <text x="1100" y="1316" text-anchor="middle" font-size="7" fill="#475569">Sets cod_flag=true</text>
+  <text x="1100" y="1327" text-anchor="middle" font-size="7" fill="#475569">Records optimistic revenue</text>
+  <text x="1100" y="1338" text-anchor="middle" font-size="7" fill="#475569">awaits fulfilment event</text>
+
+  <!-- 4.4 RTO Restatement Processor -->
+  <circle cx="1500" cy="1295" r="66" fill="#F0FDF4" stroke="#15803D" stroke-width="2"/>
+  <text x="1500" y="1278" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">4.4</text>
+  <text x="1500" y="1290" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">RTO Restatement</text>
+  <text x="1500" y="1302" text-anchor="middle" font-size="8" fill="#15803D">Processor</text>
+  <text x="1500" y="1316" text-anchor="middle" font-size="7" fill="#475569">rto_confirmed event fires</text>
+  <text x="1500" y="1327" text-anchor="middle" font-size="7" fill="#475569">Sets rto_restated_at</text>
+  <text x="1500" y="1338" text-anchor="middle" font-size="7" fill="#475569">Appends lifecycle record</text>
+
+  <!-- 4.5 Order Item Splitter -->
+  <circle cx="1900" cy="1295" r="66" fill="#F0FDF4" stroke="#15803D" stroke-width="2"/>
+  <text x="1900" y="1278" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">4.5</text>
+  <text x="1900" y="1290" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">Order Item</text>
+  <text x="1900" y="1302" text-anchor="middle" font-size="8" fill="#15803D">Splitter</text>
+  <text x="1900" y="1316" text-anchor="middle" font-size="7" fill="#475569">Line items → order_items</text>
+  <text x="1900" y="1327" text-anchor="middle" font-size="7" fill="#475569">product_id · quantity</text>
+  <text x="1900" y="1338" text-anchor="middle" font-size="7" fill="#475569">unit_price · category</text>
+
+  <!-- P4 FLOWS -->
+  <path d="M 2240,1137 Q 1200,1180 366,1260" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <text x="1300" y="1175" font-size="7" fill="#475569">order webhook payload</text>
+  <path d="M 2240,1183 Q 1700,1220 1566,1260" stroke="#DC2626" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
+  <text x="1900" y="1218" font-size="7" fill="#DC2626">RTO confirmed event</text>
+  <path d="M 366,1295 Q 634,1295 634,1295" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="500" y="1288" font-size="7" fill="#15803D" font-weight="600">validated order</text>
+  <path d="M 766,1295 Q 1034,1295 1034,1295" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="900" y="1288" font-size="7" fill="#15803D" font-weight="600">order_id ref</text>
+  <path d="M 1166,1295 Q 1434,1295 1434,1295" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="1300" y="1288" font-size="7" fill="#15803D" font-weight="600">cod flag set</text>
+  <path d="M 1566,1295 Q 1834,1295 1834,1295" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="1700" y="1288" font-size="7" fill="#15803D" font-weight="600">order_id ref</text>
+  <!-- 4.2 → D5 (write order) -->
+  <path d="M 700,1229 Q 700,1165 1140,1150" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="820" y="1180" font-size="7" fill="#15803D" font-weight="600">write order row</text>
+  <!-- 4.3 → D5 (update cod_flag) -->
+  <path d="M 1100,1229 Q 1100,1160 1140,1150" stroke="#15803D" stroke-width="1.2" fill="none" marker-end="url(#ag)"/>
+  <!-- 4.4 → D5 (rto restatement) -->
+  <path d="M 1500,1229 Q 1500,1160 1140,1150" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="1380" y="1175" font-size="7" fill="#DC2626" font-weight="600">rto_restated + lifecycle</text>
+  <!-- 4.5 → D5 (write items) -->
+  <path d="M 1900,1229 Q 1900,1160 1140,1150" stroke="#15803D" stroke-width="1.2" fill="none" marker-end="url(#ag)"/>
+
+  <!-- =============================================================
+       P5 — ATTRIBUTION ENGINE  (y band 1490–1870)
+         5.1 Click ID Matcher      cx=280  cy=1680
+         5.2 UTM Matcher           cx=680  cy=1680
+         5.3 Unmatched Handler     cx=1080 cy=1680
+         5.4 Confidence Scorer     cx=1480 cy=1680
+         5.5 RTO Restatement Loop  cx=1880 cy=1680
+  ============================================================== -->
+
+  <!-- DS D7 top of P5 -->
+  <line x1="80"   y1="1500" x2="80"   y2="1530" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="1500" x2="1600" y2="1500" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="1530" x2="1600" y2="1530" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="80"    y="1500" width="32" height="30" fill="#FECACA"/>
+  <text x="96"    y="1519" text-anchor="middle" font-size="8" font-weight="700" fill="#DC2626">D7</text>
+  <text x="840"   y="1511" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">attributions</text>
+  <text x="840"   y="1524" text-anchor="middle" font-size="7" fill="#475569">order_id · session_id · click_id · path · confidence · attributed_revenue · is_restated</text>
+
+  <!-- DS D1 ref in P5 band -->
+  <line x1="1640"  y1="1500" x2="1640"  y2="1530" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="1640"  y1="1500" x2="2200"  y2="1500" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="1640"  y1="1530" x2="2200"  y2="1530" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="1640"   y="1500" width="32" height="30" fill="#FED7AA"/>
+  <text x="1656"   y="1519" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">D1</text>
+  <text x="1920"   y="1511" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">click_ids (read for Path A)</text>
+  <text x="1920"   y="1524" text-anchor="middle" font-size="7" fill="#475569">mk_cid · platform_click_id · utm_*</text>
+
+  <!-- 5.1 Click ID Matcher -->
+  <circle cx="280" cy="1685" r="66" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+  <text x="280" y="1668" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">5.1</text>
+  <text x="280" y="1680" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">Click ID Matcher</text>
+  <text x="280" y="1706" text-anchor="middle" font-size="7" fill="#475569">order.mk_cid = click_ids.mk_cid</text>
+  <text x="280" y="1717" text-anchor="middle" font-size="7" fill="#475569">Path A · confidence 1.0</text>
+  <text x="280" y="1728" text-anchor="middle" font-size="7" fill="#475569">exact ad click resolved</text>
+
+  <!-- 5.2 UTM Matcher -->
+  <circle cx="680" cy="1685" r="66" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+  <text x="680" y="1668" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">5.2</text>
+  <text x="680" y="1680" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">UTM Matcher</text>
+  <text x="680" y="1706" text-anchor="middle" font-size="7" fill="#475569">session.utm_campaign →</text>
+  <text x="680" y="1717" text-anchor="middle" font-size="7" fill="#475569">ad_platform_campaigns</text>
+  <text x="680" y="1728" text-anchor="middle" font-size="7" fill="#475569">Path B · confidence 0.7</text>
+
+  <!-- 5.3 Unmatched Handler -->
+  <circle cx="1080" cy="1685" r="66" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+  <text x="1080" y="1668" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">5.3</text>
+  <text x="1080" y="1680" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">Unmatched</text>
+  <text x="1080" y="1692" text-anchor="middle" font-size="8" fill="#DC2626">Handler</text>
+  <text x="1080" y="1706" text-anchor="middle" font-size="7" fill="#475569">No click signal found</text>
+  <text x="1080" y="1717" text-anchor="middle" font-size="7" fill="#475569">direct / dark traffic</text>
+  <text x="1080" y="1728" text-anchor="middle" font-size="7" fill="#475569">Path C · confidence 0.0</text>
+
+  <!-- 5.4 Confidence Scorer & Writer -->
+  <circle cx="1480" cy="1685" r="66" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+  <text x="1480" y="1668" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">5.4</text>
+  <text x="1480" y="1680" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">Confidence Scorer</text>
+  <text x="1480" y="1692" text-anchor="middle" font-size="8" fill="#DC2626">&amp; Writer</text>
+  <text x="1480" y="1706" text-anchor="middle" font-size="7" fill="#475569">Picks highest confidence path</text>
+  <text x="1480" y="1717" text-anchor="middle" font-size="7" fill="#475569">Writes attribution row to D7</text>
+  <text x="1480" y="1728" text-anchor="middle" font-size="7" fill="#475569">attributed_revenue set</text>
+
+  <!-- 5.5 RTO Restatement Loop -->
+  <circle cx="1880" cy="1685" r="66" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+  <text x="1880" y="1668" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">5.5</text>
+  <text x="1880" y="1680" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">RTO Restatement</text>
+  <text x="1880" y="1692" text-anchor="middle" font-size="8" fill="#DC2626">Loop</text>
+  <text x="1880" y="1706" text-anchor="middle" font-size="7" fill="#475569">Triggered by D5 RTO event</text>
+  <text x="1880" y="1717" text-anchor="middle" font-size="7" fill="#475569">Updates D7 attributed_revenue</text>
+  <text x="1880" y="1728" text-anchor="middle" font-size="7" fill="#475569">Sets is_restated=true</text>
+
+  <!-- P5 FLOWS -->
+  <!-- D1 → 5.1 -->
+  <path d="M 1920,1530 Q 1920,1600 1200,1660" stroke="#C2410C" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ao)"/>
+  <text x="1600" y="1600" font-size="7" fill="#C2410C">mk_cid lookup</text>
+  <!-- D4 sessions → 5.2 (via band bridge) -->
+  <path d="M 800,770 Q 800,1550 600,1619" stroke="#7C3AED" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ap)"/>
+  <text x="720" y="1100" font-size="7" fill="#7C3AED">session.utm_campaign</text>
+  <!-- D5 orders → 5.1/5.2/5.3 -->
+  <path d="M 400,1150 Q 280,1400 280,1619" stroke="#15803D" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ag)"/>
+  <text x="205" y="1380" font-size="7" fill="#15803D">order mk_cid</text>
+  <!-- 5.1 → 5.4 -->
+  <path d="M 346,1685 Q 900,1620 1414,1665" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="870" y="1615" font-size="7" fill="#DC2626" font-weight="600">Path A match result</text>
+  <!-- 5.2 → 5.4 -->
+  <path d="M 746,1685 Q 1000,1685 1414,1675" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="1080" y="1678" font-size="7" fill="#DC2626" font-weight="600">Path B match result</text>
+  <!-- 5.3 → 5.4 -->
+  <path d="M 1146,1685 Q 1300,1685 1414,1685" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="1280" y="1678" font-size="7" fill="#DC2626" font-weight="600">Path C</text>
+  <!-- 5.4 → D7 -->
+  <path d="M 1440,1619 Q 1200,1555 840,1530" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="1100" y="1568" font-size="7" fill="#DC2626" font-weight="600">write attribution row</text>
+  <!-- D5 RTO → 5.5 -->
+  <path d="M 1500,1150 Q 1880,1300 1880,1619" stroke="#DC2626" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
+  <text x="1750" y="1380" font-size="7" fill="#DC2626">RTO event</text>
+  <!-- 5.5 → D7 update -->
+  <path d="M 1880,1619 Q 1880,1540 1600,1515" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="1780" y="1560" font-size="7" fill="#DC2626" font-weight="600">update is_restated</text>
+
+  <!-- =============================================================
+       P6 — METRICS & ANOMALY ENGINE  (y band 1890–2250)
+         6.1 Attribution Aggregator   cx=280  cy=2075
+         6.2 Spend Joiner             cx=680  cy=2075
+         6.3 ROAS Calculator          cx=1080 cy=2075
+         6.4 Anomaly Detector         cx=1480 cy=2075
+         6.5 CAPI Signal Emitter      cx=1880 cy=2075
+  ============================================================== -->
+
+  <!-- DS D8 top of P6 -->
+  <line x1="80"   y1="1900" x2="80"   y2="1930" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="1900" x2="1800" y2="1900" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="1930" x2="1800" y2="1930" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="80"    y="1900" width="32" height="30" fill="#A7F3D0"/>
+  <text x="96"    y="1919" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">D8</text>
+  <text x="940"   y="1911" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">daily_metrics · anomalies</text>
+  <text x="940"   y="1924" text-anchor="middle" font-size="7" fill="#475569">corrected_roas · platform_roas · delta_roas · net_revenue · cac · rto_rate · z_score · severity</text>
+
+  <!-- External: Ad Platforms (CAPI output) -->
+  <rect x="2240" y="1895" width="150" height="44" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="2315" y="1913" text-anchor="middle" font-size="9" font-weight="700">Ad Platforms</text>
+  <text x="2315" y="1927" text-anchor="middle" font-size="7" fill="#64748B">Meta CAPI · Google EC</text>
+
+  <!-- 6.1 Attribution Aggregator -->
+  <circle cx="280" cy="2075" r="66" fill="#ECFDF5" stroke="#065F46" stroke-width="2"/>
+  <text x="280" y="2058" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">6.1</text>
+  <text x="280" y="2070" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">Attribution</text>
+  <text x="280" y="2082" text-anchor="middle" font-size="8" fill="#065F46">Aggregator</text>
+  <text x="280" y="2096" text-anchor="middle" font-size="7" fill="#475569">Groups D7 by campaign</text>
+  <text x="280" y="2107" text-anchor="middle" font-size="7" fill="#475569">date · channel · path</text>
+  <text x="280" y="2118" text-anchor="middle" font-size="7" fill="#475569">sums net_revenue</text>
+
+  <!-- 6.2 Spend Joiner -->
+  <circle cx="680" cy="2075" r="66" fill="#ECFDF5" stroke="#065F46" stroke-width="2"/>
+  <text x="680" y="2058" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">6.2</text>
+  <text x="680" y="2070" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">Spend Joiner</text>
+  <text x="680" y="2096" text-anchor="middle" font-size="7" fill="#475569">Joins D6 ad_spend</text>
+  <text x="680" y="2107" text-anchor="middle" font-size="7" fill="#475569">campaign_id · date key</text>
+  <text x="680" y="2118" text-anchor="middle" font-size="7" fill="#475569">provides ROAS denominator</text>
+
+  <!-- 6.3 ROAS Calculator -->
+  <circle cx="1080" cy="2075" r="66" fill="#ECFDF5" stroke="#065F46" stroke-width="2"/>
+  <text x="1080" y="2058" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">6.3</text>
+  <text x="1080" y="2070" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">ROAS Calculator</text>
+  <text x="1080" y="2096" text-anchor="middle" font-size="7" fill="#475569">corrected = net_rev ÷ spend</text>
+  <text x="1080" y="2107" text-anchor="middle" font-size="7" fill="#475569">platform = API reported</text>
+  <text x="1080" y="2118" text-anchor="middle" font-size="7" fill="#475569">delta = corrected − platform</text>
+
+  <!-- 6.4 Anomaly Detector -->
+  <circle cx="1480" cy="2075" r="66" fill="#ECFDF5" stroke="#065F46" stroke-width="2"/>
+  <text x="1480" y="2058" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">6.4</text>
+  <text x="1480" y="2070" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">Anomaly Detector</text>
+  <text x="1480" y="2096" text-anchor="middle" font-size="7" fill="#475569">z-score on rolling window</text>
+  <text x="1480" y="2107" text-anchor="middle" font-size="7" fill="#475569">spend spike · ROAS drop</text>
+  <text x="1480" y="2118" text-anchor="middle" font-size="7" fill="#475569">severity: low / med / high</text>
+
+  <!-- 6.5 CAPI Signal Emitter -->
+  <circle cx="1880" cy="2075" r="66" fill="#ECFDF5" stroke="#065F46" stroke-width="2"/>
+  <text x="1880" y="2058" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">6.5</text>
+  <text x="1880" y="2070" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">CAPI Signal</text>
+  <text x="1880" y="2082" text-anchor="middle" font-size="8" fill="#065F46">Emitter</text>
+  <text x="1880" y="2096" text-anchor="middle" font-size="7" fill="#475569">Sends corrected conversions</text>
+  <text x="1880" y="2107" text-anchor="middle" font-size="7" fill="#475569">to Meta CAPI / Google EC</text>
+  <text x="1880" y="2118" text-anchor="middle" font-size="7" fill="#475569">closes the feedback loop</text>
+
+  <!-- P6 FLOWS -->
+  <!-- D7 → 6.1 -->
+  <path d="M 280,1530 Q 280,1700 280,2009" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ar)"/>
+  <text x="195" y="1750" font-size="7" fill="#DC2626">attribution rows</text>
+  <!-- D6 → 6.2 -->
+  <path d="M 1430,302 Q 1430,200 2600,200 Q 2600,1960 680,1960 Q 680,2009 680,2009" stroke="#1D4ED8" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ab)"/>
+  <text x="2400" y="1100" font-size="7" fill="#1D4ED8">ad_spend rows</text>
+  <!-- 6.1 → 6.2 -->
+  <path d="M 346,2075 Q 614,2075 614,2075" stroke="#065F46" stroke-width="1.5" fill="none" marker-end="url(#acn)"/>
+  <text x="480" y="2068" font-size="7" fill="#065F46" font-weight="600">aggregated revenue</text>
+  <!-- 6.2 → 6.3 -->
+  <path d="M 746,2075 Q 1014,2075 1014,2075" stroke="#065F46" stroke-width="1.5" fill="none" marker-end="url(#acn)"/>
+  <text x="880" y="2068" font-size="7" fill="#065F46" font-weight="600">revenue + spend</text>
+  <!-- 6.3 → D8 -->
+  <path d="M 1080,2009 Q 1080,1950 940,1930" stroke="#065F46" stroke-width="1.5" fill="none" marker-end="url(#acn)"/>
+  <text x="1000" y="1965" font-size="7" fill="#065F46" font-weight="600">write daily_metrics</text>
+  <!-- 6.3 → 6.4 -->
+  <path d="M 1146,2075 Q 1414,2075 1414,2075" stroke="#065F46" stroke-width="1.5" fill="none" marker-end="url(#acn)"/>
+  <text x="1280" y="2068" font-size="7" fill="#065F46" font-weight="600">metric values</text>
+  <!-- 6.4 → D8 anomalies -->
+  <path d="M 1480,2009 Q 1480,1945 940,1930" stroke="#065F46" stroke-width="1.2" fill="none" marker-end="url(#acn)"/>
+  <text x="1300" y="1960" font-size="7" fill="#065F46" font-weight="600">write anomaly rows</text>
+  <!-- 6.4 → 6.5 -->
+  <path d="M 1546,2075 Q 1814,2075 1814,2075" stroke="#065F46" stroke-width="1.5" fill="none" marker-end="url(#acn)"/>
+  <text x="1680" y="2068" font-size="7" fill="#065F46" font-weight="600">corrected conversions</text>
+  <!-- 6.5 → Ad Platforms -->
+  <path d="M 1946,2075 Q 2315,2075 2315,1939" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="2170" y="2010" font-size="7" fill="#15803D" font-weight="600">CAPI / EC upload</text>
+
+  <!-- =============================================================
+       P7 — QUERY API & AGENT GATE  (y band 2270–2650)
+         7.1 JWT Auth & Workspace Resolver  cx=280  cy=2460
+         7.2 MetricRegistry Loader          cx=680  cy=2460
+         7.3 Dimension Gate                 cx=1080 cy=2460
+         7.4 QueryBuilder (SQL Assembler)   cx=1480 cy=2460
+         7.5 Agent Propose→Approve→Execute  cx=1880 cy=2460
+  ============================================================== -->
+
+  <!-- DS D8 ref top of P7 -->
+  <line x1="80"   y1="2280" x2="80"   y2="2310" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="2280" x2="1200" y2="2280" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="80"   y1="2310" x2="1200" y2="2310" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="80"    y="2280" width="32" height="30" fill="#A7F3D0"/>
+  <text x="96"    y="2299" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">D8</text>
+  <text x="640"   y="2291" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">daily_metrics · anomalies</text>
+  <text x="640"   y="2304" text-anchor="middle" font-size="7" fill="#475569">served snapshot — 3-layer refresh cadence</text>
+
+  <!-- DS D10 YAML ref -->
+  <line x1="1260"  y1="2280" x2="1260"  y2="2310" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="1260"  y1="2280" x2="2200"  y2="2280" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="1260"  y1="2310" x2="2200"  y2="2310" stroke="#0F172A" stroke-width="1.2"/>
+  <rect x="1260"   y="2280" width="32" height="30" fill="#BAE6FD"/>
+  <text x="1276"   y="2299" text-anchor="middle" font-size="8" font-weight="700" fill="#0369A1">D10</text>
+  <text x="1730"   y="2291" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">metric_definitions (YAML) · query_log</text>
+  <text x="1730"   y="2304" text-anchor="middle" font-size="7" fill="#475569">name · formula · dimensions[] · verticals[] · ALLOWED_DIMENSIONS whitelist</text>
+
+  <!-- External: Operator bottom -->
+  <rect x="80" y="2580" width="150" height="44" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="155" y="2598" text-anchor="middle" font-size="9" font-weight="700">Operator / AI Agent</text>
+  <text x="155" y="2612" text-anchor="middle" font-size="7" fill="#64748B">REST queries · approvals</text>
+
+  <!-- External: Operator Console output -->
+  <rect x="2560" y="2435" width="160" height="44" fill="#fff" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="2640" y="2453" text-anchor="middle" font-size="9" font-weight="700">Operator Console</text>
+  <text x="2640" y="2467" text-anchor="middle" font-size="7" fill="#64748B">dashboard · alerts</text>
+
+  <!-- 7.1 JWT Auth & Workspace Resolver -->
+  <circle cx="280" cy="2460" r="66" fill="#F0F9FF" stroke="#0369A1" stroke-width="2"/>
+  <text x="280" y="2443" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">7.1</text>
+  <text x="280" y="2455" text-anchor="middle" font-size="9" font-weight="700" fill="#0369A1">JWT Auth &amp;</text>
+  <text x="280" y="2467" text-anchor="middle" font-size="8" fill="#0369A1">Workspace Resolver</text>
+  <text x="280" y="2481" text-anchor="middle" font-size="7" fill="#475569">Validates JWT token</text>
+  <text x="280" y="2492" text-anchor="middle" font-size="7" fill="#475569">Extracts workspace_id</text>
+  <text x="280" y="2503" text-anchor="middle" font-size="7" fill="#475569">Never from request body</text>
+
+  <!-- 7.2 MetricRegistry Loader -->
+  <circle cx="680" cy="2460" r="66" fill="#F0F9FF" stroke="#0369A1" stroke-width="2"/>
+  <text x="680" y="2443" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">7.2</text>
+  <text x="680" y="2455" text-anchor="middle" font-size="9" font-weight="700" fill="#0369A1">MetricRegistry</text>
+  <text x="680" y="2467" text-anchor="middle" font-size="8" fill="#0369A1">Loader</text>
+  <text x="680" y="2481" text-anchor="middle" font-size="7" fill="#475569">Loads YAML at startup</text>
+  <text x="680" y="2492" text-anchor="middle" font-size="7" fill="#475569">In-memory Map lookup</text>
+  <text x="680" y="2503" text-anchor="middle" font-size="7" fill="#475569">verticals[] scoping check</text>
+
+  <!-- 7.3 Dimension Gate -->
+  <circle cx="1080" cy="2460" r="66" fill="#F0F9FF" stroke="#0369A1" stroke-width="2"/>
+  <text x="1080" y="2443" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">7.3</text>
+  <text x="1080" y="2455" text-anchor="middle" font-size="9" font-weight="700" fill="#0369A1">Dimension Gate</text>
+  <text x="1080" y="2481" text-anchor="middle" font-size="7" fill="#475569">Lock 1: ALLOWED_DIMENSIONS</text>
+  <text x="1080" y="2492" text-anchor="middle" font-size="7" fill="#475569">(SQL injection guard)</text>
+  <text x="1080" y="2503" text-anchor="middle" font-size="7" fill="#475569">Lock 2: metric.dimensions[]</text>
+
+  <!-- 7.4 QueryBuilder -->
+  <circle cx="1480" cy="2460" r="66" fill="#F0F9FF" stroke="#0369A1" stroke-width="2"/>
+  <text x="1480" y="2443" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">7.4</text>
+  <text x="1480" y="2455" text-anchor="middle" font-size="9" font-weight="700" fill="#0369A1">QueryBuilder</text>
+  <text x="1480" y="2467" text-anchor="middle" font-size="8" fill="#0369A1">SQL Assembler</text>
+  <text x="1480" y="2481" text-anchor="middle" font-size="7" fill="#475569">9-step SQL assembly</text>
+  <text x="1480" y="2492" text-anchor="middle" font-size="7" fill="#475569">formula → SELECT clause</text>
+  <text x="1480" y="2503" text-anchor="middle" font-size="7" fill="#475569">filters → WHERE clause</text>
+
+  <!-- 7.5 Agent Gate -->
+  <circle cx="1880" cy="2460" r="66" fill="#F0F9FF" stroke="#0369A1" stroke-width="2"/>
+  <text x="1880" y="2443" text-anchor="middle" font-size="8" fill="#94A3B8" font-weight="700">7.5</text>
+  <text x="1880" y="2455" text-anchor="middle" font-size="9" font-weight="700" fill="#0369A1">Agent</text>
+  <text x="1880" y="2467" text-anchor="middle" font-size="8" fill="#0369A1">Propose→Approve→Execute</text>
+  <text x="1880" y="2481" text-anchor="middle" font-size="7" fill="#475569">ANALYZE / CREATE / MODIFY</text>
+  <text x="1880" y="2492" text-anchor="middle" font-size="7" fill="#475569">Human approval gate</text>
+  <text x="1880" y="2503" text-anchor="middle" font-size="7" fill="#475569">writes agent_runs + actions</text>
+
+  <!-- P7 FLOWS -->
+  <!-- Operator → 7.1 -->
+  <path d="M 155,2580 Q 200,2540 218,2526" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <text x="130" y="2555" font-size="7" fill="#475569">REST + JWT</text>
+  <!-- 7.1 → 7.2 -->
+  <path d="M 346,2460 Q 614,2460 614,2460" stroke="#0369A1" stroke-width="1.5" fill="none" marker-end="url(#ac)"/>
+  <text x="480" y="2453" font-size="7" fill="#0369A1" font-weight="600">workspace_id + metric name</text>
+  <!-- D10 YAML → 7.2 -->
+  <path d="M 1730,2310 Q 1730,2380 680,2394" stroke="#0369A1" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ac)"/>
+  <text x="1200" y="2340" font-size="7" fill="#0369A1">YAML definition</text>
+  <!-- 7.2 → 7.3 -->
+  <path d="M 746,2460 Q 1014,2460 1014,2460" stroke="#0369A1" stroke-width="1.5" fill="none" marker-end="url(#ac)"/>
+  <text x="880" y="2453" font-size="7" fill="#0369A1" font-weight="600">metric def + dimensions[]</text>
+  <!-- 7.3 → 7.4 -->
+  <path d="M 1146,2460 Q 1414,2460 1414,2460" stroke="#0369A1" stroke-width="1.5" fill="none" marker-end="url(#ac)"/>
+  <text x="1280" y="2453" font-size="7" fill="#0369A1" font-weight="600">validated dimensions</text>
+  <!-- D8 → 7.4 (data read) -->
+  <path d="M 640,2310 Q 640,2380 1414,2430" stroke="#065F46" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#acn)"/>
+  <text x="900" y="2380" font-size="7" fill="#065F46">metric data query</text>
+  <!-- 7.4 → 7.5 -->
+  <path d="M 1546,2460 Q 1814,2460 1814,2460" stroke="#0369A1" stroke-width="1.5" fill="none" marker-end="url(#ac)"/>
+  <text x="1680" y="2453" font-size="7" fill="#0369A1" font-weight="600">query result + action proposal</text>
+  <!-- 7.5 → Operator Console -->
+  <path d="M 1946,2460 Q 2560,2460 2560,2457" stroke="#C2410C" stroke-width="1.8" fill="none" marker-end="url(#ao)"/>
+  <text x="2250" y="2450" font-size="7" fill="#C2410C" font-weight="600">corrected_roas · dashboard data · alerts</text>
+  <!-- D10 → query_log write -->
+  <path d="M 1480,2394 Q 1480,2310 1730,2310" stroke="#0369A1" stroke-width="1.2" stroke-dasharray="4 2" fill="none" marker-end="url(#ac)"/>
+  <text x="1560" y="2350" font-size="7" fill="#0369A1">write query_log</text>
+
+  <!-- =============================================================
+       LEGEND
+  ============================================================== -->
+  <text x="140" y="2700" font-size="13" font-weight="700" fill="#0F172A">Level 2 DFD — 28 Sub-processes across 7 Parent Processes</text>
+  <line x1="80" y1="2710" x2="2720" y2="2710" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Process index -->
+  <text x="100" y="2730" font-size="9" font-weight="700" fill="#C2410C">P1 Click Capture &amp; Ad Ingestion:</text>
+  <text x="360" y="2730" font-size="8" fill="#475569">1.1 Link Service/Redirect  1.2 mk_cid Minter  1.3 Ad Platform OAuth &amp; Sync  1.4 Campaign Metadata Normaliser  1.5 Spend Ingestor  1.6 Anon Visitor Creator</text>
+
+  <text x="100" y="2750" font-size="9" font-weight="700" fill="#1D4ED8">P2 Identity Resolution:</text>
+  <text x="300" y="2750" font-size="8" fill="#475569">2.1 Stitch Trigger Detector  2.2 PII Hasher  2.3 Customer Upsert  2.4 Identity Edge Writer  2.5 Resolution Propagator</text>
+
+  <text x="100" y="2770" font-size="9" font-weight="700" fill="#7C3AED">P3 Session &amp; Event Processing:</text>
+  <text x="360" y="2770" font-size="8" fill="#475569">3.1 Event Receiver &amp; Validator  3.2 Session Bucketer  3.3 Canonical Stage Mapper  3.4 Event Enricher  3.5 Page View Logger</text>
+
+  <text x="100" y="2790" font-size="9" font-weight="700" fill="#15803D">P4 Order &amp; Commerce Ingestion:</text>
+  <text x="370" y="2790" font-size="8" fill="#475569">4.1 Webhook Receiver &amp; Validator  4.2 Order Writer  4.3 COD Revenue Handler  4.4 RTO Restatement Processor  4.5 Order Item Splitter</text>
+
+  <text x="100" y="2810" font-size="9" font-weight="700" fill="#DC2626">P5 Attribution Engine:</text>
+  <text x="285" y="2810" font-size="8" fill="#475569">5.1 Click ID Matcher (Path A)  5.2 UTM Matcher (Path B)  5.3 Unmatched Handler (Path C)  5.4 Confidence Scorer &amp; Writer  5.5 RTO Restatement Loop</text>
+
+  <text x="100" y="2830" font-size="9" font-weight="700" fill="#065F46">P6 Metrics &amp; Anomaly Engine:</text>
+  <text x="355" y="2830" font-size="8" fill="#475569">6.1 Attribution Aggregator  6.2 Spend Joiner  6.3 ROAS Calculator  6.4 Anomaly Detector  6.5 CAPI Signal Emitter</text>
+
+  <text x="100" y="2850" font-size="9" font-weight="700" fill="#0369A1">P7 Query API &amp; Agent Gate:</text>
+  <text x="340" y="2850" font-size="8" fill="#475569">7.1 JWT Auth &amp; Workspace Resolver  7.2 MetricRegistry Loader  7.3 Dimension Gate (2-lock)  7.4 QueryBuilder SQL Assembler  7.5 Agent Propose→Approve→Execute</text>
+
+  <line x1="80" y1="2865" x2="2720" y2="2865" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="100" y="2883" font-size="9" font-weight="700" fill="#0F172A">Data Stores (inherited from Level 1):</text>
+  <text x="380" y="2883" font-size="8" fill="#475569">D1 click_ids  D2 anonymous_visitors  D3 customers + identity_edges  D4 sessions + events + page_views  D5 orders + lifecycle + items  D6 ad_platform_spend + campaigns  D7 attributions  D8 daily_metrics + anomalies  D9 workspace_config + stage_map  D10 metric_definitions + query_log</text>
+
+  <line x1="80" y1="2898" x2="2720" y2="2898" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="100" y="2916" font-size="8" fill="#475569">Convention: circles = processes · open rectangles = data stores · plain rectangles = external entities · solid arrows = primary data flow · dashed arrows = read / reference · colour = parent process</text>
+
+</svg>
+</body>
+</html>
