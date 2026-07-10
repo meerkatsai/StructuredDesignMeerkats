@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meerkats.ai — Platform Documentation</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #F8FAFC;
+  color: #0F172A;
+}
+
+/* ── HEADER ── */
+.header {
+  background: #0F172A;
+  padding: 48px 60px 44px;
+  border-bottom: 3px solid #F26A21;
+}
+.eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #F26A21; margin-bottom: 14px; }
+.h-title { font-size: 38px; font-weight: 800; color: #fff; letter-spacing: -.02em; line-height: 1.15; margin-bottom: 14px; }
+.h-title span { color: #F26A21; }
+.h-sub { font-size: 14px; color: #94A3B8; line-height: 1.7; max-width: 780px; margin-bottom: 26px; }
+.pills { display: flex; gap: 10px; flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: #CBD5E1; }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── BODY ── */
+.body { max-width: 1140px; margin: 0 auto; padding: 52px 40px 80px; }
+
+/* ── NAV MAP ── */
+.nav-map {
+  background: #fff; border: 1px solid #E2E8F0; border-radius: 10px;
+  padding: 28px 32px; margin-bottom: 44px;
+}
+.nav-map-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #94A3B8; margin-bottom: 20px; }
+.nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; border-radius: 7px;
+  border: 1.5px solid #E2E8F0;
+  text-decoration: none;
+  transition: border-color .12s, box-shadow .12s;
+}
+.nav-item:hover { border-color: #F26A21; box-shadow: 0 0 0 3px rgba(242,106,33,.08); }
+.nav-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.nav-label { font-size: 11px; font-weight: 700; color: #0F172A; margin-bottom: 2px; }
+.nav-sub { font-size: 10px; color: #94A3B8; }
+.nav-link-row { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.nav-link {
+  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 3px;
+  text-decoration: none; border: 1px solid;
+  transition: opacity .1s;
+}
+.nav-link:hover { opacity: .75; }
+
+/* ── SECTION LABEL ── */
+.sec-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #94A3B8; margin-bottom: 18px; margin-top: 44px; }
+.sec-label:first-of-type { margin-top: 0; }
+
+/* ── CARDS ── */
+.cards { display: flex; flex-direction: column; gap: 16px; margin-bottom: 8px; }
+
+.card {
+  background: #fff; border: 1.5px solid #E2E8F0; border-radius: 10px;
+  overflow: hidden; display: flex; align-items: stretch;
+  transition: border-color .15s, box-shadow .15s;
+}
+.card:hover { border-color: #F26A21; box-shadow: 0 4px 16px rgba(242,106,33,.09); }
+
+.card-accent { width: 6px; flex-shrink: 0; }
+
+.card-level {
+  width: 160px; flex-shrink: 0; padding: 22px 20px;
+  display: flex; flex-direction: column; justify-content: center;
+  border-right: 1px solid #F1F5F9;
+}
+.lv-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 2px; }
+.lv-num { font-size: 48px; font-weight: 900; letter-spacing: -.04em; line-height: 1; margin-bottom: 4px; }
+.lv-name { font-size: 10px; font-weight: 600; color: #64748B; }
+
+.card-body { flex: 1; padding: 22px 28px; }
+.card-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.card-purpose {
+  font-size: 11px; font-weight: 600; color: #475569;
+  background: #F8FAFC; border-left: 3px solid #E2E8F0;
+  padding: 5px 9px; border-radius: 0 3px 3px 0;
+  margin-bottom: 10px; line-height: 1.5;
+}
+.card-desc { font-size: 12px; color: #64748B; line-height: 1.65; margin-bottom: 12px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.tag { font-size: 9px; font-weight: 600; padding: 2px 8px; border-radius: 3px; background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; }
+
+/* cross-links inside card */
+.card-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.card-link { font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 4px; text-decoration: none; border: 1px solid; transition: opacity .1s; }
+.card-link:hover { opacity: .75; }
+
+.card-action {
+  width: 150px; flex-shrink: 0; padding: 22px 18px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;
+  border-left: 1px solid #F1F5F9;
+}
+.open-btn {
+  display: block; width: 100%; background: #0F172A; color: #fff;
+  font-size: 11px; font-weight: 700; padding: 9px 0;
+  border-radius: 5px; text-align: center; text-decoration: none;
+  transition: background .12s;
+}
+.open-btn:hover { background: #F26A21; }
+.file-size { font-size: 10px; color: #94A3B8; text-align: center; }
+
+/* ── COMPANION GRID ── */
+.companions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 8px; }
+.comp-card {
+  background: #fff; border: 1.5px solid #E2E8F0; border-radius: 9px;
+  padding: 20px 22px; text-decoration: none; display: block;
+  transition: border-color .15s;
+}
+.comp-card:hover { border-color: #F26A21; }
+.comp-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+.comp-title { font-size: 13px; font-weight: 700; color: #0F172A; margin-bottom: 6px; }
+.comp-desc { font-size: 11px; color: #64748B; line-height: 1.55; margin-bottom: 10px; }
+.comp-links { display: flex; gap: 6px; flex-wrap: wrap; }
+.comp-link { font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 4px; text-decoration: none; border: 1px solid; transition: opacity .1s; }
+.comp-link:hover { opacity: .75; }
+
+/* ── READING ORDER ── */
+.reading-order {
+  background: #0F172A; border-radius: 10px; padding: 28px 32px; margin-bottom: 8px;
+}
+.ro-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #F26A21; margin-bottom: 6px; }
+.ro-sub { font-size: 12px; color: #64748B; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #1E293B; }
+.ro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.ro-step-num { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+.ro-step-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.ro-step-desc { font-size: 11px; color: #64748B; line-height: 1.55; }
+
+/* ── INSIGHT ── */
+.insight { background: #0F172A; border-radius: 10px; padding: 28px 32px; display: flex; gap: 20px; align-items: flex-start; }
+.insight-icon { font-size: 26px; flex-shrink: 0; }
+.insight-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #F26A21; margin-bottom: 8px; }
+.insight-text { font-size: 13px; color: #94A3B8; line-height: 1.7; }
+.insight-text strong { color: #E2E8F0; }
+
+/* ── FOOTER ── */
+.footer { background: #0F172A; padding: 22px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1E293B; }
+.footer span { font-size: 11px; color: #475569; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="eyebrow">Platform Documentation</div>
+  <div class="h-title">Meerkats.ai<br><span>Documentation Suite</span></div>
+  <div class="h-sub">Complete technical documentation for the Meerkats revenue attribution platform — DFDs at four levels of detail, an ER diagram, a platform flowchart, an attribution decision tree, and companion architecture diagrams. All documents are interlinked.</div>
+  <div class="pills">
+    <div class="pill"><div class="dot" style="background:#F26A21"></div>4 DFD Levels</div>
+    <div class="pill"><div class="dot" style="background:#DC2626"></div>ER Diagram</div>
+    <div class="pill"><div class="dot" style="background:#7C3AED"></div>Flowchart + Decision Tree</div>
+    <div class="pill"><div class="dot" style="background:#1D4ED8"></div>26 Database Tables</div>
+    <div class="pill"><div class="dot" style="background:#15803D"></div>28 Sub-processes</div>
+    <div class="pill"><div class="dot" style="background:#64748B"></div>Node.js · PostgreSQL · LangGraph</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- NAVIGATION MAP -->
+  <div class="nav-map">
+    <div class="nav-map-title">Quick Navigation — All Documents</div>
+    <div class="nav-grid">
+
+      <a class="nav-item" href="meerkats_dfd_level0.html" target="_blank">
+        <div class="nav-icon" style="background:#FFF7ED;">&#x1F310;</div>
+        <div>
+          <div class="nav-label">DFD Level 0</div>
+          <div class="nav-sub">Context diagram &mdash; system boundary</div>
+          <div class="nav-link-row">
+            <a class="nav-link" href="meerkats_dfd_level1.html" target="_blank" style="color:#1D4ED8;border-color:#BFDBFE;background:#EFF6FF;" onclick="event.stopPropagation()">&#x2192; L1</a>
+            <a class="nav-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;" onclick="event.stopPropagation()">&#x2192; Flowchart</a>
+          </div>
+        </div>
+      </a>
+
+      <a class="nav-item" href="meerkats_dfd_level1.html" target="_blank">
+        <div class="nav-icon" style="background:#EFF6FF;">&#x1F5FA;</div>
+        <div>
+          <div class="nav-label">DFD Level 1</div>
+          <div class="nav-sub">7 major processes + 10 data stores</div>
+          <div class="nav-link-row">
+            <a class="nav-link" href="meerkats_dfd_level0.html" target="_blank" style="color:#C2410C;border-color:#FED7AA;background:#FFF7ED;" onclick="event.stopPropagation()">&#x2190; L0</a>
+            <a class="nav-link" href="meerkats_dfd_level2.html" target="_blank" style="color:#1D4ED8;border-color:#BFDBFE;background:#EFF6FF;" onclick="event.stopPropagation()">&#x2192; L2</a>
+            <a class="nav-link" href="meerkats_er_diagram.html" target="_blank" style="color:#DC2626;border-color:#FECACA;background:#FEF2F2;" onclick="event.stopPropagation()">&#x2192; ER</a>
+          </div>
+        </div>
+      </a>
+
+      <a class="nav-item" href="meerkats_dfd_level2.html" target="_blank">
+        <div class="nav-icon" style="background:#F5F3FF;">&#x2699;&#xFE0F;</div>
+        <div>
+          <div class="nav-label">DFD Level 2</div>
+          <div class="nav-sub">28 sub-processes across 7 swim lanes</div>
+          <div class="nav-link-row">
+            <a class="nav-link" href="meerkats_dfd_level1.html" target="_blank" style="color:#C2410C;border-color:#FED7AA;background:#FFF7ED;" onclick="event.stopPropagation()">&#x2190; L1</a>
+            <a class="nav-link" href="meerkats_dfd_level3.html" target="_blank" style="color:#15803D;border-color:#BBF7D0;background:#F0FDF4;" onclick="event.stopPropagation()">&#x2192; L3</a>
+            <a class="nav-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;" onclick="event.stopPropagation()">&#x2192; Flowchart</a>
+          </div>
+        </div>
+      </a>
+
+      <a class="nav-item" href="meerkats_dfd_level3.html" target="_blank">
+        <div class="nav-icon" style="background:#F0FDF4;">&#x1F5C4;&#xFE0F;</div>
+        <div>
+          <div class="nav-label">DFD Level 3</div>
+          <div class="nav-sub">All 26 tables, 9 layer swim lanes</div>
+          <div class="nav-link-row">
+            <a class="nav-link" href="meerkats_dfd_level2.html" target="_blank" style="color:#C2410C;border-color:#FED7AA;background:#FFF7ED;" onclick="event.stopPropagation()">&#x2190; L2</a>
+            <a class="nav-link" href="meerkats_er_diagram.html" target="_blank" style="color:#DC2626;border-color:#FECACA;background:#FEF2F2;" onclick="event.stopPropagation()">&#x2192; ER</a>
+            <a class="nav-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;" onclick="event.stopPropagation()">&#x2192; Flowchart</a>
+          </div>
+        </div>
+      </a>
+
+      <a class="nav-item" href="meerkats_er_diagram.html" target="_blank">
+        <div class="nav-icon" style="background:#FEF2F2;">&#x1F517;</div>
+        <div>
+          <div class="nav-label">ER Diagram</div>
+          <div class="nav-sub">26 entities, crow&apos;s foot notation, all FKs</div>
+          <div class="nav-link-row">
+            <a class="nav-link" href="meerkats_dfd_level3.html" target="_blank" style="color:#15803D;border-color:#BBF7D0;background:#F0FDF4;" onclick="event.stopPropagation()">&#x2192; DFD L3</a>
+            <a class="nav-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;" onclick="event.stopPropagation()">&#x2192; Flowchart</a>
+          </div>
+        </div>
+      </a>
+
+      <a class="nav-item" href="meerkats_flowchart.html" target="_blank">
+        <div class="nav-icon" style="background:#F5F3FF;">&#x1F500;</div>
+        <div>
+          <div class="nav-label">Flowchart + Decision Tree</div>
+          <div class="nav-sub">End-to-end flow &amp; attribution logic</div>
+          <div class="nav-link-row">
+            <a class="nav-link" href="meerkats_dfd_level0.html" target="_blank" style="color:#C2410C;border-color:#FED7AA;background:#FFF7ED;" onclick="event.stopPropagation()">&#x2192; DFD L0</a>
+            <a class="nav-link" href="meerkats_dfd_level2.html" target="_blank" style="color:#1D4ED8;border-color:#BFDBFE;background:#EFF6FF;" onclick="event.stopPropagation()">&#x2192; DFD L2</a>
+            <a class="nav-link" href="meerkats_er_diagram.html" target="_blank" style="color:#DC2626;border-color:#FECACA;background:#FEF2F2;" onclick="event.stopPropagation()">&#x2192; ER</a>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- READING ORDER -->
+  <div class="reading-order">
+    <div class="ro-label">Suggested Reading Order</div>
+    <div class="ro-sub">Start at Level 0 for orientation. Go deeper based on your question. The ER and Flowchart work at any level.</div>
+    <div class="ro-grid">
+      <div>
+        <div class="ro-step-num" style="color:#F26A21">Boardroom</div>
+        <div class="ro-step-title">DFD Level 0</div>
+        <div class="ro-step-desc">System boundary. What Meerkats ingests and emits. For investors, clients, and onboarding conversations.</div>
+      </div>
+      <div>
+        <div class="ro-step-num" style="color:#F26A21">Architecture</div>
+        <div class="ro-step-title">DFD Level 1 + Flowchart</div>
+        <div class="ro-step-desc">7 major processes, data stores, and decision points. Use together for architecture reviews and domain onboarding.</div>
+      </div>
+      <div>
+        <div class="ro-step-num" style="color:#F26A21">Engineering</div>
+        <div class="ro-step-title">DFD Level 2 + ER Diagram</div>
+        <div class="ro-step-desc">28 sub-processes and all FK relationships. Use for sprint planning, feature scoping, and schema decisions.</div>
+      </div>
+      <div>
+        <div class="ro-step-num" style="color:#F26A21">Data Team</div>
+        <div class="ro-step-title">DFD Level 3 + Attribution Tree</div>
+        <div class="ro-step-desc">All 26 tables with fields and the full 9-node attribution decision tree. For query layer and data pipeline work.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DFD CARDS -->
+  <div class="sec-label">Data Flow Diagrams</div>
+  <div class="cards">
+
+    <!-- L0 -->
+    <div class="card">
+      <div class="card-accent" style="background:#C2410C;"></div>
+      <div class="card-level" style="background:#FFF7ED;">
+        <div class="lv-badge" style="color:#C2410C;">Level</div>
+        <div class="lv-num" style="color:#F26A21;">0</div>
+        <div class="lv-name">Context Diagram</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">The Big Picture</div>
+        <div class="card-purpose">&#x2192; Answers: &ldquo;What does Meerkats do, who does it talk to, and what data crosses the boundary?&rdquo;</div>
+        <div class="card-desc">Single process, 11 external entities, 14 labelled data flows. No internal structure visible — intentional. Use for investor decks, client onboarding, and system boundary conversations. The corrected conversion feedback loop to Meta CAPI and Google Enhanced Conversions is the flow most audiences miss.</div>
+        <div class="card-tags">
+          <span class="tag">1 process</span><span class="tag">11 external entities</span><span class="tag">14 data flows</span><span class="tag">Investor / client use</span>
+        </div>
+        <div class="card-links">
+          <span style="font-size:10px;color:#94A3B8;margin-right:2px;">Drill into:</span>
+          <a class="card-link" href="meerkats_dfd_level1.html" target="_blank" style="color:#1D4ED8;border-color:#BFDBFE;background:#EFF6FF;">DFD Level 1 &#x2192;</a>
+          <a class="card-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;">Flowchart &#x2192;</a>
+        </div>
+      </div>
+      <div class="card-action">
+        <a class="open-btn" href="meerkats_dfd_level0.html" target="_blank">Open &#x2192;</a>
+        <div class="file-size">~18 KB</div>
+      </div>
+    </div>
+
+    <!-- L1 -->
+    <div class="card">
+      <div class="card-accent" style="background:#1D4ED8;"></div>
+      <div class="card-level" style="background:#EFF6FF;">
+        <div class="lv-badge" style="color:#1D4ED8;">Level</div>
+        <div class="lv-num" style="color:#1D4ED8;">1</div>
+        <div class="lv-name">Process Decomposition</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Seven Major Processes</div>
+        <div class="card-purpose">&#x2192; Answers: &ldquo;What are the major processing stages and which data stores do they share?&rdquo;</div>
+        <div class="card-desc">P1 Click Capture, P2 Identity Resolution, P3 Session &amp; Event, P4 Order &amp; Commerce, P5 Attribution Engine, P6 Metrics &amp; Anomaly, P7 Query API &amp; Agent Gate. Ten data stores shown between processes. Each process maps directly to a swim lane in the Flowchart and a sub-process group in Level 2.</div>
+        <div class="card-tags">
+          <span class="tag">7 processes</span><span class="tag">10 data stores</span><span class="tag">Architecture reviews</span><span class="tag">Team onboarding</span>
+        </div>
+        <div class="card-links">
+          <span style="font-size:10px;color:#94A3B8;margin-right:2px;">See also:</span>
+          <a class="card-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;">Flowchart &#x2192;</a>
+          <a class="card-link" href="meerkats_dfd_level2.html" target="_blank" style="color:#1D4ED8;border-color:#BFDBFE;background:#EFF6FF;">DFD Level 2 &#x2192;</a>
+          <a class="card-link" href="meerkats_er_diagram.html" target="_blank" style="color:#DC2626;border-color:#FECACA;background:#FEF2F2;">ER Diagram &#x2192;</a>
+        </div>
+      </div>
+      <div class="card-action">
+        <a class="open-btn" href="meerkats_dfd_level1.html" target="_blank">Open &#x2192;</a>
+        <div class="file-size">~39 KB</div>
+      </div>
+    </div>
+
+    <!-- L2 -->
+    <div class="card">
+      <div class="card-accent" style="background:#7C3AED;"></div>
+      <div class="card-level" style="background:#F5F3FF;">
+        <div class="lv-badge" style="color:#7C3AED;">Level</div>
+        <div class="lv-num" style="color:#7C3AED;">2</div>
+        <div class="lv-name">Sub-process Detail</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">28 Sub-processes Across 7 Swim Lanes</div>
+        <div class="card-purpose">&#x2192; Answers: &ldquo;What exactly happens inside each major process, step by step?&rdquo;</div>
+        <div class="card-desc">Each Level 1 process decomposes into 4&ndash;6 sub-processes. Key ones: 1.2 mk_cid Minter (Safari ITP fix), 2.2 PII Hasher (GDPR SHA-256), 3.3 Canonical Stage Mapper, 4.4 RTO Restatement Processor, 5.1&ndash;5.3 three-path attribution matching, 6.5 CAPI Signal Emitter, 7.3 Dimension Gate (two-lock SQL guard). Each sub-process corresponds to a node in the Flowchart decision tree.</div>
+        <div class="card-tags">
+          <span class="tag">28 sub-processes</span><span class="tag">7 swim lanes</span><span class="tag">Sprint planning</span><span class="tag">Feature scoping</span><span class="tag">Debug reference</span>
+        </div>
+        <div class="card-links">
+          <span style="font-size:10px;color:#94A3B8;margin-right:2px;">See also:</span>
+          <a class="card-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;">Flowchart (matches swim lanes) &#x2192;</a>
+          <a class="card-link" href="meerkats_dfd_level3.html" target="_blank" style="color:#15803D;border-color:#BBF7D0;background:#F0FDF4;">DFD Level 3 &#x2192;</a>
+        </div>
+      </div>
+      <div class="card-action">
+        <a class="open-btn" href="meerkats_dfd_level2.html" target="_blank">Open &#x2192;</a>
+        <div class="file-size">~67 KB</div>
+      </div>
+    </div>
+
+    <!-- L3 -->
+    <div class="card">
+      <div class="card-accent" style="background:#15803D;"></div>
+      <div class="card-level" style="background:#F0FDF4;">
+        <div class="lv-badge" style="color:#15803D;">Level</div>
+        <div class="lv-num" style="color:#15803D;">3</div>
+        <div class="lv-name">Table-level Schema</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">All 26 Tables — Full Schema DFD</div>
+        <div class="card-purpose">&#x2192; Answers: &ldquo;What are all the database tables, what fields do they hold, and how are they connected?&rdquo;</div>
+        <div class="card-desc">26 <code style="font-size:11px;background:#F1F5F9;padding:1px 4px;border-radius:3px;">workspace_*</code> tables across 9 layer swim lanes: L0 Config (5), L1 Ingestion (4), L2 Identity (3), L3 Behaviour (3), L4 Commerce (3), L5 Attribution (1), L6 Metrics (2), L7 Query API (2), L8 Agent/UI (2). Right panel shows 9 schema invariants. Companion to the ER Diagram which adds field types and cardinality.</div>
+        <div class="card-tags">
+          <span class="tag">26 tables</span><span class="tag">9 layer swim lanes</span><span class="tag">FK relationships</span><span class="tag">9 schema invariants</span><span class="tag">Data engineering</span>
+        </div>
+        <div class="card-links">
+          <span style="font-size:10px;color:#94A3B8;margin-right:2px;">See also:</span>
+          <a class="card-link" href="meerkats_er_diagram.html" target="_blank" style="color:#DC2626;border-color:#FECACA;background:#FEF2F2;">ER Diagram (adds types + cardinality) &#x2192;</a>
+          <a class="card-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;">Attribution Decision Tree &#x2192;</a>
+        </div>
+      </div>
+      <div class="card-action">
+        <a class="open-btn" href="meerkats_dfd_level3.html" target="_blank">Open &#x2192;</a>
+        <div class="file-size">~46 KB</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FLOW + ER CARDS -->
+  <div class="sec-label">Flowchart &amp; ER Diagram</div>
+  <div class="companions">
+
+    <div class="comp-card" onclick="window.open('meerkats_flowchart.html','_blank')" style="cursor:pointer;">
+      <div class="comp-badge" style="color:#7C3AED;">Flowchart + Decision Tree</div>
+      <div class="comp-title">End-to-End Platform Flow &amp; Attribution Logic</div>
+      <div class="comp-desc">
+        <strong>Section 1 — Platform Flow (8 swim lanes):</strong> Ad click &#x2192; Link Service &#x2192; identity stitch &#x2192; session bucketing &#x2192; order &#x2192; COD/RTO branch &#x2192; attribution engine &#x2192; metrics rollup &#x2192; agent/console. 8 decision diamonds, all branch conditions labelled.<br><br>
+        <strong>Section 2 — Attribution Decision Tree:</strong> 9-node decision tree from order placed to confidence score assigned. Covers: attribution window check, mk_cid presence, click_id lookup, UTM match, cross-session identity edge, referrer-based weak match, RTO restatement loop, and nightly rollup. Purity Prayag proof point in footer.
+      </div>
+      <div class="comp-links">
+        <a class="comp-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;">Open Flowchart &#x2192;</a>
+        <a class="comp-link" href="meerkats_dfd_level1.html" target="_blank" style="color:#1D4ED8;border-color:#BFDBFE;background:#EFF6FF;" onclick="event.stopPropagation()">DFD L1 (same processes) &#x2192;</a>
+        <a class="comp-link" href="meerkats_dfd_level2.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;" onclick="event.stopPropagation()">DFD L2 (same sub-processes) &#x2192;</a>
+        <a class="comp-link" href="meerkats_dfd_level3.html" target="_blank" style="color:#15803D;border-color:#BBF7D0;background:#F0FDF4;" onclick="event.stopPropagation()">DFD L3 (same tables) &#x2192;</a>
+      </div>
+    </div>
+
+    <div class="comp-card" onclick="window.open('meerkats_er_diagram.html','_blank')" style="cursor:pointer;">
+      <div class="comp-badge" style="color:#DC2626;">ER Diagram</div>
+      <div class="comp-title">All 26 Entities — Crow&apos;s Foot Notation</div>
+      <div class="comp-desc">
+        8 domain clusters: Config &amp; Workspace, Ad Platform, Identity, Behaviour, Commerce, Attribution, Metrics, Query API &amp; Agent. Every table has PK/FK badges, column names, data types (UUID / TEXT / NUMERIC / BOOL / JSONB / TIMESTAMPTZ), and constraints (NN / UQ). Crow&apos;s foot lines show all FK relationships — solid mandatory, dashed optional.<br><br>
+        Footer panel lists 5 critical FK chains: the attribution spine (mk_cid end-to-end), the identity resolution bridge (anon_id &#x2194; customer_id), and the workspace_id tenant isolation key on all 26 tables.
+      </div>
+      <div class="comp-links">
+        <a class="comp-link" href="meerkats_er_diagram.html" target="_blank" style="color:#DC2626;border-color:#FECACA;background:#FEF2F2;">Open ER Diagram &#x2192;</a>
+        <a class="comp-link" href="meerkats_dfd_level3.html" target="_blank" style="color:#15803D;border-color:#BBF7D0;background:#F0FDF4;" onclick="event.stopPropagation()">DFD L3 (same tables, no types) &#x2192;</a>
+        <a class="comp-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;" onclick="event.stopPropagation()">Flowchart (attribution path) &#x2192;</a>
+        <a class="comp-link" href="meerkats_identity_flow.html" target="_blank" style="color:#F26A21;border-color:#FED7AA;background:#FFF7ED;" onclick="event.stopPropagation()">Identity Flow &#x2192;</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COMPANION DIAGRAMS -->
+  <div class="sec-label">Companion Architecture Diagrams</div>
+  <div class="companions" style="grid-template-columns:repeat(3,1fr);">
+
+    <a class="comp-card" href="meerkats_identity_flow.html" target="_blank">
+      <div class="comp-badge" style="color:#F26A21;">Identity &amp; Attribution Flow</div>
+      <div class="comp-title">Anonymous &#x2192; Identified &#x2192; Revenue</div>
+      <div class="comp-desc">Step-by-step walkthrough of how an ad click becomes a restated revenue figure. Covers Safari ITP fix, COD/RTO loop, identity stitch. Anchored to Purity Prayag (0.60&#xD7; &#x2192; 0.81&#xD7;).</div>
+      <div class="comp-links">
+        <a class="comp-link" href="meerkats_flowchart.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;" onclick="event.stopPropagation()">Flowchart &#x2192;</a>
+        <a class="comp-link" href="meerkats_er_diagram.html" target="_blank" style="color:#DC2626;border-color:#FECACA;background:#FEF2F2;" onclick="event.stopPropagation()">ER Diagram &#x2192;</a>
+      </div>
+    </a>
+
+    <a class="comp-card" href="meerkats_layer_summary_web.html" target="_blank">
+      <div class="comp-badge" style="color:#1D4ED8;">Layer Summary</div>
+      <div class="comp-title">14-Page Architecture Document</div>
+      <div class="comp-desc">All 10 platform layers, YAML mechanics, QueryBuilder pipeline, gap scorecard, LTV deep dive, and multi-vertical architecture. The written companion to the DFD suite.</div>
+      <div class="comp-links">
+        <a class="comp-link" href="meerkats_dfd_level2.html" target="_blank" style="color:#7C3AED;border-color:#DDD6FE;background:#F5F3FF;" onclick="event.stopPropagation()">DFD L2 &#x2192;</a>
+        <a class="comp-link" href="vertical-architecture/index.html" target="_blank" style="color:#1D4ED8;border-color:#BFDBFE;background:#EFF6FF;" onclick="event.stopPropagation()">Vertical Arch &#x2192;</a>
+      </div>
+    </a>
+
+    <a class="comp-card" href="vertical-architecture/index.html" target="_blank">
+      <div class="comp-badge" style="color:#7C3AED;">Vertical Architecture</div>
+      <div class="comp-title">Interactive 5-Vertical Explorer</div>
+      <div class="comp-desc">How the same 26-table schema serves D2C, Healthcare, Real Estate, EdTech, and BFSI. Three things change per client: workspace_config, workspace_stage_map, YAML metric scope.</div>
+      <div class="comp-links">
+        <a class="comp-link" href="meerkats_dfd_level3.html" target="_blank" style="color:#15803D;border-color:#BBF7D0;background:#F0FDF4;" onclick="event.stopPropagation()">DFD L3 (same schema) &#x2192;</a>
+        <a class="comp-link" href="meerkats_er_diagram.html" target="_blank" style="color:#DC2626;border-color:#FECACA;background:#FEF2F2;" onclick="event.stopPropagation()">ER Diagram &#x2192;</a>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- INSIGHT -->
+  <div style="margin-top:44px;">
+    <div class="insight">
+      <div class="insight-icon">&#x1F4A1;</div>
+      <div>
+        <div class="insight-label">How the documents relate to each other</div>
+        <div class="insight-text">
+          The <strong>DFDs (L0&ndash;L3)</strong> show data movement — what flows where, at increasing granularity. The <strong>ER Diagram</strong> shows data structure — what fields exist and how tables relate. The <strong>Flowchart</strong> shows execution logic — what decisions happen in what order. The <strong>Attribution Decision Tree</strong> is the detail inside P5 of the DFDs. The <strong>Identity Flow</strong> is the detail inside P1&ndash;P2. The <strong>Layer Summary</strong> is the prose narrative tying everything together. The <strong>Vertical Architecture</strong> shows how the schema adapts without changing — which is the core defensibility argument.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>Meerkats AI &nbsp;&#xB7;&nbsp; Church Street ESolutions Pvt Ltd &nbsp;&#xB7;&nbsp; Bengaluru &nbsp;&#xB7;&nbsp; GSTIN: 29AAKCC3678B1ZI</span>
+  <span>Documentation Suite v1.1 &nbsp;&#xB7;&nbsp; 9 documents &nbsp;&#xB7;&nbsp; All interlinked</span>
+</div>
+
+</body>
+</html>
