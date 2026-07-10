@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meerkats — Level 3 DFD — All 26 Tables</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #0F172A;
+  padding: 32px 40px;
+  min-width: 2000px;
+}
+h2 { font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 6px; }
+p.sub { font-size: 10px; color: #94A3B8; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<h2>Meerkats.ai &mdash; Level 3 Data Flow Diagram &mdash; All 26 Tables</h2>
+<p class="sub">Layers: Config &rarr; Ingestion &rarr; Identity &rarr; Behaviour &rarr; Commerce &rarr; Attribution &rarr; Metrics &rarr; Query API &rarr; Agent / Console</p>
+
+<svg viewBox="0 0 2200 1480" xmlns="http://www.w3.org/2000/svg"
+     font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+     style="width:100%;display:block;">
+  <defs>
+    <!-- Arrowheads -->
+    <marker id="ak" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#0F172A"/></marker>
+    <marker id="ab" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#1D4ED8"/></marker>
+    <marker id="ap" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#7C3AED"/></marker>
+    <marker id="ag" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#15803D"/></marker>
+    <marker id="ao" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#C2410C"/></marker>
+    <marker id="ar" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#DC2626"/></marker>
+    <marker id="ac" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#0891B2"/></marker>
+    <marker id="ay" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#B45309"/></marker>
+    <marker id="ad" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L0,5 L7,2.5 z" fill="#94A3B8"/></marker>
+  </defs>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LAYER SWIM-LANE BACKGROUNDS
+       Layer 0 Config:      y=10   h=90
+       Layer 1 Ingestion:   y=110  h=160
+       Layer 2 Identity:    y=280  h=160
+       Layer 3 Behaviour:   y=450  h=180
+       Layer 4 Commerce:    y=640  h=180
+       Layer 5 Attribution: y=830  h=160
+       Layer 6 Metrics:     y=1000 h=130
+       Layer 7 Query API:   y=1140 h=110
+       Layer 8 Agent/UI:    y=1260 h=100
+       Legend:              y=1370 h=100
+  ════════════════════════════════════════════════════════= -->
+
+  <!-- Layer backgrounds -->
+  <rect x="0" y="10"   width="2200" height="90"  fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="0" y="110"  width="2200" height="160" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="0" y="280"  width="2200" height="160" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="0" y="450"  width="2200" height="180" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1"/>
+  <rect x="0" y="640"  width="2200" height="180" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1"/>
+  <rect x="0" y="830"  width="2200" height="160" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="0" y="1000" width="2200" height="130" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
+  <rect x="0" y="1140" width="2200" height="110" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1"/>
+  <rect x="0" y="1260" width="2200" height="100" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
+  <rect x="0" y="1370" width="2200" height="110" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Layer labels (left strip) -->
+  <rect x="0" y="10"   width="90" height="90"  fill="#E2E8F0"/>
+  <rect x="0" y="110"  width="90" height="160" fill="#FED7AA"/>
+  <rect x="0" y="280"  width="90" height="160" fill="#BFDBFE"/>
+  <rect x="0" y="450"  width="90" height="180" fill="#DDD6FE"/>
+  <rect x="0" y="640"  width="90" height="180" fill="#BBF7D0"/>
+  <rect x="0" y="830"  width="90" height="160" fill="#FED7AA"/>
+  <rect x="0" y="1000" width="90" height="130" fill="#A7F3D0"/>
+  <rect x="0" y="1140" width="90" height="110" fill="#BAE6FD"/>
+  <rect x="0" y="1260" width="90" height="100" fill="#FECACA"/>
+
+  <!-- Layer label text (rotated) -->
+  <text transform="translate(45,98) rotate(-90)"  text-anchor="middle" font-size="9" font-weight="700" fill="#475569">L0 CONFIG</text>
+  <text transform="translate(45,243) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#92400E">L1 INGESTION</text>
+  <text transform="translate(45,413) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">L2 IDENTITY</text>
+  <text transform="translate(45,590) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#6D28D9">L3 BEHAVIOUR</text>
+  <text transform="translate(45,783) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">L4 COMMERCE</text>
+  <text transform="translate(45,963) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">L5 ATTRIBUTION</text>
+  <text transform="translate(45,1068) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">L6 METRICS</text>
+  <text transform="translate(45,1198) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#0369A1">L7 QUERY API</text>
+  <text transform="translate(45,1313) rotate(-90)" text-anchor="middle" font-size="9" font-weight="700" fill="#991B1B">L8 AGENT/UI</text>
+
+  <!-- ═══════════════════════════════════════
+       EXTERNAL ENTITIES (top)
+  ════════════════════════════════════════ -->
+
+  <!-- Meta Ads -->
+  <rect x="100" y="18" width="160" height="54" rx="4" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="180" y="36" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">Meta Ads</text>
+  <text x="180" y="49" text-anchor="middle" font-size="8" fill="#64748B">Campaigns / Ad Sets / Ads</text>
+  <text x="180" y="61" text-anchor="middle" font-size="8" fill="#64748B">fbclid + UTM on click</text>
+
+  <!-- Google Ads -->
+  <rect x="290" y="18" width="160" height="54" rx="4" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="370" y="36" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">Google Ads</text>
+  <text x="370" y="49" text-anchor="middle" font-size="8" fill="#64748B">Campaigns / Ad Groups / Keywords</text>
+  <text x="370" y="61" text-anchor="middle" font-size="8" fill="#64748B">gclid + UTM on click</text>
+
+  <!-- Shopify -->
+  <rect x="480" y="18" width="160" height="54" rx="4" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="560" y="36" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">Shopify</text>
+  <text x="560" y="49" text-anchor="middle" font-size="8" fill="#64748B">Orders / Customers / Products</text>
+  <text x="560" y="61" text-anchor="middle" font-size="8" fill="#64748B">Webhooks + GraphQL Bulk</text>
+
+  <!-- WhatsApp / CRM -->
+  <rect x="670" y="18" width="160" height="54" rx="4" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="750" y="36" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">WhatsApp / CRM</text>
+  <text x="750" y="49" text-anchor="middle" font-size="8" fill="#64748B">Interakt / Zoho / Salesforce</text>
+  <text x="750" y="61" text-anchor="middle" font-size="8" fill="#64748B">Inbound leads + stage webhooks</text>
+
+  <!-- PostHog -->
+  <rect x="860" y="18" width="160" height="54" rx="4" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="940" y="36" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">PostHog</text>
+  <text x="940" y="49" text-anchor="middle" font-size="8" fill="#64748B">Web Pixel / JS SDK</text>
+  <text x="940" y="61" text-anchor="middle" font-size="8" fill="#64748B">Reverse proxy: e.meerkats.ai</text>
+
+  <!-- Operator / Agent -->
+  <rect x="1800" y="18" width="160" height="54" rx="4" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+  <text x="1880" y="36" text-anchor="middle" font-size="10" font-weight="700" fill="#DC2626">Operator Console</text>
+  <text x="1880" y="49" text-anchor="middle" font-size="8" fill="#64748B">Next.js 14 + Recharts</text>
+  <text x="1880" y="61" text-anchor="middle" font-size="8" fill="#64748B">TanStack Query</text>
+
+  <!-- ═══════════════════════════════════
+       HELPER MACRO — table box
+       We define each table manually below
+  ════════════════════════════════════ -->
+
+  <!-- ═══════════════════════ L0 CONFIG ════════════════════════ -->
+
+  <!-- workspaces -->
+  <rect x="100" y="118" width="210" height="82" rx="4" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="100" y="118" width="210" height="18" rx="4" fill="#FED7AA"/>
+  <text x="205" y="131" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E">workspaces</text>
+  <text x="110" y="150" font-size="8" fill="#475569">workspace_id · name · vertical</text>
+  <text x="110" y="163" font-size="8" fill="#475569">plan · owner_id · created_at</text>
+  <text x="110" y="176" font-size="8" fill="#475569">timezone · currency</text>
+  <text x="110" y="189" font-size="8" fill="#475569">status: active / suspended</text>
+
+  <!-- workspace_config -->
+  <rect x="340" y="118" width="250" height="96" rx="4" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="340" y="118" width="250" height="18" rx="4" fill="#FED7AA"/>
+  <text x="465" y="131" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E">workspace_config</text>
+  <text x="350" y="150" font-size="8" fill="#475569">workspace_id (FK)</text>
+  <text x="350" y="163" font-size="8" fill="#475569">attribution_window_days · revenue_recognition</text>
+  <text x="350" y="176" font-size="8" fill="#475569">cod_enabled · rto_restatement</text>
+  <text x="350" y="189" font-size="8" fill="#475569">event_map JSON · vertical</text>
+  <text x="350" y="202" font-size="8" fill="#475569">platform_connector · crm_connector</text>
+
+  <!-- workspace_stage_map -->
+  <rect x="620" y="118" width="240" height="82" rx="4" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="620" y="118" width="240" height="18" rx="4" fill="#FED7AA"/>
+  <text x="740" y="131" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E">workspace_stage_map</text>
+  <text x="630" y="150" font-size="8" fill="#475569">workspace_id (FK)</text>
+  <text x="630" y="163" font-size="8" fill="#475569">crm_stage_label (raw CRM value)</text>
+  <text x="630" y="176" font-size="8" fill="#475569">canonical_stage</text>
+  <text x="630" y="189" font-size="8" fill="#475569">funnel_order · is_revenue_stage</text>
+
+  <!-- workspace_users -->
+  <rect x="900" y="118" width="210" height="82" rx="4" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="900" y="118" width="210" height="18" rx="4" fill="#FED7AA"/>
+  <text x="1005" y="131" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E">workspace_users</text>
+  <text x="910" y="150" font-size="8" fill="#475569">workspace_id (FK) · user_id</text>
+  <text x="910" y="163" font-size="8" fill="#475569">role: owner / analyst / viewer</text>
+  <text x="910" y="176" font-size="8" fill="#475569">email · name · invited_at</text>
+  <text x="910" y="189" font-size="8" fill="#475569">last_active_at</text>
+
+  <!-- workspace_api_keys -->
+  <rect x="1140" y="118" width="210" height="82" rx="4" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="1140" y="118" width="210" height="18" rx="4" fill="#FED7AA"/>
+  <text x="1245" y="131" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E">workspace_api_keys</text>
+  <text x="1150" y="150" font-size="8" fill="#475569">key_id · workspace_id (FK)</text>
+  <text x="1150" y="163" font-size="8" fill="#475569">key_hash · name · scopes</text>
+  <text x="1150" y="176" font-size="8" fill="#475569">created_at · last_used_at</text>
+  <text x="1150" y="189" font-size="8" fill="#475569">expires_at · is_active</text>
+
+  <!-- config count label -->
+  <text x="1380" y="165" font-size="9" fill="#92400E" font-weight="700">5 Config tables</text>
+
+  <!-- workspaces → config -->
+  <path d="M 310,159 Q 340,159 340,159" stroke="#92400E" stroke-width="1.2" fill="none" marker-end="url(#ay)"/>
+  <!-- workspaces → stage_map -->
+  <path d="M 205,200 Q 205,230 740,230 Q 740,218 740,200" stroke="#92400E" stroke-width="1" stroke-dasharray="4 2" fill="none" marker-end="url(#ay)"/>
+  <!-- workspaces → users -->
+  <path d="M 310,159 Q 900,159 900,159" stroke="#92400E" stroke-width="1" stroke-dasharray="4 2" fill="none" marker-end="url(#ay)"/>
+
+  <!-- ═══════════════════════ L1 INGESTION ════════════════════════ -->
+
+  <!-- ad_platform_accounts -->
+  <rect x="100" y="288" width="220" height="96" rx="4" fill="#fff" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="100" y="288" width="220" height="18" rx="4" fill="#BFDBFE"/>
+  <text x="210" y="301" text-anchor="middle" font-size="10" font-weight="700" fill="#1D4ED8">ad_platform_accounts</text>
+  <text x="110" y="320" font-size="8" fill="#475569">workspace_id · platform</text>
+  <text x="110" y="333" font-size="8" fill="#475569">account_id · account_name</text>
+  <text x="110" y="346" font-size="8" fill="#475569">currency · timezone</text>
+  <text x="110" y="359" font-size="8" fill="#475569">oauth_token_ref · synced_at</text>
+  <text x="110" y="372" font-size="8" fill="#475569">status: active / paused</text>
+
+  <!-- ad_platform_campaigns -->
+  <rect x="360" y="288" width="240" height="110" rx="4" fill="#fff" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="360" y="288" width="240" height="18" rx="4" fill="#BFDBFE"/>
+  <text x="480" y="301" text-anchor="middle" font-size="10" font-weight="700" fill="#1D4ED8">ad_platform_campaigns</text>
+  <text x="370" y="320" font-size="8" fill="#475569">workspace_id · platform · account_id</text>
+  <text x="370" y="333" font-size="8" fill="#475569">campaign_id · campaign_name</text>
+  <text x="370" y="346" font-size="8" fill="#475569">status · objective · buying_type</text>
+  <text x="370" y="359" font-size="8" fill="#475569">daily_budget · lifetime_budget</text>
+  <text x="370" y="372" font-size="8" fill="#475569">start_date · end_date · synced_at</text>
+  <text x="370" y="385" font-size="8" fill="#475569">ad_set_id · ad_id (Google: ad_group_id)</text>
+
+  <!-- ad_platform_spend -->
+  <rect x="640" y="288" width="240" height="110" rx="4" fill="#fff" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="640" y="288" width="240" height="18" rx="4" fill="#BFDBFE"/>
+  <text x="760" y="301" text-anchor="middle" font-size="10" font-weight="700" fill="#1D4ED8">ad_platform_spend</text>
+  <text x="650" y="320" font-size="8" fill="#475569">workspace_id · platform · date</text>
+  <text x="650" y="333" font-size="8" fill="#475569">campaign_id · ad_set_id · ad_id</text>
+  <text x="650" y="346" font-size="8" fill="#475569">impressions · clicks · spend</text>
+  <text x="650" y="359" font-size="8" fill="#475569">platform_conversions</text>
+  <text x="650" y="372" font-size="8" fill="#475569">platform_revenue · ctr · cpc</text>
+  <text x="650" y="385" font-size="8" fill="#475569">quality_score · synced_at</text>
+
+  <!-- click_ids -->
+  <rect x="920" y="288" width="230" height="110" rx="4" fill="#fff" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="920" y="288" width="230" height="18" rx="4" fill="#BFDBFE"/>
+  <text x="1035" y="301" text-anchor="middle" font-size="10" font-weight="700" fill="#1D4ED8">click_ids</text>
+  <text x="930" y="320" font-size="8" fill="#475569">mk_cid (PK, minted by Link Service)</text>
+  <text x="930" y="333" font-size="8" fill="#475569">platform_click_id (gclid/fbclid)</text>
+  <text x="930" y="346" font-size="8" fill="#475569">platform · workspace_id</text>
+  <text x="930" y="359" font-size="8" fill="#475569">utm_source · utm_medium</text>
+  <text x="930" y="372" font-size="8" fill="#475569">utm_campaign · utm_content · utm_term</text>
+  <text x="930" y="385" font-size="8" fill="#475569">landing_url · created_at</text>
+
+  <!-- ingestion count -->
+  <text x="1180" y="335" font-size="9" fill="#1D4ED8" font-weight="700">4 Ingestion tables</text>
+
+  <!-- External → ingestion arrows -->
+  <path d="M 180,72 Q 180,288 180,288" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <path d="M 370,72 Q 480,72 480,288" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <path d="M 370,72 Q 760,100 760,288" stroke="#0F172A" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#ak)"/>
+  <path d="M 180,72 Q 180,260 1035,260 Q 1035,288 1035,288" stroke="#0F172A" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#ak)"/>
+
+  <!-- config → ingestion (workspace_id FK) -->
+  <path d="M 205,200 Q 205,260 210,288" stroke="#92400E" stroke-width="1" stroke-dasharray="3 2" fill="none" marker-end="url(#ay)"/>
+
+  <!-- ═══════════════════════ L2 IDENTITY ════════════════════════ -->
+
+  <!-- anonymous_visitors -->
+  <rect x="100" y="458" width="230" height="110" rx="4" fill="#fff" stroke="#7C3AED" stroke-width="1.5"/>
+  <rect x="100" y="458" width="230" height="18" rx="4" fill="#DDD6FE"/>
+  <text x="215" y="471" text-anchor="middle" font-size="10" font-weight="700" fill="#6D28D9">anonymous_visitors</text>
+  <text x="110" y="490" font-size="8" fill="#475569">anon_id (posthog_distinct_id)</text>
+  <text x="110" y="503" font-size="8" fill="#475569">workspace_id · first_seen_ts</text>
+  <text x="110" y="516" font-size="8" fill="#475569">last_seen_ts · mk_cid (FK→click_ids)</text>
+  <text x="110" y="529" font-size="8" fill="#475569">device · browser · country</text>
+  <text x="110" y="542" font-size="8" fill="#475569">ip_hash · referrer</text>
+  <text x="110" y="555" font-size="8" fill="#475569">resolved: boolean</text>
+
+  <!-- customers -->
+  <rect x="370" y="458" width="240" height="110" rx="4" fill="#fff" stroke="#7C3AED" stroke-width="1.5"/>
+  <rect x="370" y="458" width="240" height="18" rx="4" fill="#DDD6FE"/>
+  <text x="490" y="471" text-anchor="middle" font-size="10" font-weight="700" fill="#6D28D9">customers</text>
+  <text x="380" y="490" font-size="8" fill="#475569">customer_id · workspace_id</text>
+  <text x="380" y="503" font-size="8" fill="#475569">external_id (Shopify/CRM key)</text>
+  <text x="380" y="516" font-size="8" fill="#475569">email_hash · phone_hash</text>
+  <text x="380" y="529" font-size="8" fill="#475569">first_order_ts · last_order_ts</text>
+  <text x="380" y="542" font-size="8" fill="#475569">order_count · ltv_gross · ltv_net</text>
+  <text x="380" y="555" font-size="8" fill="#475569">cohort_month · customer_segment</text>
+
+  <!-- identity_edges -->
+  <rect x="650" y="458" width="250" height="110" rx="4" fill="#EFF6FF" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <rect x="650" y="458" width="250" height="18" rx="4" fill="#DDD6FE"/>
+  <text x="775" y="471" text-anchor="middle" font-size="10" font-weight="700" fill="#6D28D9">identity_edges</text>
+  <text x="660" y="490" font-size="8" fill="#475569">edge_id · workspace_id</text>
+  <text x="660" y="503" font-size="8" fill="#475569">anon_id (FK→anonymous_visitors)</text>
+  <text x="660" y="516" font-size="8" fill="#475569">customer_id (FK→customers)</text>
+  <text x="660" y="529" font-size="8" fill="#475569">confidence: 0.0–1.0</text>
+  <text x="660" y="542" font-size="8" fill="#475569">stitch_method: email / phone / device</text>
+  <text x="660" y="555" font-size="8" fill="#475569">source_event · stitched_at</text>
+
+  <!-- identity count -->
+  <text x="930" y="520" font-size="9" fill="#6D28D9" font-weight="700">3 Identity tables</text>
+  <text x="930" y="535" font-size="8" fill="#6D28D9">(stitch + resolution layer)</text>
+
+  <!-- click_ids → anon (mk_cid) -->
+  <path d="M 1035,398 Q 1035,430 215,430 Q 215,458 215,458" stroke="#1D4ED8" stroke-width="1.2" fill="none" marker-end="url(#ab)"/>
+  <!-- PostHog → anon -->
+  <path d="M 940,72 Q 940,420 215,420 Q 215,458 215,458" stroke="#0F172A" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#ak)"/>
+  <!-- Shopify → customers -->
+  <path d="M 560,72 Q 560,420 490,420 Q 490,458 490,458" stroke="#0F172A" stroke-width="1.2" fill="none" marker-end="url(#ak)"/>
+  <!-- CRM → customers -->
+  <path d="M 750,72 Q 750,420 490,420 Q 490,458 490,458" stroke="#0F172A" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#ak)"/>
+  <!-- anon + customers → identity_edges -->
+  <path d="M 330,513 Q 650,513 650,513" stroke="#7C3AED" stroke-width="1.2" fill="none" marker-end="url(#ap)"/>
+  <path d="M 610,513 Q 650,513 650,513" stroke="#7C3AED" stroke-width="1.2" fill="none" marker-end="url(#ap)"/>
+
+  <!-- ═══════════════════════ L3 BEHAVIOUR ════════════════════════ -->
+
+  <!-- sessions -->
+  <rect x="100" y="648" width="250" height="124" rx="4" fill="#fff" stroke="#15803D" stroke-width="1.5"/>
+  <rect x="100" y="648" width="250" height="18" rx="4" fill="#BBF7D0"/>
+  <text x="225" y="661" text-anchor="middle" font-size="10" font-weight="700" fill="#15803D">sessions</text>
+  <text x="110" y="680" font-size="8" fill="#475569">session_id · workspace_id</text>
+  <text x="110" y="693" font-size="8" fill="#475569">visitor_id (anon_id or customer_id)</text>
+  <text x="110" y="706" font-size="8" fill="#475569">entry_url · referrer · device_type</text>
+  <text x="110" y="719" font-size="8" fill="#475569">mk_cid (FK→click_ids)</text>
+  <text x="110" y="732" font-size="8" fill="#475569">utm_source · utm_medium · utm_campaign</text>
+  <text x="110" y="745" font-size="8" fill="#475569">utm_content · utm_term</text>
+  <text x="110" y="758" font-size="8" fill="#475569">session_start_ts · session_end_ts</text>
+
+  <!-- events -->
+  <rect x="390" y="648" width="250" height="124" rx="4" fill="#fff" stroke="#15803D" stroke-width="1.5"/>
+  <rect x="390" y="648" width="250" height="18" rx="4" fill="#BBF7D0"/>
+  <text x="515" y="661" text-anchor="middle" font-size="10" font-weight="700" fill="#15803D">events</text>
+  <text x="400" y="680" font-size="8" fill="#475569">event_id · workspace_id · session_id</text>
+  <text x="400" y="693" font-size="8" fill="#475569">event_type (raw PostHog/webhook)</text>
+  <text x="400" y="706" font-size="8" fill="#475569">canonical_stage (via stage_map)</text>
+  <text x="400" y="719" font-size="8" fill="#475569">visitor_id · customer_id (nullable)</text>
+  <text x="400" y="732" font-size="8" fill="#475569">properties JSON · revenue_value</text>
+  <text x="400" y="745" font-size="8" fill="#475569">product_id · quantity</text>
+  <text x="400" y="758" font-size="8" fill="#475569">event_ts · ingested_at</text>
+
+  <!-- page_views (sub-table) -->
+  <rect x="680" y="648" width="220" height="96" rx="4" fill="#F0FDF4" stroke="#15803D" stroke-width="1" stroke-dasharray="5 3"/>
+  <rect x="680" y="648" width="220" height="18" rx="4" fill="#BBF7D0"/>
+  <text x="790" y="661" text-anchor="middle" font-size="10" font-weight="700" fill="#15803D">page_views</text>
+  <text x="690" y="680" font-size="8" fill="#475569">page_view_id · session_id</text>
+  <text x="690" y="693" font-size="8" fill="#475569">url · title · referrer</text>
+  <text x="690" y="706" font-size="8" fill="#475569">time_on_page · scroll_depth</text>
+  <text x="690" y="719" font-size="8" fill="#475569">viewed_at</text>
+  <text x="690" y="732" font-size="8" fill="#64748B" font-style="italic">(partitioned by date)</text>
+
+  <!-- behaviour count -->
+  <text x="930" y="700" font-size="9" fill="#15803D" font-weight="700">3 Behaviour tables</text>
+
+  <!-- anon → sessions -->
+  <path d="M 215,568 Q 215,620 225,648" stroke="#7C3AED" stroke-width="1.2" fill="none" marker-end="url(#ap)"/>
+  <!-- click_ids → sessions (mk_cid FK) -->
+  <path d="M 1035,398 Q 1035,600 225,600 Q 225,648 225,648" stroke="#1D4ED8" stroke-width="1" stroke-dasharray="3 2" fill="none" marker-end="url(#ab)"/>
+  <!-- sessions → events -->
+  <path d="M 350,710 Q 390,710 390,710" stroke="#15803D" stroke-width="1.2" fill="none" marker-end="url(#ag)"/>
+  <!-- events → page_views -->
+  <path d="M 640,710 Q 680,710 680,710" stroke="#15803D" stroke-width="1.2" fill="none" marker-end="url(#ag)"/>
+  <!-- stage_map → events (canonical_stage) -->
+  <path d="M 740,200 Q 740,600 515,600 Q 515,648 515,648" stroke="#92400E" stroke-width="1" stroke-dasharray="3 2" fill="none" marker-end="url(#ay)"/>
+
+  <!-- ═══════════════════════ L4 COMMERCE ════════════════════════ -->
+
+  <!-- orders -->
+  <rect x="100" y="840" width="250" height="124" rx="4" fill="#fff" stroke="#C2410C" stroke-width="1.5"/>
+  <rect x="100" y="840" width="250" height="18" rx="4" fill="#FED7AA"/>
+  <text x="225" y="853" text-anchor="middle" font-size="10" font-weight="700" fill="#C2410C">orders</text>
+  <text x="110" y="872" font-size="8" fill="#475569">order_id · workspace_id</text>
+  <text x="110" y="885" font-size="8" fill="#475569">customer_id (FK→customers)</text>
+  <text x="110" y="898" font-size="8" fill="#475569">session_id (FK→sessions)</text>
+  <text x="110" y="911" font-size="8" fill="#475569">mk_cid (FK→click_ids, checkout)</text>
+  <text x="110" y="924" font-size="8" fill="#475569">gmv · net_revenue · currency</text>
+  <text x="110" y="937" font-size="8" fill="#475569">payment_method · cod_flag</text>
+  <text x="110" y="950" font-size="8" fill="#475569">order_placed_ts · fulfilled_ts</text>
+  <text x="110" y="963" font-size="8" fill="#DC2626">rto_restated_at · restatement_delta</text>
+
+  <!-- order_lifecycle -->
+  <rect x="390" y="840" width="240" height="110" rx="4" fill="#fff" stroke="#C2410C" stroke-width="1.5"/>
+  <rect x="390" y="840" width="240" height="18" rx="4" fill="#FED7AA"/>
+  <text x="510" y="853" text-anchor="middle" font-size="10" font-weight="700" fill="#C2410C">order_lifecycle</text>
+  <text x="400" y="872" font-size="8" fill="#475569">lifecycle_id · order_id (FK)</text>
+  <text x="400" y="885" font-size="8" fill="#475569">workspace_id</text>
+  <text x="400" y="898" font-size="8" fill="#475569">status: created / confirmed</text>
+  <text x="400" y="911" font-size="8" fill="#475569">       fulfilled / RTO / refund</text>
+  <text x="400" y="924" font-size="8" fill="#475569">status_ts · previous_status</text>
+  <text x="400" y="937" font-size="8" fill="#DC2626">revenue_delta (negative on RTO)</text>
+  <text x="400" y="950" font-size="8" fill="#475569">notes · source_event</text>
+
+  <!-- order_items -->
+  <rect x="670" y="840" width="230" height="96" rx="4" fill="#fff" stroke="#C2410C" stroke-width="1.5"/>
+  <rect x="670" y="840" width="230" height="18" rx="4" fill="#FED7AA"/>
+  <text x="785" y="853" text-anchor="middle" font-size="10" font-weight="700" fill="#C2410C">order_items</text>
+  <text x="680" y="872" font-size="8" fill="#475569">item_id · order_id (FK)</text>
+  <text x="680" y="885" font-size="8" fill="#475569">product_id · variant_id</text>
+  <text x="680" y="898" font-size="8" fill="#475569">product_title · category</text>
+  <text x="680" y="911" font-size="8" fill="#475569">quantity · unit_price · total_price</text>
+  <text x="680" y="924" font-size="8" fill="#475569">cogs · margin (if COGS available)</text>
+
+  <!-- commerce count -->
+  <text x="930" y="880" font-size="9" fill="#C2410C" font-weight="700">3 Commerce tables</text>
+
+  <!-- events order_placed → orders -->
+  <path d="M 515,772 Q 515,810 225,810 Q 225,840 225,840" stroke="#15803D" stroke-width="1.2" fill="none" marker-end="url(#ag)"/>
+  <!-- orders → lifecycle -->
+  <path d="M 350,902 Q 390,902 390,902" stroke="#C2410C" stroke-width="1.2" fill="none" marker-end="url(#ao)"/>
+  <!-- orders → items -->
+  <path d="M 350,902 Q 510,902 510,902 Q 670,902 670,902" stroke="#C2410C" stroke-width="1" stroke-dasharray="4 2" fill="none" marker-end="url(#ao)"/>
+  <!-- customers → orders -->
+  <path d="M 490,568 Q 490,800 225,800 Q 225,840 225,840" stroke="#7C3AED" stroke-width="1" stroke-dasharray="3 2" fill="none" marker-end="url(#ap)"/>
+
+  <!-- ═══════════════════════ L5 ATTRIBUTION ════════════════════════ -->
+
+  <!-- attributions -->
+  <rect x="100" y="1008" width="290" height="138" rx="4" fill="#fff" stroke="#DC2626" stroke-width="2"/>
+  <rect x="100" y="1008" width="290" height="18" rx="4" fill="#FECACA"/>
+  <text x="245" y="1021" text-anchor="middle" font-size="10" font-weight="700" fill="#DC2626">attributions</text>
+  <text x="110" y="1040" font-size="8" fill="#475569">attribution_id · workspace_id</text>
+  <text x="110" y="1053" font-size="8" fill="#475569">order_id (FK→orders)</text>
+  <text x="110" y="1066" font-size="8" fill="#475569">session_id (FK→sessions)</text>
+  <text x="110" y="1079" font-size="8" fill="#475569">click_id (FK→click_ids, nullable)</text>
+  <text x="110" y="1092" font-size="8" fill="#475569">customer_id (FK→customers)</text>
+  <text x="110" y="1105" font-size="8" fill="#475569">path: click_id / utm / unmatched</text>
+  <text x="110" y="1118" font-size="8" fill="#475569">confidence: 1.0 / 0.7 / 0.0</text>
+  <text x="110" y="1131" font-size="8" fill="#475569">attributed_revenue · attributed_ts</text>
+  <text x="110" y="1144" font-size="8" fill="#475569">is_restated · restatement_ts</text>
+
+  <!-- attribution count -->
+  <text x="430" y="1060" font-size="9" fill="#DC2626" font-weight="700">1 Attribution table</text>
+  <text x="430" y="1075" font-size="8" fill="#DC2626">(core join: order × session × click)</text>
+
+  <!-- orders → attributions -->
+  <path d="M 225,964 Q 225,980 245,1008" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <!-- sessions → attributions -->
+  <path d="M 225,772 Q 225,990 245,1008" stroke="#15803D" stroke-width="1" stroke-dasharray="4 2" fill="none" marker-end="url(#ag)"/>
+  <!-- click_ids → attributions -->
+  <path d="M 1035,398 Q 1100,950 245,950 Q 245,1008 245,1008" stroke="#1D4ED8" stroke-width="1" stroke-dasharray="3 2" fill="none" marker-end="url(#ab)"/>
+  <!-- lifecycle RTO → attributions (restatement) -->
+  <path d="M 390,937 Q 300,980 245,1008" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ar)"/>
+
+  <!-- ═══════════════════════ L6 METRICS ════════════════════════ -->
+
+  <!-- daily_metrics -->
+  <rect x="100" y="1150" width="330" height="96" rx="4" fill="#fff" stroke="#065F46" stroke-width="2"/>
+  <rect x="100" y="1150" width="330" height="18" rx="4" fill="#A7F3D0"/>
+  <text x="265" y="1163" text-anchor="middle" font-size="10" font-weight="700" fill="#065F46">daily_metrics</text>
+  <text x="110" y="1182" font-size="8" fill="#475569">metric_id · workspace_id · date</text>
+  <text x="110" y="1195" font-size="8" fill="#475569">campaign_id · channel · attribution_path</text>
+  <text x="110" y="1208" font-size="8" fill="#475569">corrected_roas · platform_roas · delta_roas</text>
+  <text x="110" y="1221" font-size="8" fill="#475569">net_revenue · gmv · ad_spend · cac</text>
+  <text x="110" y="1234" font-size="8" fill="#475569">rto_rate · attribution_match_rate</text>
+
+  <!-- anomalies -->
+  <rect x="460" y="1150" width="230" height="96" rx="4" fill="#fff" stroke="#065F46" stroke-width="1.5"/>
+  <rect x="460" y="1150" width="230" height="18" rx="4" fill="#A7F3D0"/>
+  <text x="575" y="1163" text-anchor="middle" font-size="10" font-weight="700" fill="#065F46">anomalies</text>
+  <text x="470" y="1182" font-size="8" fill="#475569">anomaly_id · workspace_id</text>
+  <text x="470" y="1195" font-size="8" fill="#475569">metric_name · date · severity</text>
+  <text x="470" y="1208" font-size="8" fill="#475569">expected_value · actual_value</text>
+  <text x="470" y="1221" font-size="8" fill="#475569">z_score · rule_id</text>
+  <text x="470" y="1234" font-size="8" fill="#475569">detected_at · resolved_at</text>
+
+  <!-- metrics count -->
+  <text x="720" y="1195" font-size="9" fill="#065F46" font-weight="700">2 Metric tables</text>
+
+  <!-- attributions → daily_metrics -->
+  <path d="M 245,1146 Q 245,1160 265,1150" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <!-- ad_platform_spend → daily_metrics (spend denominator) -->
+  <path d="M 760,398 Q 760,1100 265,1100 Q 265,1150 265,1150" stroke="#1D4ED8" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#ab)"/>
+  <!-- daily_metrics → anomalies -->
+  <path d="M 430,1198 Q 460,1198 460,1198" stroke="#065F46" stroke-width="1.2" fill="none" marker-end="url(#ag)"/>
+
+  <!-- ═══════════════════════ L7 QUERY API ════════════════════════ -->
+
+  <!-- metric_definitions (YAML) -->
+  <rect x="100" y="1280" width="230" height="82" rx="4" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="100" y="1280" width="230" height="18" rx="4" fill="#BAE6FD"/>
+  <text x="215" y="1293" text-anchor="middle" font-size="10" font-weight="700" fill="#0369A1">metric_definitions (YAML)</text>
+  <text x="110" y="1312" font-size="8" fill="#475569">name · formula · source_table</text>
+  <text x="110" y="1325" font-size="8" fill="#475569">dimensions[] · filters{}</text>
+  <text x="110" y="1338" font-size="8" fill="#475569">verticals[] · tags[] · description</text>
+  <text x="110" y="1351" font-size="8" fill="#475569">loaded into MetricRegistry at startup</text>
+
+  <!-- query_log -->
+  <rect x="360" y="1280" width="230" height="82" rx="4" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="360" y="1280" width="230" height="18" rx="4" fill="#BAE6FD"/>
+  <text x="475" y="1293" text-anchor="middle" font-size="10" font-weight="700" fill="#0369A1">query_log</text>
+  <text x="370" y="1312" font-size="8" fill="#475569">query_id · workspace_id · user_id</text>
+  <text x="370" y="1325" font-size="8" fill="#475569">metric_name · dimensions</text>
+  <text x="370" y="1338" font-size="8" fill="#475569">filters · result_rows · latency_ms</text>
+  <text x="370" y="1351" font-size="8" fill="#475569">executed_at · error (nullable)</text>
+
+  <!-- api count -->
+  <text x="620" y="1320" font-size="9" fill="#0369A1" font-weight="700">2 Query / API tables</text>
+
+  <!-- daily_metrics → YAML / query -->
+  <path d="M 265,1246 Q 265,1265 215,1280" stroke="#065F46" stroke-width="1.2" fill="none" marker-end="url(#ag)"/>
+  <path d="M 265,1246 Q 400,1260 475,1280" stroke="#065F46" stroke-width="1" stroke-dasharray="3 2" fill="none" marker-end="url(#ag)"/>
+  <!-- workspace_config → YAML (vertical scoping) -->
+  <path d="M 465,200 Q 215,800 215,1280" stroke="#92400E" stroke-width="1" stroke-dasharray="3 2" fill="none" marker-end="url(#ay)"/>
+
+  <!-- ═══════════════════════ L8 AGENT / UI ════════════════════════ -->
+
+  <!-- agent_runs -->
+  <rect x="100" y="1380" width="230" height="68" rx="4" fill="#fff" stroke="#991B1B" stroke-width="1.5"/>
+  <rect x="100" y="1380" width="230" height="18" rx="4" fill="#FECACA"/>
+  <text x="215" y="1393" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">agent_runs</text>
+  <text x="110" y="1412" font-size="8" fill="#475569">run_id · workspace_id · user_id</text>
+  <text x="110" y="1425" font-size="8" fill="#475569">mode: ANALYZE / CREATE / MODIFY</text>
+  <text x="110" y="1438" font-size="8" fill="#475569">status · tool_calls · tokens_used</text>
+
+  <!-- agent_actions -->
+  <rect x="360" y="1380" width="240" height="68" rx="4" fill="#fff" stroke="#991B1B" stroke-width="1.5"/>
+  <rect x="360" y="1380" width="240" height="18" rx="4" fill="#FECACA"/>
+  <text x="480" y="1393" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">agent_actions</text>
+  <text x="370" y="1412" font-size="8" fill="#475569">action_id · run_id (FK) · tool_name</text>
+  <text x="370" y="1425" font-size="8" fill="#475569">proposal JSON · approved_by</text>
+  <text x="370" y="1438" font-size="8" fill="#475569">status: proposed / approved / executed</text>
+
+  <!-- agent count -->
+  <text x="630" y="1415" font-size="9" fill="#991B1B" font-weight="700">2 Agent tables</text>
+  <text x="630" y="1430" font-size="8" fill="#991B1B">(propose → approve → execute gate)</text>
+
+  <!-- YAML → agent -->
+  <path d="M 215,1362 Q 215,1380 215,1380" stroke="#0369A1" stroke-width="1.2" fill="none" marker-end="url(#ac)"/>
+  <!-- query_log → agent -->
+  <path d="M 475,1362 Q 480,1380 480,1380" stroke="#0369A1" stroke-width="1.2" fill="none" marker-end="url(#ac)"/>
+  <!-- agent → Operator Console (output) -->
+  <path d="M 600,1414 Q 1800,1414 1880,72" stroke="#991B1B" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ar)"/>
+
+  <!-- ═══════════════════════ TABLE COUNT SUMMARY ════════════════════════ -->
+
+  <!-- right-side summary panel -->
+  <rect x="1380" y="118" width="360" height="460" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="1560" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">26 Tables — Layer Summary</text>
+  <line x1="1390" y1="145" x2="1730" y2="145" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- rows -->
+  <!-- L0 -->
+  <rect x="1390" y="152" width="10" height="10" rx="2" fill="#FED7AA"/>
+  <text x="1408" y="161" font-size="9" fill="#0F172A"><tspan font-weight="700">L0 Config (5):</tspan>  workspaces · workspace_config · workspace_stage_map · workspace_users · workspace_api_keys</text>
+  <!-- L1 -->
+  <rect x="1390" y="170" width="10" height="10" rx="2" fill="#BFDBFE"/>
+  <text x="1408" y="179" font-size="9" fill="#0F172A"><tspan font-weight="700">L1 Ingestion (4):</tspan>  ad_platform_accounts · ad_platform_campaigns · ad_platform_spend · click_ids</text>
+  <!-- L2 -->
+  <rect x="1390" y="188" width="10" height="10" rx="2" fill="#DDD6FE"/>
+  <text x="1408" y="197" font-size="9" fill="#0F172A"><tspan font-weight="700">L2 Identity (3):</tspan>  anonymous_visitors · customers · identity_edges</text>
+  <!-- L3 -->
+  <rect x="1390" y="206" width="10" height="10" rx="2" fill="#BBF7D0"/>
+  <text x="1408" y="215" font-size="9" fill="#0F172A"><tspan font-weight="700">L3 Behaviour (3):</tspan>  sessions · events · page_views</text>
+  <!-- L4 -->
+  <rect x="1390" y="224" width="10" height="10" rx="2" fill="#FED7AA"/>
+  <text x="1408" y="233" font-size="9" fill="#0F172A"><tspan font-weight="700">L4 Commerce (3):</tspan>  orders · order_lifecycle · order_items</text>
+  <!-- L5 -->
+  <rect x="1390" y="242" width="10" height="10" rx="2" fill="#FECACA"/>
+  <text x="1408" y="251" font-size="9" fill="#0F172A"><tspan font-weight="700">L5 Attribution (1):</tspan>  attributions</text>
+  <!-- L6 -->
+  <rect x="1390" y="260" width="10" height="10" rx="2" fill="#A7F3D0"/>
+  <text x="1408" y="269" font-size="9" fill="#0F172A"><tspan font-weight="700">L6 Metrics (2):</tspan>  daily_metrics · anomalies</text>
+  <!-- L7 -->
+  <rect x="1390" y="278" width="10" height="10" rx="2" fill="#BAE6FD"/>
+  <text x="1408" y="287" font-size="9" fill="#0F172A"><tspan font-weight="700">L7 Query API (2):</tspan>  metric_definitions (YAML) · query_log</text>
+  <!-- L8 -->
+  <rect x="1390" y="296" width="10" height="10" rx="2" fill="#FECACA"/>
+  <text x="1408" y="305" font-size="9" fill="#0F172A"><tspan font-weight="700">L8 Agent / UI (2):</tspan>  agent_runs · agent_actions</text>
+
+  <line x1="1390" y1="315" x2="1730" y2="315" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Key FKs -->
+  <text x="1560" y="330" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">Critical Foreign Keys</text>
+  <text x="1398" y="346" font-size="8" fill="#475569">click_ids.mk_cid  &#x2192;  anonymous_visitors.mk_cid</text>
+  <text x="1398" y="359" font-size="8" fill="#475569">click_ids.mk_cid  &#x2192;  sessions.mk_cid  &#x2192;  orders.mk_cid</text>
+  <text x="1398" y="372" font-size="8" fill="#475569">anonymous_visitors.anon_id  &#x2192;  identity_edges.anon_id</text>
+  <text x="1398" y="385" font-size="8" fill="#475569">customers.customer_id  &#x2192;  identity_edges.customer_id</text>
+  <text x="1398" y="398" font-size="8" fill="#475569">orders.order_id  &#x2192;  order_lifecycle  &#x2192;  attributions</text>
+  <text x="1398" y="411" font-size="8" fill="#475569">attributions (order + session + click)  &#x2192;  daily_metrics</text>
+  <text x="1398" y="424" font-size="8" fill="#475569">workspace_id  &#x2192;  ALL tables (tenant isolation key)</text>
+
+  <line x1="1390" y1="433" x2="1730" y2="433" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Core invariants -->
+  <text x="1560" y="448" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">Schema Invariants</text>
+  <text x="1398" y="464" font-size="8" fill="#475569">1. workspace_id on every row — multi-tenant isolation</text>
+  <text x="1398" y="477" font-size="8" fill="#475569">2. Schema identical across all verticals — config seeding only</text>
+  <text x="1398" y="490" font-size="8" fill="#475569">3. attribution_date = order_placed_ts (not click or compute date)</text>
+  <text x="1398" y="503" font-size="8" fill="#475569">4. COD revenue optimistic; restatement via order_lifecycle</text>
+  <text x="1398" y="516" font-size="8" fill="#475569">5. ALLOWED_DIMENSIONS whitelist on QueryBuilder (SQL injection gate)</text>
+  <text x="1398" y="529" font-size="8" fill="#475569">6. YAML dimensions[] per-metric gate (business logic gate)</text>
+  <text x="1398" y="542" font-size="8" fill="#475569">7. workspace_id always from JWT — never from request body</text>
+  <text x="1398" y="555" font-size="8" fill="#475569">8. Agent propose&#x2192;approve&#x2192;execute enforced server-side</text>
+  <text x="1398" y="568" font-size="8" fill="#475569">9. daily_metrics refreshed nightly (raw&#x2192;canonical 4h cadence)</text>
+
+  <!-- ═══════════════════════ ARROW LEGEND ════════════════════════ -->
+  <rect x="100" y="1476" width="1700" height="8" rx="2" fill="#F1F5F9"/>
+
+  <text x="100" y="1468" font-size="9" font-weight="700" fill="#0F172A">Arrow key: </text>
+  <line x1="185" y1="1464" x2="215" y2="1464" stroke="#0F172A" stroke-width="1.5" marker-end="url(#ak)"/>
+  <text x="220" y="1468" font-size="8" fill="#475569">External → DB</text>
+  <line x1="300" y1="1464" x2="330" y2="1464" stroke="#1D4ED8" stroke-width="1.5" marker-end="url(#ab)"/>
+  <text x="335" y="1468" font-size="8" fill="#475569">Ingestion flow</text>
+  <line x1="415" y1="1464" x2="445" y2="1464" stroke="#7C3AED" stroke-width="1.5" marker-end="url(#ap)"/>
+  <text x="450" y="1468" font-size="8" fill="#475569">Identity stitch</text>
+  <line x1="530" y1="1464" x2="560" y2="1464" stroke="#15803D" stroke-width="1.5" marker-end="url(#ag)"/>
+  <text x="565" y="1468" font-size="8" fill="#475569">Behaviour events</text>
+  <line x1="650" y1="1464" x2="680" y2="1464" stroke="#C2410C" stroke-width="1.5" marker-end="url(#ao)"/>
+  <text x="685" y="1468" font-size="8" fill="#475569">Commerce</text>
+  <line x1="760" y1="1464" x2="790" y2="1464" stroke="#DC2626" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="795" y="1468" font-size="8" fill="#475569">Attribution / restatement</text>
+  <line x1="900" y1="1464" x2="930" y2="1464" stroke="#065F46" stroke-width="1.5" marker-end="url(#ag)"/>
+  <text x="935" y="1468" font-size="8" fill="#475569">Metrics rollup</text>
+  <line x1="1010" y1="1464" x2="1040" y2="1464" stroke="#0369A1" stroke-width="1.5" marker-end="url(#ac)"/>
+  <text x="1045" y="1468" font-size="8" fill="#475569">Query API</text>
+  <line x1="1100" y1="1464" x2="1130" y2="1464" stroke="#92400E" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#ay)"/>
+  <text x="1135" y="1468" font-size="8" fill="#475569">Config reference</text>
+  <line x1="1210" y1="1464" x2="1240" y2="1464" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2" marker-end="url(#ad)"/>
+  <text x="1245" y="1468" font-size="8" fill="#475569">Dashed = FK / soft reference</text>
+
+</svg>
+</body>
+</html>
