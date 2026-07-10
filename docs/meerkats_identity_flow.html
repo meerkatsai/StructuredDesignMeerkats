@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meerkats — Identity & Attribution Flow</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #FFFFFF; color: #0F172A; padding: 28px 32px; min-width: 1500px; }
+h2 { font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<h2>Meerkats.ai &mdash; Identity &amp; Attribution Data Flow</h2>
+<svg viewBox="0 0 1600 780" xmlns="http://www.w3.org/2000/svg"
+     font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+     style="width:100%;display:block;">
+  <defs>
+    <marker id="ha" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#0F172A"/></marker>
+    <marker id="hb" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#0369A1"/></marker>
+    <marker id="hp" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#6D28D9"/></marker>
+    <marker id="hg" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#15803D"/></marker>
+    <marker id="ho" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#C2410C"/></marker>
+    <marker id="hr" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#DC2626"/></marker>
+    <marker id="hd" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#94A3B8"/></marker>
+  </defs>
+
+  <!-- ══════════════════════════════════════════════
+       COLUMN LAYOUT  (6 cols)
+       C0 AD SOURCES:  cx=130   x=10    w=240
+       C1 ANON:        cx=400   x=260   w=240
+       C2 IDENT:       cx=670   x=520   w=240
+       C3 SESSIONS:    cx=940   x=790   w=240
+       C4 ORDERS:      cx=1210  x=1060  w=240
+       C5 ATTRIBUTION: cx=1480  x=1320  w=268
+  ══════════════════════════════════════════════ -->
+
+  <!-- ── COLUMN HEADERS ── -->
+  <rect x="10"   y="10" width="240" height="26" rx="4" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <rect x="260"  y="10" width="240" height="26" rx="4" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <rect x="510"  y="10" width="240" height="26" rx="4" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="790"  y="10" width="240" height="26" rx="4" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1"/>
+  <rect x="1060" y="10" width="240" height="26" rx="4" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1"/>
+  <rect x="1320" y="10" width="268" height="26" rx="4" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1"/>
+
+  <text x="130"  y="27" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing=".08em">AD SOURCES</text>
+  <text x="380"  y="27" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing=".08em">ANONYMOUS VISITOR</text>
+  <text x="630"  y="27" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8" letter-spacing=".08em">IDENTIFIED VISITOR</text>
+  <text x="910"  y="27" text-anchor="middle" font-size="9" font-weight="700" fill="#6D28D9" letter-spacing=".08em">SESSIONS &amp; EVENTS</text>
+  <text x="1180" y="27" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D" letter-spacing=".08em">ORDERS &amp; LIFECYCLE</text>
+  <text x="1454" y="27" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C" letter-spacing=".08em">ATTRIBUTION + METRICS</text>
+
+  <!-- ════════════════════════════════
+       AD SOURCES COLUMN
+  ════════════════════════════════ -->
+
+  <!-- Meta Ads -->
+  <rect x="10" y="50" width="240" height="72" rx="5" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="130" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Meta Ads</text>
+  <line x1="28" y1="74" x2="232" y2="74" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="130" y="87" text-anchor="middle" font-size="9" fill="#475569">campaign_id · ad_set_id · ad_id</text>
+  <text x="130" y="100" text-anchor="middle" font-size="9" fill="#475569">fbclid appended to click URL</text>
+  <text x="130" y="113" text-anchor="middle" font-size="9" fill="#475569">utm_source=meta · utm_campaign</text>
+
+  <!-- Google Ads -->
+  <rect x="10" y="136" width="240" height="72" rx="5" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="130" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Google Ads</text>
+  <line x1="28" y1="160" x2="232" y2="160" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="130" y="173" text-anchor="middle" font-size="9" fill="#475569">campaign_id · ad_group_id · keyword</text>
+  <text x="130" y="186" text-anchor="middle" font-size="9" fill="#475569">gclid appended to click URL</text>
+  <text x="130" y="199" text-anchor="middle" font-size="9" fill="#475569">utm_source=google · utm_campaign</text>
+
+  <!-- WhatsApp / Other -->
+  <rect x="10" y="222" width="240" height="58" rx="5" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="130" y="240" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">WhatsApp / Other</text>
+  <line x1="28" y1="246" x2="232" y2="246" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="130" y="259" text-anchor="middle" font-size="9" fill="#475569">Interakt webhook · inbound lead</text>
+  <text x="130" y="272" text-anchor="middle" font-size="9" fill="#475569">No click ID — UTM or dark traffic</text>
+
+  <!-- Ad Spend table (feeds daily_metrics) -->
+  <rect x="10" y="294" width="240" height="58" rx="5" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <text x="130" y="312" text-anchor="middle" font-size="10" font-weight="700" fill="#C2410C">ad_platform_spend</text>
+  <line x1="28" y1="318" x2="232" y2="318" stroke="#FED7AA" stroke-width="1"/>
+  <text x="130" y="331" text-anchor="middle" font-size="9" fill="#475569">date · campaign_id · impressions</text>
+  <text x="130" y="344" text-anchor="middle" font-size="9" fill="#475569">clicks · spend · platform_conversions</text>
+
+  <!-- Step badges C0→C1 -->
+  <circle cx="253" cy="86" r="9" fill="#0F172A"/>
+  <text x="253" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="white">1</text>
+  <circle cx="253" cy="172" r="9" fill="#0F172A"/>
+  <text x="253" y="176" text-anchor="middle" font-size="9" font-weight="700" fill="white">1</text>
+
+  <!-- Arrows ad → anon -->
+  <path d="M 250,86 Q 260,86 260,86" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ha)"/>
+  <path d="M 250,172 Q 260,172 260,172" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ha)"/>
+  <!-- WA arrow (goes further right to ident) -->
+  <path d="M 250,251 Q 630,251 630,251" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="4 3" fill="none" marker-end="url(#hd)"/>
+  <text x="440" y="245" text-anchor="middle" font-size="8" fill="#94A3B8">no click ID — direct to lead_created</text>
+
+  <!-- ════════════════════════════════
+       ANONYMOUS VISITOR COLUMN
+  ════════════════════════════════ -->
+
+  <!-- anonymous_visitor -->
+  <rect x="260" y="50" width="240" height="86" rx="5" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="380" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">anonymous_visitor</text>
+  <line x1="278" y1="74" x2="482" y2="74" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="380" y="87" text-anchor="middle" font-size="9" fill="#475569">posthog_distinct_id (UUID)</text>
+  <text x="380" y="100" text-anchor="middle" font-size="9" fill="#475569">first_seen_ts · last_seen_ts</text>
+  <text x="380" y="113" text-anchor="middle" font-size="9" fill="#475569">device · browser · country</text>
+  <text x="380" y="126" text-anchor="middle" font-size="9" font-weight="600" fill="#0F172A">mk_cid minted by Link Service</text>
+
+  <!-- click_ids -->
+  <rect x="260" y="150" width="240" height="72" rx="5" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <text x="380" y="168" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">click_ids</text>
+  <line x1="278" y1="174" x2="482" y2="174" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="380" y="187" text-anchor="middle" font-size="9" fill="#475569">mk_cid · platform_click_id</text>
+  <text x="380" y="200" text-anchor="middle" font-size="9" fill="#475569">platform (meta / google)</text>
+  <text x="380" y="213" text-anchor="middle" font-size="9" fill="#475569">utm_source · utm_medium · utm_campaign</text>
+
+  <line x1="380" y1="136" x2="380" y2="149" stroke="#475569" stroke-width="1.2" marker-end="url(#ha)"/>
+
+  <!-- Link Service callout -->
+  <rect x="260" y="236" width="240" height="44" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="380" y="252" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">Link Service</text>
+  <text x="380" y="265" text-anchor="middle" font-size="9" fill="#475569">Mints mk_cid · stores gclid/fbclid</text>
+  <text x="380" y="278" text-anchor="middle" font-size="9" fill="#475569">server-side (fixes Safari ITP)</text>
+  <line x1="380" y1="222" x2="380" y2="235" stroke="#475569" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#ha)"/>
+
+  <!-- ════════════════════════════════
+       IDENTIFIED VISITOR COLUMN
+  ════════════════════════════════ -->
+
+  <!-- Step 2 stitch -->
+  <circle cx="503" cy="186" r="9" fill="#0369A1"/>
+  <text x="503" y="190" text-anchor="middle" font-size="9" font-weight="700" fill="white">2</text>
+  <path d="M 500,186 Q 510,186 510,186" stroke="#0369A1" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#hb)"/>
+  <text x="506" y="178" font-size="8" fill="#0369A1">email / phone</text>
+
+  <!-- identified_visitor -->
+  <rect x="510" y="160" width="240" height="86" rx="5" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="1.5"/>
+  <text x="630" y="178" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">identified_visitor</text>
+  <line x1="528" y1="184" x2="732" y2="184" stroke="#DBEAFE" stroke-width="1"/>
+  <text x="630" y="197" text-anchor="middle" font-size="9" fill="#475569">customer_id (Shopify / CRM key)</text>
+  <text x="630" y="210" text-anchor="middle" font-size="9" fill="#475569">email_hash · phone_hash</text>
+  <text x="630" y="223" text-anchor="middle" font-size="9" fill="#475569">first_order_ts · order_count · ltv</text>
+  <text x="630" y="236" text-anchor="middle" font-size="9" fill="#475569">workspace_id</text>
+
+  <!-- identity_edges -->
+  <rect x="510" y="260" width="240" height="72" rx="5" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <text x="630" y="278" text-anchor="middle" font-size="10" font-weight="700" fill="#1D4ED8">identity_edges</text>
+  <line x1="528" y1="284" x2="732" y2="284" stroke="#DBEAFE" stroke-width="1"/>
+  <text x="630" y="297" text-anchor="middle" font-size="9" fill="#475569">anon_id &#x2194; customer_id</text>
+  <text x="630" y="310" text-anchor="middle" font-size="9" fill="#475569">confidence · stitch_method</text>
+  <text x="630" y="323" text-anchor="middle" font-size="9" fill="#475569">stitched_at · source_event</text>
+  <line x1="630" y1="246" x2="630" y2="259" stroke="#1D4ED8" stroke-width="1.2" marker-end="url(#hb)"/>
+
+  <!-- back-link anon → edges -->
+  <path d="M 380,280 Q 380,336 510,336" stroke="#0369A1" stroke-width="1" stroke-dasharray="3 2" fill="none" marker-end="url(#hb)"/>
+  <text x="420" y="348" font-size="8" fill="#0369A1">prior anon events resolve to customer</text>
+
+  <!-- ════════════════════════════════
+       SESSIONS & EVENTS COLUMN
+  ════════════════════════════════ -->
+
+  <!-- Step 3 -->
+  <circle cx="783" cy="100" r="9" fill="#6D28D9"/>
+  <text x="783" y="104" text-anchor="middle" font-size="9" font-weight="700" fill="white">3</text>
+  <!-- anon → sessions -->
+  <path d="M 500,100 Q 783,100 783,100" stroke="#6D28D9" stroke-width="1.5" fill="none" marker-end="url(#hp)"/>
+
+  <!-- sessions -->
+  <rect x="790" y="50" width="240" height="100" rx="5" fill="#FFFFFF" stroke="#6D28D9" stroke-width="1.5"/>
+  <text x="910" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#6D28D9">sessions</text>
+  <line x1="808" y1="74" x2="1012" y2="74" stroke="#EDE9FE" stroke-width="1"/>
+  <text x="910" y="87" text-anchor="middle" font-size="9" fill="#475569">session_id · visitor_id · workspace_id</text>
+  <text x="910" y="100" text-anchor="middle" font-size="9" fill="#475569">entry_url · referrer · device_type</text>
+  <text x="910" y="113" text-anchor="middle" font-size="9" font-weight="600" fill="#0F172A">mk_cid · utm_source · utm_campaign</text>
+  <text x="910" y="126" text-anchor="middle" font-size="9" fill="#475569">utm_medium · utm_content · utm_term</text>
+  <text x="910" y="139" text-anchor="middle" font-size="9" fill="#475569">session_start_ts · session_end_ts</text>
+
+  <!-- events -->
+  <rect x="790" y="164" width="240" height="100" rx="5" fill="#F5F3FF" stroke="#A78BFA" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <text x="910" y="182" text-anchor="middle" font-size="10" font-weight="700" fill="#6D28D9">events</text>
+  <line x1="808" y1="188" x2="1012" y2="188" stroke="#EDE9FE" stroke-width="1"/>
+  <text x="910" y="201" text-anchor="middle" font-size="9" fill="#475569">event_type: page_view · pdp_view</text>
+  <text x="910" y="214" text-anchor="middle" font-size="9" fill="#475569">add_to_cart · checkout_start</text>
+  <text x="910" y="227" text-anchor="middle" font-size="9" fill="#475569">order_placed · revenue_recognised</text>
+  <text x="910" y="240" text-anchor="middle" font-size="9" fill="#475569">rto_confirmed · refund_issued</text>
+  <text x="910" y="253" text-anchor="middle" font-size="9" fill="#475569">event_ts · session_id · canonical_stage</text>
+  <line x1="910" y1="150" x2="910" y2="163" stroke="#6D28D9" stroke-width="1.2" marker-end="url(#hp)"/>
+
+  <!-- workspace_stage_map note -->
+  <rect x="790" y="278" width="240" height="44" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="910" y="295" text-anchor="middle" font-size="9" font-weight="700" fill="#0F172A">workspace_stage_map</text>
+  <text x="910" y="308" text-anchor="middle" font-size="9" fill="#475569">CRM stage label → canonical_stage</text>
+  <text x="910" y="321" text-anchor="middle" font-size="9" fill="#475569">e.g. "Enrolled" → revenue_recognised</text>
+  <line x1="910" y1="264" x2="910" y2="277" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#hd)"/>
+
+  <!-- ════════════════════════════════
+       ORDERS & LIFECYCLE COLUMN
+  ════════════════════════════════ -->
+
+  <!-- Step 4 -->
+  <circle cx="1053" cy="216" r="9" fill="#15803D"/>
+  <text x="1053" y="220" text-anchor="middle" font-size="9" font-weight="700" fill="white">4</text>
+  <!-- order_placed event → orders -->
+  <path d="M 1030,216 Q 1060,216 1060,216" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#hg)"/>
+  <text x="990" y="210" font-size="8" fill="#15803D">order_placed</text>
+
+  <!-- orders -->
+  <rect x="1060" y="50" width="240" height="114" rx="5" fill="#FFFFFF" stroke="#15803D" stroke-width="1.5"/>
+  <text x="1180" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">orders</text>
+  <line x1="1078" y1="74" x2="1282" y2="74" stroke="#DCFCE7" stroke-width="1"/>
+  <text x="1180" y="87" text-anchor="middle" font-size="9" fill="#475569">order_id · customer_id · workspace_id</text>
+  <text x="1180" y="100" text-anchor="middle" font-size="9" fill="#475569">gmv · net_revenue · currency</text>
+  <text x="1180" y="113" text-anchor="middle" font-size="9" fill="#475569">payment_method · cod_flag</text>
+  <text x="1180" y="126" text-anchor="middle" font-size="9" font-weight="600" fill="#0F172A">mk_cid (from checkout session)</text>
+  <text x="1180" y="139" text-anchor="middle" font-size="9" fill="#475569">order_placed_ts · fulfilled_ts</text>
+  <text x="1180" y="152" text-anchor="middle" font-size="9" fill="#DC2626">rto_restated_at · restatement_delta</text>
+
+  <!-- order_lifecycle -->
+  <rect x="1060" y="178" width="240" height="86" rx="5" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <text x="1180" y="196" text-anchor="middle" font-size="10" font-weight="700" fill="#15803D">order_lifecycle</text>
+  <line x1="1078" y1="202" x2="1282" y2="202" stroke="#DCFCE7" stroke-width="1"/>
+  <text x="1180" y="215" text-anchor="middle" font-size="9" fill="#475569">status: created → confirmed</text>
+  <text x="1180" y="228" text-anchor="middle" font-size="9" fill="#475569">→ fulfilled → RTO / refund</text>
+  <text x="1180" y="241" text-anchor="middle" font-size="9" fill="#475569">status_ts · previous_status</text>
+  <text x="1180" y="254" text-anchor="middle" font-size="9" fill="#DC2626">COD: optimistic → restate on RTO</text>
+  <line x1="1180" y1="164" x2="1180" y2="177" stroke="#15803D" stroke-width="1.2" marker-end="url(#hg)"/>
+
+  <!-- ════════════════════════════════
+       ATTRIBUTION + METRICS COLUMN
+  ════════════════════════════════ -->
+
+  <!-- Step 5 -->
+  <circle cx="1313" cy="150" r="9" fill="#C2410C"/>
+  <text x="1313" y="154" text-anchor="middle" font-size="9" font-weight="700" fill="white">5</text>
+  <!-- sessions → attr -->
+  <path d="M 1030,100 Q 1313,100 1313,141" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ho)"/>
+  <!-- orders → attr -->
+  <path d="M 1300,107 Q 1313,107 1313,141" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ho)"/>
+  <!-- click_ids → attr (long dashed) -->
+  <path d="M 500,186 Q 500,380 910,380 Q 1313,380 1313,320" stroke="#C2410C" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#ho)"/>
+  <text x="870" y="395" text-anchor="middle" font-size="8" fill="#C2410C">mk_cid from click_ids joins to order.mk_cid</text>
+
+  <!-- attributions -->
+  <rect x="1320" y="50" width="268" height="184" rx="5" fill="#FFFFFF" stroke="#C2410C" stroke-width="2"/>
+  <text x="1454" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#C2410C">attributions</text>
+  <line x1="1338" y1="74" x2="1570" y2="74" stroke="#FED7AA" stroke-width="1"/>
+  <text x="1454" y="87" text-anchor="middle" font-size="9" fill="#475569">attribution_id · order_id · session_id</text>
+  <text x="1454" y="100" text-anchor="middle" font-size="9" fill="#475569">customer_id · workspace_id</text>
+
+  <!-- Path A -->
+  <rect x="1334" y="106" width="240" height="34" rx="3" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1"/>
+  <text x="1454" y="120" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">Path A — click_id match · confidence 1.0</text>
+  <text x="1454" y="133" text-anchor="middle" font-size="9" fill="#475569">order.mk_cid = click_ids.mk_cid → exact ad click resolved</text>
+
+  <!-- Path B -->
+  <rect x="1334" y="144" width="240" height="34" rx="3" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1"/>
+  <text x="1454" y="158" text-anchor="middle" font-size="9" font-weight="700" fill="#92400E">Path B — UTM match · confidence 0.7</text>
+  <text x="1454" y="171" text-anchor="middle" font-size="9" fill="#475569">session.utm_campaign → campaign-level credit</text>
+
+  <!-- Path C -->
+  <rect x="1334" y="182" width="240" height="34" rx="3" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
+  <text x="1454" y="196" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">Path C — unmatched · confidence 0.0</text>
+  <text x="1454" y="209" text-anchor="middle" font-size="9" fill="#475569">No click signal · direct / dark traffic</text>
+
+  <text x="1454" y="228" text-anchor="middle" font-size="9" fill="#475569">platform_roas vs corrected_roas delta visible here</text>
+
+  <!-- Step 6 -->
+  <circle cx="1313" cy="260" r="9" fill="#C2410C"/>
+  <text x="1313" y="264" text-anchor="middle" font-size="9" font-weight="700" fill="white">6</text>
+  <line x1="1454" y1="234" x2="1454" y2="270" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ho)"/>
+
+  <!-- daily_metrics — FULL WIDTH BOTTOM -->
+  <rect x="10" y="422" width="1578" height="80" rx="5" fill="#FFFFFF" stroke="#C2410C" stroke-width="2"/>
+  <text x="800" y="442" text-anchor="middle" font-size="13" font-weight="700" fill="#C2410C">daily_metrics</text>
+  <line x1="28" y1="448" x2="1570" y2="448" stroke="#FED7AA" stroke-width="1"/>
+  <text x="800" y="463" text-anchor="middle" font-size="10" fill="#0F172A">
+    corrected_roas  ·  platform_roas  ·  delta_roas  ·  net_revenue  ·  gmv  ·  ad_spend  ·  cac  ·  rto_rate  ·  attribution_match_rate  ·  ltv_30  ·  ltv_90
+  </text>
+  <text x="800" y="480" text-anchor="middle" font-size="9" fill="#64748B">
+    Dimensions: campaign · ad_set · channel · date · product · customer_cohort · attribution_path (A / B / C) · vertical
+  </text>
+  <text x="800" y="495" text-anchor="middle" font-size="9" fill="#64748B">
+    YAML metric scope gates per vertical: D2C gets rto_rate + gmv · Healthcare gets lead_to_enrol_rate · Real Estate gets deal_value · BFSI gets lead_to_policy_rate
+  </text>
+
+  <!-- Arrows into daily_metrics from lower nodes -->
+  <!-- ad_platform_spend → metrics -->
+  <path d="M 130,352 Q 130,410 800,410 Q 800,421 800,422" stroke="#C2410C" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#ho)"/>
+  <!-- attributions → metrics -->
+  <line x1="1454" y1="280" x2="1454" y2="421" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ho)"/>
+
+  <!-- RTO restatement loop -->
+  <path d="M 1180,264 Q 1180,358 800,358 Q 420,358 420,422" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="6 3" fill="none" marker-end="url(#hr)"/>
+  <text x="800" y="352" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">RTO restatement loop — order_lifecycle.rto_confirmed → revenue_restated → daily_metrics recomputed</text>
+
+  <!-- ════════════════════════════════
+       OPERATOR CONSOLE output
+  ════════════════════════════════ -->
+  <rect x="10" y="516" width="1578" height="52" rx="5" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="800" y="536" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Operator Console / Agent Layer</text>
+  <text x="800" y="552" text-anchor="middle" font-size="9" fill="#475569">YAML QueryBuilder exposes daily_metrics via REST API · ALLOWED_DIMENSIONS whitelist + per-metric dimensions[] gate all queries · propose→approve→execute agent harness</text>
+  <line x1="800" y1="502" x2="800" y2="515" stroke="#475569" stroke-width="1.2" marker-end="url(#ha)"/>
+
+  <!-- ════════════════════════════════
+       STEP LEGEND
+  ════════════════════════════════ -->
+  <rect x="10" y="582" width="1578" height="186" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="30" y="600" font-size="10" font-weight="700" fill="#0F172A" letter-spacing=".06em">STEP-BY-STEP WALKTHROUGH</text>
+  <line x1="30" y1="606" x2="1570" y2="606" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- step rows -->
+  <circle cx="30" cy="622" r="8" fill="#0F172A"/><text x="30" y="626" text-anchor="middle" font-size="8" font-weight="700" fill="white">1</text>
+  <text x="46" y="626" font-size="10" fill="#0F172A"><tspan font-weight="700">Ad click</tspan> hits Meerkats Link Service before redirect. Server mints <tspan font-weight="600">mk_cid</tspan>, stores gclid/fbclid server-side. Fixes Safari ITP (no 7-day cookie expiry). anonymous_visitor row created. click_ids row written with platform + UTM.</text>
+
+  <circle cx="30" cy="642" r="8" fill="#0369A1"/><text x="30" y="646" text-anchor="middle" font-size="8" font-weight="700" fill="white">2</text>
+  <text x="46" y="646" font-size="10" fill="#0F172A"><tspan font-weight="700">Identity stitch</tspan>: email/phone captured at checkout or form. identity_edge written linking anon_id ↔ customer_id with confidence + stitch_method. All prior anonymous events now resolve to this customer via the edge.</text>
+
+  <circle cx="30" cy="662" r="8" fill="#6D28D9"/><text x="30" y="666" text-anchor="middle" font-size="8" font-weight="700" fill="white">3</text>
+  <text x="46" y="666" font-size="10" fill="#0F172A"><tspan font-weight="700">Session bucketing</tspan>: every PostHog event (page_view, ATC, checkout_start) is bucketed into a session carrying mk_cid + full UTM context. workspace_stage_map normalises CRM stage labels to canonical_stage — processor code unchanged across verticals.</text>
+
+  <circle cx="30" cy="682" r="8" fill="#15803D"/><text x="30" y="686" text-anchor="middle" font-size="8" font-weight="700" fill="white">4</text>
+  <text x="46" y="686" font-size="10" fill="#0F172A"><tspan font-weight="700">Order + restatement</tspan>: order_placed event writes to orders with mk_cid from the checkout session. COD = optimistic revenue. rto_confirmed fires restatement — order_lifecycle state machine records created → fulfilled → RTO + restatement_delta.</text>
+
+  <circle cx="30" cy="702" r="8" fill="#C2410C"/><text x="30" y="706" text-anchor="middle" font-size="8" font-weight="700" fill="white">5</text>
+  <text x="46" y="706" font-size="10" fill="#0F172A"><tspan font-weight="700">Attribution join</tspan>: attributions table joins order → session → click_ids. Three paths: <tspan fill="#15803D" font-weight="600">click_id match (1.0)</tspan> · <tspan fill="#92400E" font-weight="600">UTM match (0.7)</tspan> · <tspan fill="#DC2626" font-weight="600">unmatched (0.0)</tspan>. Meta/Google self-report paths B+C as attributed; Meerkats assigns path A where available, exposing delta.</text>
+
+  <circle cx="30" cy="722" r="8" fill="#C2410C"/><text x="30" y="726" text-anchor="middle" font-size="8" font-weight="700" fill="white">6</text>
+  <text x="46" y="726" font-size="10" fill="#0F172A"><tspan font-weight="700">Nightly rollup</tspan>: daily_metrics aggregates attribution → corrected_roas = net_revenue (post-RTO) ÷ ad_spend per campaign per day. YAML metric scope gates which metrics each vertical workspace can query. Agent layer reads via REST with propose→approve→execute gate.</text>
+
+  <!-- key insight -->
+  <rect x="10" y="742" width="1578" height="22" rx="3" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1"/>
+  <text x="800" y="757" text-anchor="middle" font-size="10" fill="#0F172A">
+    <tspan font-weight="700" fill="#C2410C">Key insight: </tspan>
+    identity_edges connect the anonymous ad click to the restated revenue. Without them, COD orders with dead cookies (Safari ITP) show 0 conversions in Meta/Google. Meerkats resolves via email hash → walks back to mk_cid → assigns correct campaign credit.
+    <tspan fill="#475569">  |  Purity Prayag: platform 0.60× → corrected 0.81×. Mango campaign 2.31× nearly cut.</tspan>
+  </text>
+
+</svg>
+</body>
+</html>
