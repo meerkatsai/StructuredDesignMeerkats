@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meerkats — Level 1 DFD</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #0F172A;
+  padding: 36px 40px;
+  min-width: 2000px;
+}
+h2 { font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px; }
+p.sub { font-size: 10px; color: #94A3B8; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<h2>Meerkats.ai — Level 1 DFD</h2>
+<p class="sub">The platform decomposed into 7 major processes. External entities inherited from Level 0. Data stores shown as open-ended rectangles (DFD convention).</p>
+
+<svg viewBox="0 0 2400 1340" xmlns="http://www.w3.org/2000/svg"
+     font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+     style="width:100%;display:block;">
+  <defs>
+    <marker id="ak"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#0F172A"/></marker>
+    <marker id="ab"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#1D4ED8"/></marker>
+    <marker id="ag"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#15803D"/></marker>
+    <marker id="ao"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#C2410C"/></marker>
+    <marker id="ar"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#DC2626"/></marker>
+    <marker id="ap"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#7C3AED"/></marker>
+    <marker id="ac"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#0369A1"/></marker>
+    <marker id="ay"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#92400E"/></marker>
+    <marker id="asl" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#64748B"/></marker>
+  </defs>
+
+  <!-- =====================================================================
+       LAYOUT PLAN
+       
+       External entities: top + bottom + sides
+       7 Processes (circles), arranged in flow order left→right, top→bottom:
+         P1 Click Capture & Ingestion   cx=340  cy=220
+         P2 Identity Resolution         cx=780  cy=220
+         P3 Session & Event Processing  cx=1220 cy=220
+         P4 Order & Commerce Ingestion  cx=1660 cy=220
+         P5 Attribution Engine          cx=1220 cy=620
+         P6 Metrics & Anomaly Engine    cx=780  cy=1020
+         P7 Query API & Agent Gate      cx=1220 cy=1020
+
+       Data stores (open rectangles) run horizontally between processes
+         DS1 click_ids                  y=420
+         DS2 anonymous_visitors         y=420  (right of DS1)
+         DS3 identity_edges / customers y=420
+         DS4 sessions / events          y=620
+         DS5 orders / lifecycle         y=620
+         DS6 ad_platform_spend          y=420
+         DS7 daily_metrics / anomalies  y=820
+         DS8 workspace_config (config)  y=820
+  ====================================================================== -->
+
+  <!-- ─────────────────────────────────
+       EXTERNAL ENTITIES (top row)
+  ─────────────────────────────────── -->
+
+  <!-- Meta Ads -->
+  <rect x="60"   y="30" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="137"  y="52"  text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Meta Ads</text>
+  <text x="137"  y="66"  text-anchor="middle" font-size="8"  fill="#64748B">fbclid · spend · campaigns</text>
+  <text x="137"  y="78"  text-anchor="middle" font-size="8"  fill="#64748B">creatives · audiences</text>
+
+  <!-- Google Ads -->
+  <rect x="250"  y="30" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="327"  y="52"  text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Google Ads</text>
+  <text x="327"  y="66"  text-anchor="middle" font-size="8"  fill="#64748B">gclid · spend · campaigns</text>
+  <text x="327"  y="78"  text-anchor="middle" font-size="8"  fill="#64748B">keywords · search terms</text>
+
+  <!-- PostHog -->
+  <rect x="680"  y="30" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="757"  y="52"  text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">PostHog</text>
+  <text x="757"  y="66"  text-anchor="middle" font-size="8"  fill="#64748B">JS SDK events · sessions</text>
+  <text x="757"  y="78"  text-anchor="middle" font-size="8"  fill="#64748B">via e.meerkats.ai proxy</text>
+
+  <!-- WhatsApp / CRM -->
+  <rect x="1100" y="30" width="170" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="1185" y="50"  text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">WhatsApp / CRM</text>
+  <text x="1185" y="64"  text-anchor="middle" font-size="8"  fill="#64748B">Interakt · Zoho · Salesforce</text>
+  <text x="1185" y="78"  text-anchor="middle" font-size="8"  fill="#64748B">lead events · stage webhooks</text>
+
+  <!-- Shopify -->
+  <rect x="1540" y="30" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="1617" y="52"  text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Shopify</text>
+  <text x="1617" y="66"  text-anchor="middle" font-size="8"  fill="#64748B">order webhooks · customers</text>
+  <text x="1617" y="78"  text-anchor="middle" font-size="8"  fill="#64748B">products · GraphQL Bulk</text>
+
+  <!-- Logistics -->
+  <rect x="1900" y="30" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="1977" y="52"  text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Logistics</text>
+  <text x="1977" y="66"  text-anchor="middle" font-size="8"  fill="#64748B">Delhivery · Shiprocket</text>
+  <text x="1977" y="78"  text-anchor="middle" font-size="8"  fill="#64748B">delivery status · RTO event</text>
+
+  <!-- ─────────────────────────────────
+       EXTERNAL ENTITIES (bottom row)
+  ─────────────────────────────────── -->
+
+  <!-- Operator / Analyst -->
+  <rect x="60"   y="1250" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="137"  y="1272" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Operator</text>
+  <text x="137"  y="1286" text-anchor="middle" font-size="8"  fill="#64748B">Brand team · Growth PM</text>
+  <text x="137"  y="1298" text-anchor="middle" font-size="8"  fill="#64748B">Console · API consumer</text>
+
+  <!-- AI Agent -->
+  <rect x="600"  y="1250" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="677"  y="1272" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">AI Agent Layer</text>
+  <text x="677"  y="1286" text-anchor="middle" font-size="8"  fill="#64748B">LangGraph · 187 tools</text>
+  <text x="677"  y="1298" text-anchor="middle" font-size="8"  fill="#64748B">multi-provider LLM routing</text>
+
+  <!-- Ad Platforms feedback -->
+  <rect x="1100" y="1250" width="170" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="1185" y="1272" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Ad Platforms</text>
+  <text x="1185" y="1286" text-anchor="middle" font-size="8"  fill="#64748B">Meta CAPI · Google EC</text>
+  <text x="1185" y="1298" text-anchor="middle" font-size="8"  fill="#64748B">corrected conversion upload</text>
+
+  <!-- ─────────────────────────────────
+       EXTERNAL ENTITIES (left/right sides)
+  ─────────────────────────────────── -->
+
+  <!-- End Customer -->
+  <rect x="2160" y="380" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="2237" y="402" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">End Customer</text>
+  <text x="2237" y="416" text-anchor="middle" font-size="8"  fill="#64748B">browses · orders · RTO</text>
+  <text x="2237" y="430" text-anchor="middle" font-size="8"  fill="#64748B">checkout email/phone</text>
+
+  <!-- Operator Console (output surface) -->
+  <rect x="2160" y="780" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="2237" y="800" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Operator Console</text>
+  <text x="2237" y="814" text-anchor="middle" font-size="8"  fill="#64748B">Next.js · Recharts</text>
+  <text x="2237" y="828" text-anchor="middle" font-size="8"  fill="#64748B">TanStack Query</text>
+
+  <!-- Alerts -->
+  <rect x="2160" y="980" width="155" height="56" fill="#fff" stroke="#0F172A" stroke-width="2"/>
+  <text x="2237" y="1002" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Alerts</text>
+  <text x="2237" y="1016" text-anchor="middle" font-size="8"  fill="#64748B">Slack · Email · Webhook</text>
+  <text x="2237" y="1030" text-anchor="middle" font-size="8"  fill="#64748B">anomaly notifications</text>
+
+  <!-- =====================================================================
+       PROCESSES (circles with number + name)
+  ====================================================================== -->
+
+  <!-- P1 — Click Capture & Ad Ingestion -->
+  <circle cx="340" cy="240" r="90" fill="#FFF7ED" stroke="#C2410C" stroke-width="2"/>
+  <text x="340" y="224" text-anchor="middle" font-size="9" font-weight="700" fill="#94A3B8">P1</text>
+  <text x="340" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#C2410C">Click Capture</text>
+  <text x="340" y="252" text-anchor="middle" font-size="10" fill="#C2410C">&amp; Ad Ingestion</text>
+  <text x="340" y="268" text-anchor="middle" font-size="8"  fill="#475569">Mints mk_cid · stores</text>
+  <text x="340" y="280" text-anchor="middle" font-size="8"  fill="#475569">gclid/fbclid server-side</text>
+  <text x="340" y="292" text-anchor="middle" font-size="8"  fill="#475569">Pulls campaign spend API</text>
+
+  <!-- P2 — Identity Resolution -->
+  <circle cx="840" cy="240" r="90" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="840" y="224" text-anchor="middle" font-size="9" font-weight="700" fill="#94A3B8">P2</text>
+  <text x="840" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">Identity</text>
+  <text x="840" y="252" text-anchor="middle" font-size="10" fill="#1D4ED8">Resolution</text>
+  <text x="840" y="268" text-anchor="middle" font-size="8"  fill="#475569">anon_id ↔ customer_id</text>
+  <text x="840" y="280" text-anchor="middle" font-size="8"  fill="#475569">email/phone stitch</text>
+  <text x="840" y="292" text-anchor="middle" font-size="8"  fill="#475569">confidence scoring</text>
+
+  <!-- P3 — Session & Event Processing -->
+  <circle cx="1340" cy="240" r="90" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1340" y="224" text-anchor="middle" font-size="9" font-weight="700" fill="#94A3B8">P3</text>
+  <text x="1340" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">Session &amp; Event</text>
+  <text x="1340" y="252" text-anchor="middle" font-size="10" fill="#7C3AED">Processing</text>
+  <text x="1340" y="268" text-anchor="middle" font-size="8"  fill="#475569">Bucket events → sessions</text>
+  <text x="1340" y="280" text-anchor="middle" font-size="8"  fill="#475569">canonical_stage mapping</text>
+  <text x="1340" y="292" text-anchor="middle" font-size="8"  fill="#475569">mk_cid propagation</text>
+
+  <!-- P4 — Order & Commerce Ingestion -->
+  <circle cx="1880" cy="240" r="90" fill="#F0FDF4" stroke="#15803D" stroke-width="2"/>
+  <text x="1880" y="224" text-anchor="middle" font-size="9" font-weight="700" fill="#94A3B8">P4</text>
+  <text x="1880" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">Order &amp; Commerce</text>
+  <text x="1880" y="252" text-anchor="middle" font-size="10" fill="#15803D">Ingestion</text>
+  <text x="1880" y="268" text-anchor="middle" font-size="8"  fill="#475569">Webhook → orders table</text>
+  <text x="1880" y="280" text-anchor="middle" font-size="8"  fill="#475569">COD optimistic revenue</text>
+  <text x="1880" y="292" text-anchor="middle" font-size="8"  fill="#475569">RTO restatement trigger</text>
+
+  <!-- P5 — Attribution Engine -->
+  <circle cx="1340" cy="680" r="90" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+  <text x="1340" y="664" text-anchor="middle" font-size="9" font-weight="700" fill="#94A3B8">P5</text>
+  <text x="1340" y="678" text-anchor="middle" font-size="11" font-weight="700" fill="#DC2626">Attribution</text>
+  <text x="1340" y="692" text-anchor="middle" font-size="10" fill="#DC2626">Engine</text>
+  <text x="1340" y="708" text-anchor="middle" font-size="8"  fill="#475569">order × session × click_id</text>
+  <text x="1340" y="720" text-anchor="middle" font-size="8"  fill="#475569">3-path confidence scoring</text>
+  <text x="1340" y="732" text-anchor="middle" font-size="8"  fill="#475569">RTO restatement loop</text>
+
+  <!-- P6 — Metrics & Anomaly Engine -->
+  <circle cx="700"  cy="1080" r="90" fill="#ECFDF5" stroke="#065F46" stroke-width="2"/>
+  <text x="700"  y="1064" text-anchor="middle" font-size="9" font-weight="700" fill="#94A3B8">P6</text>
+  <text x="700"  y="1078" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">Metrics &amp; Anomaly</text>
+  <text x="700"  y="1092" text-anchor="middle" font-size="10" fill="#065F46">Engine</text>
+  <text x="700"  y="1108" text-anchor="middle" font-size="8"  fill="#475569">Nightly rollup to daily_metrics</text>
+  <text x="700"  y="1120" text-anchor="middle" font-size="8"  fill="#475569">corrected_roas computation</text>
+  <text x="700"  y="1132" text-anchor="middle" font-size="8"  fill="#475569">z-score anomaly detection</text>
+
+  <!-- P7 — Query API & Agent Gate -->
+  <circle cx="1340" cy="1080" r="90" fill="#F0F9FF" stroke="#0369A1" stroke-width="2"/>
+  <text x="1340" y="1064" text-anchor="middle" font-size="9" font-weight="700" fill="#94A3B8">P7</text>
+  <text x="1340" y="1078" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">Query API</text>
+  <text x="1340" y="1092" text-anchor="middle" font-size="10" fill="#0369A1">&amp; Agent Gate</text>
+  <text x="1340" y="1108" text-anchor="middle" font-size="8"  fill="#475569">YAML MetricRegistry</text>
+  <text x="1340" y="1120" text-anchor="middle" font-size="8"  fill="#475569">QueryBuilder SQL assembly</text>
+  <text x="1340" y="1132" text-anchor="middle" font-size="8"  fill="#475569">propose→approve→execute</text>
+
+  <!-- =====================================================================
+       DATA STORES (open-ended rectangle: left + top + bottom, open right)
+       Convention: two horizontal lines with label
+  ====================================================================== -->
+
+  <!-- DS1 — click_ids -->
+  <line x1="120" y1="430" x2="120" y2="470" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="120" y1="430" x2="560" y2="430" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="120" y1="470" x2="560" y2="470" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="120" y="430" width="38" height="40" fill="#FFF7ED"/>
+  <text x="139" y="455" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">D1</text>
+  <text x="360" y="447" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">click_ids</text>
+  <text x="360" y="461" text-anchor="middle" font-size="8" fill="#475569">mk_cid · platform_click_id · utm_* · landing_url</text>
+
+  <!-- DS2 — anonymous_visitors -->
+  <line x1="120" y1="490" x2="120" y2="530" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="120" y1="490" x2="560" y2="490" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="120" y1="530" x2="560" y2="530" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="120" y="490" width="38" height="40" fill="#EFF6FF"/>
+  <text x="139" y="515" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">D2</text>
+  <text x="360" y="507" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">anonymous_visitors</text>
+  <text x="360" y="521" text-anchor="middle" font-size="8" fill="#475569">anon_id · mk_cid · device · first_seen_ts · resolved</text>
+
+  <!-- DS3 — customers + identity_edges -->
+  <line x1="120" y1="550" x2="120" y2="590" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="120" y1="550" x2="560" y2="550" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="120" y1="590" x2="560" y2="590" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="120" y="550" width="38" height="40" fill="#F5F3FF"/>
+  <text x="139" y="575" text-anchor="middle" font-size="9" font-weight="700" fill="#7C3AED">D3</text>
+  <text x="360" y="567" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">customers · identity_edges</text>
+  <text x="360" y="581" text-anchor="middle" font-size="8" fill="#475569">customer_id · email_hash · anon_id ↔ customer_id · confidence · stitch_method</text>
+
+  <!-- DS4 — sessions + events -->
+  <line x1="620" y1="430" x2="620" y2="470" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="620" y1="430" x2="1120" y2="430" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="620" y1="470" x2="1120" y2="470" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="620" y="430" width="38" height="40" fill="#F5F3FF"/>
+  <text x="639" y="455" text-anchor="middle" font-size="9" font-weight="700" fill="#7C3AED">D4</text>
+  <text x="870" y="447" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">sessions · events · page_views</text>
+  <text x="870" y="461" text-anchor="middle" font-size="8" fill="#475569">session_id · mk_cid · utm_* · canonical_stage · event_ts</text>
+
+  <!-- DS5 — orders + order_lifecycle + order_items -->
+  <line x1="1160" y1="430" x2="1160" y2="470" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="1160" y1="430" x2="1700" y2="430" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="1160" y1="470" x2="1700" y2="470" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="1160" y="430" width="38" height="40" fill="#F0FDF4"/>
+  <text x="1179" y="455" text-anchor="middle" font-size="9" font-weight="700" fill="#15803D">D5</text>
+  <text x="1430" y="447" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">orders · order_lifecycle · order_items</text>
+  <text x="1430" y="461" text-anchor="middle" font-size="8" fill="#475569">order_id · mk_cid · gmv · cod_flag · rto_restated_at · status machine</text>
+
+  <!-- DS6 — ad_platform_spend + campaigns -->
+  <line x1="1740" y1="430" x2="1740" y2="470" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="1740" y1="430" x2="2140" y2="430" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="1740" y1="470" x2="2140" y2="470" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="1740" y="430" width="38" height="40" fill="#FFF7ED"/>
+  <text x="1759" y="455" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">D6</text>
+  <text x="1940" y="447" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">ad_platform_spend · ad_platform_campaigns</text>
+  <text x="1940" y="461" text-anchor="middle" font-size="8" fill="#475569">date · campaign_id · impressions · clicks · spend · platform_conversions</text>
+
+  <!-- DS7 — attributions -->
+  <line x1="820" y1="830" x2="820" y2="870" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="820" y1="830" x2="1300" y2="830" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="820" y1="870" x2="1300" y2="870" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="820" y="830" width="38" height="40" fill="#FEF2F2"/>
+  <text x="839" y="855" text-anchor="middle" font-size="9" font-weight="700" fill="#DC2626">D7</text>
+  <text x="1060" y="847" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">attributions</text>
+  <text x="1060" y="861" text-anchor="middle" font-size="8" fill="#475569">order_id · session_id · click_id · path · confidence · attributed_revenue</text>
+
+  <!-- DS8 — daily_metrics + anomalies -->
+  <line x1="340" y1="880" x2="340" y2="920" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="340" y1="880" x2="840" y2="880" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="340" y1="920" x2="840" y2="920" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="340" y="880" width="38" height="40" fill="#ECFDF5"/>
+  <text x="359" y="905" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">D8</text>
+  <text x="590" y="897" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">daily_metrics · anomalies</text>
+  <text x="590" y="911" text-anchor="middle" font-size="8" fill="#475569">corrected_roas · platform_roas · delta · net_revenue · cac · rto_rate · z_score</text>
+
+  <!-- DS9 — workspace_config + stage_map -->
+  <line x1="340" y1="940" x2="340" y2="980" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="340" y1="940" x2="840" y2="940" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="340" y1="980" x2="840" y2="980" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="340" y="940" width="38" height="40" fill="#FFF7ED"/>
+  <text x="359" y="965" text-anchor="middle" font-size="9" font-weight="700" fill="#92400E">D9</text>
+  <text x="590" y="957" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">workspace_config · workspace_stage_map</text>
+  <text x="590" y="971" text-anchor="middle" font-size="8" fill="#475569">attribution_window · revenue_mode · event_map · crm_stage → canonical_stage</text>
+
+  <!-- DS10 — metric_definitions (YAML) -->
+  <line x1="860" y1="880" x2="860" y2="920" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="860" y1="880" x2="1300" y2="880" stroke="#0F172A" stroke-width="1.5"/>
+  <line x1="860" y1="920" x2="1300" y2="920" stroke="#0F172A" stroke-width="1.5"/>
+  <rect x="860" y="880" width="38" height="40" fill="#F0F9FF"/>
+  <text x="879" y="905" text-anchor="middle" font-size="9" font-weight="700" fill="#0369A1">D10</text>
+  <text x="1080" y="897" text-anchor="middle" font-size="10" font-weight="700" fill="#0F172A">metric_definitions (YAML) · query_log</text>
+  <text x="1080" y="911" text-anchor="middle" font-size="8" fill="#475569">name · formula · dimensions[] · verticals[] · filters{} · tags[]</text>
+
+  <!-- =====================================================================
+       FLOWS — External → P1
+  ====================================================================== -->
+
+  <!-- Meta → P1 -->
+  <path d="M 137,86 Q 137,160 265,210" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="100" y="145" font-size="8" fill="#1D4ED8" font-weight="600">fbclid + spend</text>
+
+  <!-- Google → P1 -->
+  <path d="M 327,86 Q 327,160 360,150" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="300" y="125" font-size="8" fill="#1D4ED8" font-weight="600">gclid + spend</text>
+
+  <!-- P1 → DS1 click_ids (write) -->
+  <path d="M 340,330 Q 340,450 200,450" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="268" y="400" font-size="8" fill="#C2410C" font-weight="600">mk_cid record</text>
+
+  <!-- P1 → DS2 anonymous_visitors (write) -->
+  <path d="M 370,330 Q 370,510 200,510" stroke="#C2410C" stroke-width="1.5" fill="none" marker-end="url(#ao)"/>
+  <text x="268" y="475" font-size="8" fill="#C2410C" font-weight="600">anon visitor row</text>
+
+  <!-- P1 → DS6 ad spend (write) -->
+  <path d="M 430,240 Q 1940,240 1940,430" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="1100" y="228" font-size="8" fill="#1D4ED8" font-weight="600">campaign spend + campaign metadata</text>
+
+  <!-- =====================================================================
+       FLOWS — PostHog / CRM / Shopify / Logistics → P2, P3, P4
+  ====================================================================== -->
+
+  <!-- PostHog → P2 (anon events trigger stitch check) -->
+  <path d="M 757,86 Q 757,160 880,180" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="820" y="130" font-size="8" fill="#475569">anon_id + events</text>
+
+  <!-- PostHog → P3 (primary event stream) -->
+  <path d="M 835,86 Q 1340,86 1340,150" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="1090" y="78" font-size="8" fill="#7C3AED" font-weight="600">raw event stream</text>
+
+  <!-- WhatsApp/CRM → P2 (email/phone for stitch) -->
+  <path d="M 1185,86 Q 1000,140 920,165" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="1050" y="112" font-size="8" fill="#1D4ED8" font-weight="600">email/phone → stitch</text>
+
+  <!-- WhatsApp/CRM → P3 (stage webhooks) -->
+  <path d="M 1185,86 Q 1185,160 1260,155" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="1220" y="120" font-size="8" fill="#7C3AED" font-weight="600">stage webhooks</text>
+
+  <!-- Shopify → P4 (orders + customers) -->
+  <path d="M 1617,86 Q 1880,86 1880,150" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="1730" y="78" font-size="8" fill="#15803D" font-weight="600">orders · customers · fulfilment</text>
+
+  <!-- Logistics → P4 (RTO events) -->
+  <path d="M 1977,86 Q 1977,160 1950,150" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="1990" y="125" font-size="8" fill="#DC2626" font-weight="600">RTO event</text>
+
+  <!-- End Customer → P3 (checkout = email/phone) -->
+  <path d="M 2160,408 Q 1700,350 1430,310" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="1780" y="355" font-size="8" fill="#475569">checkout email/phone</text>
+
+  <!-- End Customer → P4 (order placed) -->
+  <path d="M 2160,408 Q 2100,350 1970,310" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="2080" y="352" font-size="8" fill="#15803D" font-weight="600">order placed</text>
+
+  <!-- =====================================================================
+       FLOWS — P2 Identity Resolution
+  ====================================================================== -->
+
+  <!-- DS1 click_ids → P2 (read mk_cid for stitch) -->
+  <path d="M 560,450 Q 680,450 720,300" stroke="#C2410C" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ao)"/>
+  <text x="618" y="390" font-size="8" fill="#C2410C">mk_cid lookup</text>
+
+  <!-- P2 → DS2 (update resolved flag) -->
+  <path d="M 760,310 Q 680,400 400,490" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="530" y="395" font-size="8" fill="#1D4ED8" font-weight="600">resolved=true · customer_id</text>
+
+  <!-- P2 → DS3 (write identity_edges + customers) -->
+  <path d="M 780,320 Q 700,500 400,565" stroke="#1D4ED8" stroke-width="1.5" fill="none" marker-end="url(#ab)"/>
+  <text x="505" y="475" font-size="8" fill="#1D4ED8" font-weight="600">identity_edge · customer upsert</text>
+
+  <!-- =====================================================================
+       FLOWS — P3 Session & Event Processing
+  ====================================================================== -->
+
+  <!-- DS1 → P3 (read mk_cid for session enrichment) -->
+  <path d="M 560,440 Q 1340,440 1250,330" stroke="#C2410C" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ao)"/>
+  <text x="920" y="435" font-size="8" fill="#C2410C">mk_cid lookup</text>
+
+  <!-- DS3 → P3 (read customer_id for session) -->
+  <path d="M 560,565 Q 840,565 1250,330" stroke="#7C3AED" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ap)"/>
+  <text x="850" y="558" font-size="8" fill="#7C3AED">customer_id lookup</text>
+
+  <!-- DS9 → P3 (read stage_map) -->
+  <path d="M 700,940 Q 1340,940 1340,770" stroke="#92400E" stroke-width="1.2" stroke-dasharray="4 3" fill="none" marker-end="url(#ay)"/>
+  <text x="1000" y="930" font-size="8" fill="#92400E">canonical_stage map</text>
+
+  <!-- P3 → DS4 (write sessions + events) -->
+  <path d="M 1340,330 Q 1340,450 1120,450" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <text x="1255" y="400" font-size="8" fill="#7C3AED" font-weight="600">session + event rows</text>
+
+  <!-- =====================================================================
+       FLOWS — P4 Order & Commerce Ingestion
+  ====================================================================== -->
+
+  <!-- DS5 → P4 (read for dedup check) -->
+  <path d="M 1700,450 Q 1800,450 1800,330" stroke="#15803D" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ag)"/>
+  <text x="1715" y="395" font-size="8" fill="#15803D">dedup check</text>
+
+  <!-- P4 → DS5 (write orders + lifecycle) -->
+  <path d="M 1880,330 Q 1880,440 1700,450" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="1800" y="400" font-size="8" fill="#15803D" font-weight="600">order + lifecycle rows</text>
+
+  <!-- DS4 → P4 (read session for mk_cid on order) -->
+  <path d="M 1120,450 Q 1400,490 1795,330" stroke="#7C3AED" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ap)"/>
+  <text x="1400" y="498" font-size="8" fill="#7C3AED">session mk_cid → order</text>
+
+  <!-- =====================================================================
+       FLOWS — P5 Attribution Engine
+  ====================================================================== -->
+
+  <!-- DS4 sessions → P5 -->
+  <path d="M 870,470 Q 870,680 1250,680" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <text x="870" y="600" font-size="8" fill="#7C3AED" font-weight="600">session context</text>
+
+  <!-- DS5 orders → P5 -->
+  <path d="M 1430,470 Q 1430,590 1430,590" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="1438" y="535" font-size="8" fill="#15803D" font-weight="600">order + revenue</text>
+
+  <!-- DS1 click_ids → P5 (long path) -->
+  <path d="M 340,470 Q 340,680 1250,680" stroke="#C2410C" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ao)"/>
+  <text x="600" y="690" font-size="8" fill="#C2410C">click_id join (Path A)</text>
+
+  <!-- DS9 workspace_config → P5 (attribution window) -->
+  <path d="M 700,940 Q 1200,940 1340,770" stroke="#92400E" stroke-width="1.2" stroke-dasharray="4 3" fill="none" marker-end="url(#ay)"/>
+  <!-- already drawn for P3 above, share label position shifted -->
+
+  <!-- P5 → DS7 attributions (write) -->
+  <path d="M 1280,760 Q 1200,800 1200,830" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="1175" y="800" font-size="8" fill="#DC2626" font-weight="600">attribution rows</text>
+
+  <!-- DS7 → P5 restatement read (RTO loop) -->
+  <path d="M 1300,830 Q 1380,800 1380,770" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ar)"/>
+  <text x="1390" y="800" font-size="8" fill="#DC2626">restate on RTO</text>
+
+  <!-- P5 → Ad Platforms (corrected conversion signal) -->
+  <path d="M 1340,770 Q 1340,1240 1185,1250" stroke="#15803D" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="1300" y="1020" font-size="8" fill="#15803D" font-weight="600">corrected conversions</text>
+  <text x="1300" y="1032" font-size="8" fill="#15803D">Meta CAPI · Google EC</text>
+
+  <!-- =====================================================================
+       FLOWS — P6 Metrics & Anomaly Engine
+  ====================================================================== -->
+
+  <!-- DS7 attributions → P6 -->
+  <path d="M 860,850 Q 780,950 780,990" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="748" y="920" font-size="8" fill="#DC2626" font-weight="600">attribution data</text>
+
+  <!-- DS6 ad spend → P6 (for ROAS denominator) -->
+  <path d="M 1740,450 Q 700,500 700,990" stroke="#1D4ED8" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#ab)"/>
+  <text x="1160" y="470" font-size="8" fill="#1D4ED8">ad_spend (ROAS denom)</text>
+
+  <!-- P6 → DS8 daily_metrics + anomalies (write) -->
+  <path d="M 640,990 Q 590,960 590,920" stroke="#065F46" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="596" y="960" font-size="8" fill="#065F46" font-weight="600">daily rollup + anomalies</text>
+
+  <!-- =====================================================================
+       FLOWS — P7 Query API & Agent Gate
+  ====================================================================== -->
+
+  <!-- DS8 daily_metrics → P7 -->
+  <path d="M 840,900 Q 1200,900 1250,1060" stroke="#065F46" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+  <text x="1040" y="892" font-size="8" fill="#065F46" font-weight="600">metric data</text>
+
+  <!-- DS10 YAML → P7 -->
+  <path d="M 1080,880 Q 1080,950 1250,1060" stroke="#0369A1" stroke-width="1.5" fill="none" marker-end="url(#ac)"/>
+  <text x="1080" y="940" font-size="8" fill="#0369A1" font-weight="600">YAML definitions</text>
+
+  <!-- DS9 workspace_config → P7 (vertical scoping + JWT) -->
+  <path d="M 700,960 Q 1200,960 1250,1100" stroke="#92400E" stroke-width="1.2" stroke-dasharray="4 3" fill="none" marker-end="url(#ay)"/>
+  <text x="880" y="970" font-size="8" fill="#92400E">workspace_id from JWT</text>
+
+  <!-- P7 → query_log (write) -->
+  <path d="M 1430,1080 Q 1500,1080 1500,900 Q 1500,880 1300,900" stroke="#0369A1" stroke-width="1.2" stroke-dasharray="4 3" fill="none" marker-end="url(#ac)"/>
+  <text x="1480" y="970" font-size="8" fill="#0369A1">query log</text>
+
+  <!-- P7 → Operator Console -->
+  <path d="M 1430,1080 Q 2100,1080 2160,808" stroke="#C2410C" stroke-width="1.8" fill="none" marker-end="url(#ao)"/>
+  <text x="1900" y="1050" font-size="8" fill="#C2410C" font-weight="600">corrected_roas · delta_roas · CAC · LTV</text>
+
+  <!-- P7 → Alerts -->
+  <path d="M 1430,1100 Q 2100,1100 2160,1008" stroke="#DC2626" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <text x="1800" y="1092" font-size="8" fill="#DC2626" font-weight="600">anomaly alerts</text>
+
+  <!-- Operator → P7 (query requests) -->
+  <path d="M 137,1250 Q 137,1150 700,1150 Q 1250,1150 1250,1170" stroke="#0F172A" stroke-width="1.5" fill="none" marker-end="url(#ak)"/>
+  <text x="600" y="1144" font-size="8" fill="#475569" font-weight="600">metric queries · date range · filters</text>
+
+  <!-- AI Agent ↔ P7 -->
+  <path d="M 677,1250 Q 677,1190 1250,1120" stroke="#7C3AED" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+  <text x="840" y="1210" font-size="8" fill="#7C3AED" font-weight="600">GAQL · propose → execute</text>
+
+  <path d="M 1250,1100 Q 900,1180 755,1250" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#ap)"/>
+  <text x="900" y="1188" font-size="8" fill="#7C3AED">approved results</text>
+
+  <!-- =====================================================================
+       PROCESS COUNT LEGEND (bottom right)
+  ====================================================================== -->
+  <rect x="1700" y="820" width="480" height="290" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="1940" y="842" text-anchor="middle" font-size="11" font-weight="700" fill="#0F172A">Level 1 — Process &amp; Store Summary</text>
+  <line x1="1710" y1="850" x2="2170" y2="850" stroke="#E2E8F0" stroke-width="1"/>
+
+  <text x="1720" y="868" font-size="9" font-weight="700" fill="#C2410C">P1 Click Capture &amp; Ad Ingestion</text>
+  <text x="1720" y="881" font-size="8" fill="#475569">Link Service mints mk_cid · Meta/Google spend API · writes D1, D2, D6</text>
+
+  <text x="1720" y="898" font-size="9" font-weight="700" fill="#1D4ED8">P2 Identity Resolution</text>
+  <text x="1720" y="911" font-size="8" fill="#475569">Email/phone stitch · confidence scoring · writes D3, updates D2</text>
+
+  <text x="1720" y="928" font-size="9" font-weight="700" fill="#7C3AED">P3 Session &amp; Event Processing</text>
+  <text x="1720" y="941" font-size="8" fill="#475569">PostHog events bucketed → sessions · stage_map normalisation · writes D4</text>
+
+  <text x="1720" y="958" font-size="9" font-weight="700" fill="#15803D">P4 Order &amp; Commerce Ingestion</text>
+  <text x="1720" y="971" font-size="8" fill="#475569">Shopify webhooks · COD optimistic · RTO trigger · writes D5</text>
+
+  <text x="1720" y="988" font-size="9" font-weight="700" fill="#DC2626">P5 Attribution Engine</text>
+  <text x="1720" y="1001" font-size="8" fill="#475569">3-path join (D4 × D5 × D1) · restatement loop · writes D7 · signals ad platforms</text>
+
+  <text x="1720" y="1018" font-size="9" font-weight="700" fill="#065F46">P6 Metrics &amp; Anomaly Engine</text>
+  <text x="1720" y="1031" font-size="8" fill="#475569">Nightly rollup from D7+D6 · corrected_roas · z-score detection · writes D8</text>
+
+  <text x="1720" y="1048" font-size="9" font-weight="700" fill="#0369A1">P7 Query API &amp; Agent Gate</text>
+  <text x="1720" y="1061" font-size="8" fill="#475569">YAML MetricRegistry · QueryBuilder · propose→approve→execute · reads D8,D10</text>
+
+  <line x1="1710" y1="1072" x2="2170" y2="1072" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="1720" y="1087" font-size="9" font-weight="700" fill="#0F172A">Data Stores</text>
+  <text x="1720" y="1100" font-size="8" fill="#475569">D1 click_ids  D2 anonymous_visitors  D3 customers + identity_edges</text>
+  <text x="1720" y="1113" font-size="8" fill="#475569">D4 sessions + events + page_views  D5 orders + lifecycle + items</text>
+  <text x="1720" y="1126" font-size="8" fill="#475569">D6 ad_platform_spend + campaigns  D7 attributions</text>
+  <text x="1720" y="1139" font-size="8" fill="#475569">D8 daily_metrics + anomalies  D9 workspace_config + stage_map  D10 metric_definitions</text>
+
+  <!-- Footer -->
+  <rect x="0" y="1310" width="2400" height="24" rx="0" fill="#F1F5F9"/>
+  <text x="1200" y="1326" text-anchor="middle" font-size="9" fill="#475569">
+    Convention: circles = processes · open rectangles = data stores · plain rectangles = external entities · solid = primary flow · dashed = read / reference flow
+    &nbsp;&nbsp;|&nbsp;&nbsp; Meerkats.ai — Level 1 DFD — 7 Processes, 10 Data Stores, 10 External Entities
+  </text>
+
+</svg>
+</body>
+</html>
