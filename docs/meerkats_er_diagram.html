@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meerkats.ai — Entity Relationship Diagram</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #0F172A;
+  padding: 36px 40px;
+  min-width: 2200px;
+}
+h2 { font-size: 11px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px; }
+p.sub { font-size: 10px; color: #94A3B8; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+<h2>Meerkats.ai &mdash; Entity Relationship Diagram &mdash; All 26 Tables</h2>
+<p class="sub">Crow's foot notation. PK = primary key &nbsp;&#xB7;&nbsp; FK = foreign key &nbsp;&#xB7;&nbsp; NN = not null &nbsp;&#xB7;&nbsp; UQ = unique &nbsp;&#xB7;&nbsp; Solid line = mandatory relationship &nbsp;&#xB7;&nbsp; Dashed line = optional (nullable FK)</p>
+
+<svg viewBox="0 0 2800 2400" xmlns="http://www.w3.org/2000/svg"
+     font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+     style="width:100%;display:block;">
+  <defs>
+    <!-- Crow's foot: many end -->
+    <marker id="many" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <line x1="10" y1="0" x2="2" y2="6" stroke="#475569" stroke-width="1.2"/>
+      <line x1="10" y1="12" x2="2" y2="6" stroke="#475569" stroke-width="1.2"/>
+      <line x1="10" y1="0" x2="10" y2="12" stroke="#475569" stroke-width="1.2"/>
+    </marker>
+    <!-- Crow's foot: many end (coloured) -->
+    <marker id="manyb" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <line x1="10" y1="0" x2="2" y2="6" stroke="#1D4ED8" stroke-width="1.2"/>
+      <line x1="10" y1="12" x2="2" y2="6" stroke="#1D4ED8" stroke-width="1.2"/>
+      <line x1="10" y1="0" x2="10" y2="12" stroke="#1D4ED8" stroke-width="1.2"/>
+    </marker>
+    <marker id="manyg" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <line x1="10" y1="0" x2="2" y2="6" stroke="#15803D" stroke-width="1.2"/>
+      <line x1="10" y1="12" x2="2" y2="6" stroke="#15803D" stroke-width="1.2"/>
+      <line x1="10" y1="0" x2="10" y2="12" stroke="#15803D" stroke-width="1.2"/>
+    </marker>
+    <marker id="manyp" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <line x1="10" y1="0" x2="2" y2="6" stroke="#7C3AED" stroke-width="1.2"/>
+      <line x1="10" y1="12" x2="2" y2="6" stroke="#7C3AED" stroke-width="1.2"/>
+      <line x1="10" y1="0" x2="10" y2="12" stroke="#7C3AED" stroke-width="1.2"/>
+    </marker>
+    <marker id="manyo" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <line x1="10" y1="0" x2="2" y2="6" stroke="#C2410C" stroke-width="1.2"/>
+      <line x1="10" y1="12" x2="2" y2="6" stroke="#C2410C" stroke-width="1.2"/>
+      <line x1="10" y1="0" x2="10" y2="12" stroke="#C2410C" stroke-width="1.2"/>
+    </marker>
+    <marker id="manyr" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <line x1="10" y1="0" x2="2" y2="6" stroke="#DC2626" stroke-width="1.2"/>
+      <line x1="10" y1="12" x2="2" y2="6" stroke="#DC2626" stroke-width="1.2"/>
+      <line x1="10" y1="0" x2="10" y2="12" stroke="#DC2626" stroke-width="1.2"/>
+    </marker>
+    <marker id="manyc" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <line x1="10" y1="0" x2="2" y2="6" stroke="#065F46" stroke-width="1.2"/>
+      <line x1="10" y1="12" x2="2" y2="6" stroke="#065F46" stroke-width="1.2"/>
+      <line x1="10" y1="0" x2="10" y2="12" stroke="#065F46" stroke-width="1.2"/>
+    </marker>
+    <marker id="manyac" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <line x1="10" y1="0" x2="2" y2="6" stroke="#0369A1" stroke-width="1.2"/>
+      <line x1="10" y1="12" x2="2" y2="6" stroke="#0369A1" stroke-width="1.2"/>
+      <line x1="10" y1="0" x2="10" y2="12" stroke="#0369A1" stroke-width="1.2"/>
+    </marker>
+    <!-- One end (single bar) -->
+    <marker id="one" markerWidth="8" markerHeight="12" refX="2" refY="6" orient="auto">
+      <line x1="2" y1="0" x2="2" y2="12" stroke="#475569" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <!-- ==============================================================
+       TABLE MACRO
+       Each table: header bar (coloured) + field rows
+       Layout by group / domain cluster
+       
+       LAYOUT:
+       Group A — Config:       x=40    y=40
+       Group B — Ad Platform:  x=40    y=560
+       Group C — Identity:     x=660   y=40
+       Group D — Behaviour:    x=660   y=600
+       Group E — Commerce:     x=1300  y=40
+       Group F — Attribution:  x=1300  y=680
+       Group G — Metrics:      x=1920  y=40
+       Group H — Query/Agent:  x=1920  y=560
+  ============================================================== -->
+
+  <!-- ============================================================
+       GROUP BACKGROUNDS
+  ============================================================= -->
+  <!-- Config group -->
+  <rect x="20"   y="20"  width="600" height="960" rx="8" fill="#FFFBF5" stroke="#FED7AA" stroke-width="1.5"/>
+  <text x="320"  y="44"  text-anchor="middle" font-size="10" font-weight="700" fill="#92400E" letter-spacing=".08em">CONFIG &amp; WORKSPACE</text>
+
+  <!-- Ad Platform group -->
+  <rect x="20"   y="1000" width="600" height="660" rx="8" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1.5"/>
+  <text x="320"  y="1024" text-anchor="middle" font-size="10" font-weight="700" fill="#0369A1" letter-spacing=".08em">AD PLATFORM</text>
+
+  <!-- Identity group -->
+  <rect x="640"  y="20"  width="620" height="560" rx="8" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="950"  y="44"  text-anchor="middle" font-size="10" font-weight="700" fill="#1D4ED8" letter-spacing=".08em">IDENTITY</text>
+
+  <!-- Behaviour group -->
+  <rect x="640"  y="600" width="620" height="680" rx="8" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1.5"/>
+  <text x="950"  y="624" text-anchor="middle" font-size="10" font-weight="700" fill="#6D28D9" letter-spacing=".08em">BEHAVIOUR</text>
+
+  <!-- Commerce group -->
+  <rect x="1280" y="20"  width="620" height="640" rx="8" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
+  <text x="1590" y="44"  text-anchor="middle" font-size="10" font-weight="700" fill="#15803D" letter-spacing=".08em">COMMERCE</text>
+
+  <!-- Attribution group -->
+  <rect x="1280" y="680" width="620" height="340" rx="8" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.5"/>
+  <text x="1590" y="704" text-anchor="middle" font-size="10" font-weight="700" fill="#DC2626" letter-spacing=".08em">ATTRIBUTION</text>
+
+  <!-- Metrics group -->
+  <rect x="1920" y="20"  width="620" height="520" rx="8" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
+  <text x="2230" y="44"  text-anchor="middle" font-size="10" font-weight="700" fill="#065F46" letter-spacing=".08em">METRICS</text>
+
+  <!-- Query / Agent group -->
+  <rect x="1920" y="560" width="620" height="720" rx="8" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1.5"/>
+  <text x="2230" y="584" text-anchor="middle" font-size="10" font-weight="700" fill="#0369A1" letter-spacing=".08em">QUERY API &amp; AGENT</text>
+
+  <!-- ============================================================
+       TABLES — helper: header rect + title + divider + field rows
+       Each field row: icon | col_name | type
+       PK icon = &#x1F511; styled as key badge
+  ============================================================= -->
+
+  <!-- ─── workspaces ─── -->
+  <!-- x=40 y=56 w=260 -->
+  <rect x="40"  y="56"  width="260" height="206" rx="5" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="40"  y="56"  width="260" height="24"  rx="5" fill="#FED7AA"/>
+  <rect x="40"  y="73"  width="260" height="7"   fill="#FED7AA"/>
+  <text x="170" y="73"  text-anchor="middle" font-size="11" font-weight="700" fill="#92400E">workspaces</text>
+  <line x1="40" y1="80" x2="300" y2="80" stroke="#FED7AA" stroke-width="1"/>
+
+  <text x="52"  y="96"  font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="82"  y="96"  font-size="9" fill="#0F172A">workspace_id</text>
+  <text x="250" y="96"  text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="102" x2="300" y2="102" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="116" font-size="9" fill="#475569">name</text>
+  <text x="250" y="116" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="40" y1="122" x2="300" y2="122" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="136" font-size="9" fill="#475569">vertical</text>
+  <text x="250" y="136" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="40" y1="142" x2="300" y2="142" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="156" font-size="9" fill="#475569">plan</text>
+  <text x="250" y="156" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="162" x2="300" y2="162" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="176" font-size="9" fill="#475569">owner_user_id</text>
+  <text x="250" y="176" text-anchor="end" font-size="8" fill="#94A3B8">UUID</text>
+  <line x1="40" y1="182" x2="300" y2="182" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="196" font-size="9" fill="#475569">timezone</text>
+  <text x="250" y="196" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="202" x2="300" y2="202" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="216" font-size="9" fill="#475569">currency</text>
+  <text x="250" y="216" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="222" x2="300" y2="222" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="236" font-size="9" fill="#475569">status</text>
+  <text x="250" y="236" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="242" x2="300" y2="242" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="256" font-size="9" fill="#475569">created_at</text>
+  <text x="250" y="256" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ─── workspace_config ─── -->
+  <rect x="40"  y="280" width="260" height="220" rx="5" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="40"  y="280" width="260" height="24"  rx="5" fill="#FED7AA"/>
+  <rect x="40"  y="297" width="260" height="7"   fill="#FED7AA"/>
+  <text x="170" y="297" text-anchor="middle" font-size="11" font-weight="700" fill="#92400E">workspace_config</text>
+  <line x1="40" y1="304" x2="300" y2="304" stroke="#FED7AA" stroke-width="1"/>
+
+  <text x="52"  y="320" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="82"  y="320" font-size="9" fill="#0F172A">config_id</text>
+  <text x="250" y="320" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="326" x2="300" y2="326" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="52"  y="340" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="82"  y="340" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="250" y="340" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN UQ</text>
+  <line x1="40" y1="346" x2="300" y2="346" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="360" font-size="9" fill="#475569">attribution_window_days</text>
+  <text x="250" y="360" text-anchor="end" font-size="8" fill="#94A3B8">INT NN</text>
+  <line x1="40" y1="366" x2="300" y2="366" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="380" font-size="9" fill="#475569">revenue_recognition</text>
+  <text x="250" y="380" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="40" y1="386" x2="300" y2="386" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="400" font-size="9" fill="#475569">cod_enabled</text>
+  <text x="250" y="400" text-anchor="end" font-size="8" fill="#94A3B8">BOOL</text>
+  <line x1="40" y1="406" x2="300" y2="406" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="420" font-size="9" fill="#475569">rto_restatement</text>
+  <text x="250" y="420" text-anchor="end" font-size="8" fill="#94A3B8">BOOL</text>
+  <line x1="40" y1="426" x2="300" y2="426" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="440" font-size="9" fill="#475569">event_map</text>
+  <text x="250" y="440" text-anchor="end" font-size="8" fill="#94A3B8">JSONB</text>
+  <line x1="40" y1="446" x2="300" y2="446" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="460" font-size="9" fill="#475569">platform_connector</text>
+  <text x="250" y="460" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="466" x2="300" y2="466" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="480" font-size="9" fill="#475569">crm_connector</text>
+  <text x="250" y="480" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="486" x2="300" y2="486" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="496" font-size="9" fill="#475569">updated_at</text>
+  <text x="250" y="496" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ─── workspace_stage_map ─── -->
+  <rect x="320" y="56"  width="260" height="192" rx="5" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="320" y="56"  width="260" height="24"  rx="5" fill="#FED7AA"/>
+  <rect x="320" y="73"  width="260" height="7"   fill="#FED7AA"/>
+  <text x="450" y="73"  text-anchor="middle" font-size="11" font-weight="700" fill="#92400E">workspace_stage_map</text>
+  <line x1="320" y1="80" x2="580" y2="80" stroke="#FED7AA" stroke-width="1"/>
+
+  <text x="332" y="96"  font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="362" y="96"  font-size="9" fill="#0F172A">map_id</text>
+  <text x="572" y="96"  text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="320" y1="102" x2="580" y2="102" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="332" y="116" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="362" y="116" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="572" y="116" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="320" y1="122" x2="580" y2="122" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="136" font-size="9" fill="#475569">crm_stage_label</text>
+  <text x="572" y="136" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="320" y1="142" x2="580" y2="142" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="156" font-size="9" fill="#475569">canonical_stage</text>
+  <text x="572" y="156" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="320" y1="162" x2="580" y2="162" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="176" font-size="9" fill="#475569">funnel_order</text>
+  <text x="572" y="176" text-anchor="end" font-size="8" fill="#94A3B8">INT</text>
+  <line x1="320" y1="182" x2="580" y2="182" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="196" font-size="9" fill="#475569">is_revenue_stage</text>
+  <text x="572" y="196" text-anchor="end" font-size="8" fill="#94A3B8">BOOL</text>
+  <line x1="320" y1="202" x2="580" y2="202" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="220" font-size="9" fill="#475569">created_at</text>
+  <text x="572" y="220" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="320" y1="226" x2="580" y2="226" stroke="#F8FAFC" stroke-width="1"/>
+  <text x="362" y="240" font-size="9" fill="#64748B" font-style="italic">UQ(workspace_id, crm_stage_label)</text>
+
+  <!-- ─── workspace_users ─── -->
+  <rect x="320" y="280" width="260" height="192" rx="5" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="320" y="280" width="260" height="24"  rx="5" fill="#FED7AA"/>
+  <rect x="320" y="297" width="260" height="7"   fill="#FED7AA"/>
+  <text x="450" y="297" text-anchor="middle" font-size="11" font-weight="700" fill="#92400E">workspace_users</text>
+  <line x1="320" y1="304" x2="580" y2="304" stroke="#FED7AA" stroke-width="1"/>
+
+  <text x="332" y="320" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="362" y="320" font-size="9" fill="#0F172A">user_id</text>
+  <text x="572" y="320" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="320" y1="326" x2="580" y2="326" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="332" y="340" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="362" y="340" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="572" y="340" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="320" y1="346" x2="580" y2="346" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="360" font-size="9" fill="#475569">email</text>
+  <text x="572" y="360" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN UQ</text>
+  <line x1="320" y1="366" x2="580" y2="366" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="380" font-size="9" fill="#475569">name</text>
+  <text x="572" y="380" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="320" y1="386" x2="580" y2="386" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="400" font-size="9" fill="#475569">role</text>
+  <text x="572" y="400" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="320" y1="406" x2="580" y2="406" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="420" font-size="9" fill="#475569">invited_at</text>
+  <text x="572" y="420" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="320" y1="426" x2="580" y2="426" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="440" font-size="9" fill="#475569">last_active_at</text>
+  <text x="572" y="440" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="320" y1="446" x2="580" y2="446" stroke="#F8FAFC" stroke-width="1"/>
+  <text x="362" y="464" font-size="9" fill="#64748B" font-style="italic">UQ(workspace_id, email)</text>
+
+  <!-- ─── workspace_api_keys ─── -->
+  <rect x="40" y="520" width="260" height="178" rx="5" fill="#fff" stroke="#92400E" stroke-width="1.5"/>
+  <rect x="40" y="520" width="260" height="24"  rx="5" fill="#FED7AA"/>
+  <rect x="40" y="537" width="260" height="7"   fill="#FED7AA"/>
+  <text x="170" y="537" text-anchor="middle" font-size="11" font-weight="700" fill="#92400E">workspace_api_keys</text>
+  <line x1="40" y1="544" x2="300" y2="544" stroke="#FED7AA" stroke-width="1"/>
+
+  <text x="52"  y="560" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="82"  y="560" font-size="9" fill="#0F172A">key_id</text>
+  <text x="250" y="560" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="566" x2="300" y2="566" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="52"  y="580" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="82"  y="580" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="250" y="580" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="586" x2="300" y2="586" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="600" font-size="9" fill="#475569">key_hash</text>
+  <text x="250" y="600" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN UQ</text>
+  <line x1="40" y1="606" x2="300" y2="606" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="620" font-size="9" fill="#475569">name</text>
+  <text x="250" y="620" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="626" x2="300" y2="626" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="640" font-size="9" fill="#475569">scopes</text>
+  <text x="250" y="640" text-anchor="end" font-size="8" fill="#94A3B8">TEXT[]</text>
+  <line x1="40" y1="646" x2="300" y2="646" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="660" font-size="9" fill="#475569">expires_at</text>
+  <text x="250" y="660" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="40" y1="666" x2="300" y2="666" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="680" font-size="9" fill="#475569">is_active</text>
+  <text x="250" y="680" text-anchor="end" font-size="8" fill="#94A3B8">BOOL</text>
+  <line x1="40" y1="686" x2="300" y2="686" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="700" font-size="9" fill="#475569">last_used_at</text>
+  <text x="250" y="700" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ============================================================
+       AD PLATFORM TABLES
+  ============================================================= -->
+
+  <!-- ad_platform_accounts -->
+  <rect x="40"  y="1038" width="260" height="206" rx="5" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="40"  y="1038" width="260" height="24"  rx="5" fill="#BAE6FD"/>
+  <rect x="40"  y="1055" width="260" height="7"   fill="#BAE6FD"/>
+  <text x="170" y="1055" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">ad_platform_accounts</text>
+  <line x1="40" y1="1062" x2="300" y2="1062" stroke="#BAE6FD" stroke-width="1"/>
+
+  <text x="52"  y="1078" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="82"  y="1078" font-size="9" fill="#0F172A">account_id</text>
+  <text x="250" y="1078" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="1084" x2="300" y2="1084" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="52"  y="1098" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="82"  y="1098" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="250" y="1098" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="1104" x2="300" y2="1104" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1118" font-size="9" fill="#475569">platform</text>
+  <text x="250" y="1118" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="40" y1="1124" x2="300" y2="1124" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1138" font-size="9" fill="#475569">platform_account_id</text>
+  <text x="250" y="1138" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="40" y1="1144" x2="300" y2="1144" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1158" font-size="9" fill="#475569">account_name</text>
+  <text x="250" y="1158" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="1164" x2="300" y2="1164" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1178" font-size="9" fill="#475569">currency</text>
+  <text x="250" y="1178" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="1184" x2="300" y2="1184" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1198" font-size="9" fill="#475569">oauth_token_ref</text>
+  <text x="250" y="1198" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="1204" x2="300" y2="1204" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1218" font-size="9" fill="#475569">status</text>
+  <text x="250" y="1218" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="1224" x2="300" y2="1224" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1238" font-size="9" fill="#475569">synced_at</text>
+  <text x="250" y="1238" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ad_platform_campaigns -->
+  <rect x="40"  y="1262" width="260" height="234" rx="5" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="40"  y="1262" width="260" height="24"  rx="5" fill="#BAE6FD"/>
+  <rect x="40"  y="1279" width="260" height="7"   fill="#BAE6FD"/>
+  <text x="170" y="1279" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">ad_platform_campaigns</text>
+  <line x1="40" y1="1286" x2="300" y2="1286" stroke="#BAE6FD" stroke-width="1"/>
+
+  <text x="52"  y="1302" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="82"  y="1302" font-size="9" fill="#0F172A">campaign_pk</text>
+  <text x="250" y="1302" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="1308" x2="300" y2="1308" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="52"  y="1322" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="82"  y="1322" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="250" y="1322" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="1328" x2="300" y2="1328" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="52"  y="1342" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="82"  y="1342" font-size="9" fill="#1D4ED8">account_id</text>
+  <text x="250" y="1342" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="40" y1="1348" x2="300" y2="1348" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1362" font-size="9" fill="#475569">platform</text>
+  <text x="250" y="1362" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="40" y1="1368" x2="300" y2="1368" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1382" font-size="9" fill="#475569">campaign_id</text>
+  <text x="250" y="1382" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="40" y1="1388" x2="300" y2="1388" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1402" font-size="9" fill="#475569">campaign_name</text>
+  <text x="250" y="1402" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="1408" x2="300" y2="1408" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1422" font-size="9" fill="#475569">status</text>
+  <text x="250" y="1422" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="1428" x2="300" y2="1428" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1442" font-size="9" fill="#475569">objective</text>
+  <text x="250" y="1442" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="40" y1="1448" x2="300" y2="1448" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1462" font-size="9" fill="#475569">daily_budget</text>
+  <text x="250" y="1462" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="40" y1="1468" x2="300" y2="1468" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="82"  y="1482" font-size="9" fill="#475569">synced_at</text>
+  <text x="250" y="1482" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ad_platform_spend -->
+  <rect x="320" y="1038" width="260" height="248" rx="5" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="320" y="1038" width="260" height="24"  rx="5" fill="#BAE6FD"/>
+  <rect x="320" y="1055" width="260" height="7"   fill="#BAE6FD"/>
+  <text x="450" y="1055" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">ad_platform_spend</text>
+  <line x1="320" y1="1062" x2="580" y2="1062" stroke="#BAE6FD" stroke-width="1"/>
+
+  <text x="332" y="1078" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="362" y="1078" font-size="9" fill="#0F172A">spend_id</text>
+  <text x="572" y="1078" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="320" y1="1084" x2="580" y2="1084" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="332" y="1098" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="362" y="1098" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="572" y="1098" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="320" y1="1104" x2="580" y2="1104" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="332" y="1118" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="362" y="1118" font-size="9" fill="#1D4ED8">campaign_pk</text>
+  <text x="572" y="1118" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="320" y1="1124" x2="580" y2="1124" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1138" font-size="9" fill="#475569">date</text>
+  <text x="572" y="1138" text-anchor="end" font-size="8" fill="#94A3B8">DATE NN</text>
+  <line x1="320" y1="1144" x2="580" y2="1144" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1158" font-size="9" fill="#475569">impressions</text>
+  <text x="572" y="1158" text-anchor="end" font-size="8" fill="#94A3B8">BIGINT</text>
+  <line x1="320" y1="1164" x2="580" y2="1164" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1178" font-size="9" fill="#475569">clicks</text>
+  <text x="572" y="1178" text-anchor="end" font-size="8" fill="#94A3B8">BIGINT</text>
+  <line x1="320" y1="1184" x2="580" y2="1184" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1198" font-size="9" fill="#475569">spend</text>
+  <text x="572" y="1198" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC NN</text>
+  <line x1="320" y1="1204" x2="580" y2="1204" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1218" font-size="9" fill="#475569">platform_conversions</text>
+  <text x="572" y="1218" text-anchor="end" font-size="8" fill="#94A3B8">BIGINT</text>
+  <line x1="320" y1="1224" x2="580" y2="1224" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1238" font-size="9" fill="#475569">platform_revenue</text>
+  <text x="572" y="1238" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="320" y1="1244" x2="580" y2="1244" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1258" font-size="9" fill="#475569">cpc</text>
+  <text x="572" y="1258" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="320" y1="1264" x2="580" y2="1264" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1278" font-size="9" fill="#475569">synced_at</text>
+  <text x="572" y="1278" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="320" y1="1284" x2="580" y2="1284" stroke="#F8FAFC" stroke-width="1"/>
+  <text x="362" y="1302" font-size="9" fill="#64748B" font-style="italic">UQ(workspace_id, campaign_pk, date)</text>
+
+  <!-- click_ids -->
+  <rect x="320" y="1310" width="260" height="220" rx="5" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="320" y="1310" width="260" height="24"  rx="5" fill="#BAE6FD"/>
+  <rect x="320" y="1327" width="260" height="7"   fill="#BAE6FD"/>
+  <text x="450" y="1327" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">click_ids</text>
+  <line x1="320" y1="1334" x2="580" y2="1334" stroke="#BAE6FD" stroke-width="1"/>
+
+  <text x="332" y="1350" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="362" y="1350" font-size="9" fill="#0F172A">mk_cid</text>
+  <text x="572" y="1350" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN UQ</text>
+  <line x1="320" y1="1356" x2="580" y2="1356" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="332" y="1370" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="362" y="1370" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="572" y="1370" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="320" y1="1376" x2="580" y2="1376" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1390" font-size="9" fill="#475569">platform_click_id</text>
+  <text x="572" y="1390" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="320" y1="1396" x2="580" y2="1396" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1410" font-size="9" fill="#475569">platform</text>
+  <text x="572" y="1410" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="320" y1="1416" x2="580" y2="1416" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1430" font-size="9" fill="#475569">utm_source</text>
+  <text x="572" y="1430" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="320" y1="1436" x2="580" y2="1436" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1450" font-size="9" fill="#475569">utm_medium</text>
+  <text x="572" y="1450" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="320" y1="1456" x2="580" y2="1456" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1470" font-size="9" fill="#475569">utm_campaign</text>
+  <text x="572" y="1470" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="320" y1="1476" x2="580" y2="1476" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1490" font-size="9" fill="#475569">utm_content</text>
+  <text x="572" y="1490" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="320" y1="1496" x2="580" y2="1496" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1510" font-size="9" fill="#475569">landing_url</text>
+  <text x="572" y="1510" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="320" y1="1516" x2="580" y2="1516" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="362" y="1530" font-size="9" fill="#475569">created_at</text>
+  <text x="572" y="1530" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ============================================================
+       IDENTITY TABLES
+  ============================================================= -->
+
+  <!-- anonymous_visitors -->
+  <rect x="660"  y="56"  width="260" height="220" rx="5" fill="#fff" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="660"  y="56"  width="260" height="24"  rx="5" fill="#BFDBFE"/>
+  <rect x="660"  y="73"  width="260" height="7"   fill="#BFDBFE"/>
+  <text x="790"  y="73"  text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">anonymous_visitors</text>
+  <line x1="660" y1="80" x2="920" y2="80" stroke="#BFDBFE" stroke-width="1"/>
+
+  <text x="672"  y="96"  font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="702"  y="96"  font-size="9" fill="#0F172A">anon_id</text>
+  <text x="912"  y="96"  text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN UQ</text>
+  <line x1="660" y1="102" x2="920" y2="102" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="116" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="116" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="912"  y="116" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="660" y1="122" x2="920" y2="122" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="136" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="136" font-size="9" fill="#1D4ED8">mk_cid</text>
+  <text x="912"  y="136" text-anchor="end" font-size="8" fill="#94A3B8">TEXT (null ok)</text>
+  <line x1="660" y1="142" x2="920" y2="142" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="156" font-size="9" fill="#475569">device</text>
+  <text x="912"  y="156" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="162" x2="920" y2="162" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="176" font-size="9" fill="#475569">browser</text>
+  <text x="912"  y="176" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="182" x2="920" y2="182" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="196" font-size="9" fill="#475569">country</text>
+  <text x="912"  y="196" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="202" x2="920" y2="202" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="216" font-size="9" fill="#475569">ip_hash</text>
+  <text x="912"  y="216" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="222" x2="920" y2="222" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="236" font-size="9" fill="#475569">resolved</text>
+  <text x="912"  y="236" text-anchor="end" font-size="8" fill="#94A3B8">BOOL</text>
+  <line x1="660" y1="242" x2="920" y2="242" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="256" font-size="9" fill="#475569">first_seen_ts</text>
+  <text x="912"  y="256" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="660" y1="262" x2="920" y2="262" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="276" font-size="9" fill="#475569">last_seen_ts</text>
+  <text x="912"  y="276" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- customers -->
+  <rect x="940"  y="56"  width="260" height="234" rx="5" fill="#fff" stroke="#1D4ED8" stroke-width="1.5"/>
+  <rect x="940"  y="56"  width="260" height="24"  rx="5" fill="#BFDBFE"/>
+  <rect x="940"  y="73"  width="260" height="7"   fill="#BFDBFE"/>
+  <text x="1070" y="73"  text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">customers</text>
+  <line x1="940" y1="80" x2="1200" y2="80" stroke="#BFDBFE" stroke-width="1"/>
+
+  <text x="952"  y="96"  font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="982"  y="96"  font-size="9" fill="#0F172A">customer_id</text>
+  <text x="1192" y="96"  text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="940" y1="102" x2="1200" y2="102" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="952"  y="116" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="982"  y="116" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="1192" y="116" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="940" y1="122" x2="1200" y2="122" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="136" font-size="9" fill="#475569">external_id</text>
+  <text x="1192" y="136" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="940" y1="142" x2="1200" y2="142" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="156" font-size="9" fill="#475569">email_hash</text>
+  <text x="1192" y="156" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="940" y1="162" x2="1200" y2="162" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="176" font-size="9" fill="#475569">phone_hash</text>
+  <text x="1192" y="176" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="940" y1="182" x2="1200" y2="182" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="196" font-size="9" fill="#475569">first_order_ts</text>
+  <text x="1192" y="196" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="940" y1="202" x2="1200" y2="202" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="216" font-size="9" fill="#475569">order_count</text>
+  <text x="1192" y="216" text-anchor="end" font-size="8" fill="#94A3B8">INT</text>
+  <line x1="940" y1="222" x2="1200" y2="222" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="236" font-size="9" fill="#475569">ltv_gross</text>
+  <text x="1192" y="236" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="940" y1="242" x2="1200" y2="242" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="256" font-size="9" fill="#475569">ltv_net</text>
+  <text x="1192" y="256" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="940" y1="262" x2="1200" y2="262" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="276" font-size="9" fill="#475569">cohort_month</text>
+  <text x="1192" y="276" text-anchor="end" font-size="8" fill="#94A3B8">DATE</text>
+  <line x1="940" y1="282" x2="1200" y2="282" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="296" font-size="9" fill="#475569">customer_segment</text>
+  <text x="1192" y="296" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+
+  <!-- identity_edges -->
+  <rect x="660"  y="300" width="540" height="220" rx="5" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <rect x="660"  y="300" width="540" height="24"  rx="5" fill="#BFDBFE"/>
+  <rect x="660"  y="317" width="540" height="7"   fill="#BFDBFE"/>
+  <text x="930"  y="317" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">identity_edges</text>
+  <line x1="660" y1="324" x2="1200" y2="324" stroke="#BFDBFE" stroke-width="1"/>
+
+  <text x="672"  y="340" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="702"  y="340" font-size="9" fill="#0F172A">edge_id</text>
+  <text x="1192" y="340" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="660" y1="346" x2="1200" y2="346" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="360" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="360" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="1192" y="360" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="660" y1="366" x2="1200" y2="366" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="380" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="380" font-size="9" fill="#1D4ED8">anon_id</text>
+  <text x="1192" y="380" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN &#x2192; anonymous_visitors</text>
+  <line x1="660" y1="386" x2="1200" y2="386" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="400" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="400" font-size="9" fill="#1D4ED8">customer_id</text>
+  <text x="1192" y="400" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN &#x2192; customers</text>
+  <line x1="660" y1="406" x2="1200" y2="406" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="420" font-size="9" fill="#475569">confidence</text>
+  <text x="1192" y="420" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC(3,2)</text>
+  <line x1="660" y1="426" x2="1200" y2="426" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="440" font-size="9" fill="#475569">stitch_method</text>
+  <text x="1192" y="440" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="446" x2="1200" y2="446" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="460" font-size="9" fill="#475569">source_event</text>
+  <text x="1192" y="460" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="466" x2="1200" y2="466" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="480" font-size="9" fill="#475569">stitched_at</text>
+  <text x="1192" y="480" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="660" y1="486" x2="1200" y2="486" stroke="#F8FAFC" stroke-width="1"/>
+  <text x="702"  y="504" font-size="9" fill="#64748B" font-style="italic">UQ(workspace_id, anon_id, customer_id)</text>
+
+  <!-- ============================================================
+       BEHAVIOUR TABLES
+  ============================================================= -->
+
+  <!-- sessions -->
+  <rect x="660"  y="640" width="260" height="276" rx="5" fill="#fff" stroke="#7C3AED" stroke-width="1.5"/>
+  <rect x="660"  y="640" width="260" height="24"  rx="5" fill="#DDD6FE"/>
+  <rect x="660"  y="657" width="260" height="7"   fill="#DDD6FE"/>
+  <text x="790"  y="657" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">sessions</text>
+  <line x1="660" y1="664" x2="920" y2="664" stroke="#DDD6FE" stroke-width="1"/>
+
+  <text x="672"  y="680" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="702"  y="680" font-size="9" fill="#0F172A">session_id</text>
+  <text x="912"  y="680" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="660" y1="686" x2="920" y2="686" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="700" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="700" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="912"  y="700" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="660" y1="706" x2="920" y2="706" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="720" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="720" font-size="9" fill="#1D4ED8">visitor_id</text>
+  <text x="912"  y="720" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="660" y1="726" x2="920" y2="726" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="740" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="740" font-size="9" fill="#1D4ED8">mk_cid</text>
+  <text x="912"  y="740" text-anchor="end" font-size="8" fill="#94A3B8">TEXT (null ok)</text>
+  <line x1="660" y1="746" x2="920" y2="746" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="760" font-size="9" fill="#475569">entry_url</text>
+  <text x="912"  y="760" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="766" x2="920" y2="766" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="780" font-size="9" fill="#475569">referrer</text>
+  <text x="912"  y="780" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="786" x2="920" y2="786" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="800" font-size="9" fill="#475569">utm_source</text>
+  <text x="912"  y="800" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="806" x2="920" y2="806" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="820" font-size="9" fill="#475569">utm_medium</text>
+  <text x="912"  y="820" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="826" x2="920" y2="826" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="840" font-size="9" fill="#475569">utm_campaign</text>
+  <text x="912"  y="840" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="846" x2="920" y2="846" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="860" font-size="9" fill="#475569">device_type</text>
+  <text x="912"  y="860" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="866" x2="920" y2="866" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="880" font-size="9" fill="#475569">session_start_ts</text>
+  <text x="912"  y="880" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="660" y1="886" x2="920" y2="886" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="900" font-size="9" fill="#475569">session_end_ts</text>
+  <text x="912"  y="900" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- events -->
+  <rect x="940"  y="640" width="260" height="248" rx="5" fill="#fff" stroke="#7C3AED" stroke-width="1.5"/>
+  <rect x="940"  y="640" width="260" height="24"  rx="5" fill="#DDD6FE"/>
+  <rect x="940"  y="657" width="260" height="7"   fill="#DDD6FE"/>
+  <text x="1070" y="657" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">events</text>
+  <line x1="940" y1="664" x2="1200" y2="664" stroke="#DDD6FE" stroke-width="1"/>
+
+  <text x="952"  y="680" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="982"  y="680" font-size="9" fill="#0F172A">event_id</text>
+  <text x="1192" y="680" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="940" y1="686" x2="1200" y2="686" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="952"  y="700" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="982"  y="700" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="1192" y="700" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="940" y1="706" x2="1200" y2="706" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="952"  y="720" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="982"  y="720" font-size="9" fill="#1D4ED8">session_id</text>
+  <text x="1192" y="720" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="940" y1="726" x2="1200" y2="726" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="952"  y="740" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="982"  y="740" font-size="9" fill="#1D4ED8">customer_id</text>
+  <text x="1192" y="740" text-anchor="end" font-size="8" fill="#94A3B8">UUID (null ok)</text>
+  <line x1="940" y1="746" x2="1200" y2="746" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="760" font-size="9" fill="#475569">event_type</text>
+  <text x="1192" y="760" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="940" y1="766" x2="1200" y2="766" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="780" font-size="9" fill="#475569">canonical_stage</text>
+  <text x="1192" y="780" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="940" y1="786" x2="1200" y2="786" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="800" font-size="9" fill="#475569">properties</text>
+  <text x="1192" y="800" text-anchor="end" font-size="8" fill="#94A3B8">JSONB</text>
+  <line x1="940" y1="806" x2="1200" y2="806" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="820" font-size="9" fill="#475569">revenue_value</text>
+  <text x="1192" y="820" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="940" y1="826" x2="1200" y2="826" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="840" font-size="9" fill="#475569">product_id</text>
+  <text x="1192" y="840" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="940" y1="846" x2="1200" y2="846" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="860" font-size="9" fill="#475569">event_ts</text>
+  <text x="1192" y="860" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ NN</text>
+  <line x1="940" y1="866" x2="1200" y2="866" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="982"  y="880" font-size="9" fill="#475569">ingested_at</text>
+  <text x="1192" y="880" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- page_views -->
+  <rect x="660"  y="940" width="540" height="192" rx="5" fill="#fff" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <rect x="660"  y="940" width="540" height="24"  rx="5" fill="#DDD6FE"/>
+  <rect x="660"  y="957" width="540" height="7"   fill="#DDD6FE"/>
+  <text x="930"  y="957" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">page_views &nbsp;(partitioned by date)</text>
+  <line x1="660" y1="964" x2="1200" y2="964" stroke="#DDD6FE" stroke-width="1"/>
+
+  <text x="672"  y="980" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="702"  y="980" font-size="9" fill="#0F172A">page_view_id</text>
+  <text x="1192" y="980" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="660" y1="986" x2="1200" y2="986" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="672"  y="1000" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="702"  y="1000" font-size="9" fill="#1D4ED8">session_id</text>
+  <text x="1192" y="1000" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="660" y1="1006" x2="1200" y2="1006" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="1020" font-size="9" fill="#475569">url</text>
+  <text x="1192" y="1020" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="660" y1="1026" x2="1200" y2="1026" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="1040" font-size="9" fill="#475569">title</text>
+  <text x="1192" y="1040" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="660" y1="1046" x2="1200" y2="1046" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="1060" font-size="9" fill="#475569">time_on_page_secs</text>
+  <text x="1192" y="1060" text-anchor="end" font-size="8" fill="#94A3B8">INT</text>
+  <line x1="660" y1="1066" x2="1200" y2="1066" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="1080" font-size="9" fill="#475569">scroll_depth_pct</text>
+  <text x="1192" y="1080" text-anchor="end" font-size="8" fill="#94A3B8">INT</text>
+  <line x1="660" y1="1086" x2="1200" y2="1086" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="1100" font-size="9" fill="#475569">viewed_at</text>
+  <text x="1192" y="1100" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ NN</text>
+  <line x1="660" y1="1106" x2="1200" y2="1106" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="702"  y="1126" font-size="9" fill="#64748B" font-style="italic">Partition key: viewed_at (monthly)</text>
+
+  <!-- ============================================================
+       COMMERCE TABLES
+  ============================================================= -->
+
+  <!-- orders -->
+  <rect x="1300" y="56"  width="260" height="304" rx="5" fill="#fff" stroke="#15803D" stroke-width="1.5"/>
+  <rect x="1300" y="56"  width="260" height="24"  rx="5" fill="#BBF7D0"/>
+  <rect x="1300" y="73"  width="260" height="7"   fill="#BBF7D0"/>
+  <text x="1430" y="73"  text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">orders</text>
+  <line x1="1300" y1="80" x2="1560" y2="80" stroke="#BBF7D0" stroke-width="1"/>
+
+  <text x="1312" y="96"  font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1342" y="96"  font-size="9" fill="#0F172A">order_id</text>
+  <text x="1552" y="96"  text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1300" y1="102" x2="1560" y2="102" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="116" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="116" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="1552" y="116" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1300" y1="122" x2="1560" y2="122" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="136" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="136" font-size="9" fill="#1D4ED8">customer_id</text>
+  <text x="1552" y="136" text-anchor="end" font-size="8" fill="#94A3B8">UUID</text>
+  <line x1="1300" y1="142" x2="1560" y2="142" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="156" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="156" font-size="9" fill="#1D4ED8">session_id</text>
+  <text x="1552" y="156" text-anchor="end" font-size="8" fill="#94A3B8">UUID</text>
+  <line x1="1300" y1="162" x2="1560" y2="162" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="176" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="176" font-size="9" fill="#1D4ED8">mk_cid</text>
+  <text x="1552" y="176" text-anchor="end" font-size="8" fill="#94A3B8">TEXT (null ok)</text>
+  <line x1="1300" y1="182" x2="1560" y2="182" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="196" font-size="9" fill="#475569">external_order_id</text>
+  <text x="1552" y="196" text-anchor="end" font-size="8" fill="#94A3B8">TEXT UQ</text>
+  <line x1="1300" y1="202" x2="1560" y2="202" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="216" font-size="9" fill="#475569">gmv</text>
+  <text x="1552" y="216" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC NN</text>
+  <line x1="1300" y1="222" x2="1560" y2="222" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="236" font-size="9" fill="#475569">net_revenue</text>
+  <text x="1552" y="236" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1300" y1="242" x2="1560" y2="242" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="256" font-size="9" fill="#475569">currency</text>
+  <text x="1552" y="256" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1300" y1="262" x2="1560" y2="262" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="276" font-size="9" fill="#475569">payment_method</text>
+  <text x="1552" y="276" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1300" y1="282" x2="1560" y2="282" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="296" font-size="9" fill="#475569">cod_flag</text>
+  <text x="1552" y="296" text-anchor="end" font-size="8" fill="#94A3B8">BOOL</text>
+  <line x1="1300" y1="302" x2="1560" y2="302" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="316" font-size="9" fill="#DC2626">rto_restated_at</text>
+  <text x="1552" y="316" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="1300" y1="322" x2="1560" y2="322" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="336" font-size="9" fill="#DC2626">restatement_delta</text>
+  <text x="1552" y="336" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1300" y1="342" x2="1560" y2="342" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="356" font-size="9" fill="#475569">order_placed_ts</text>
+  <text x="1552" y="356" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ NN</text>
+
+  <!-- order_lifecycle -->
+  <rect x="1580" y="56"  width="260" height="220" rx="5" fill="#fff" stroke="#15803D" stroke-width="1.5"/>
+  <rect x="1580" y="56"  width="260" height="24"  rx="5" fill="#BBF7D0"/>
+  <rect x="1580" y="73"  width="260" height="7"   fill="#BBF7D0"/>
+  <text x="1710" y="73"  text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">order_lifecycle</text>
+  <line x1="1580" y1="80" x2="1840" y2="80" stroke="#BBF7D0" stroke-width="1"/>
+
+  <text x="1592" y="96"  font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1622" y="96"  font-size="9" fill="#0F172A">lifecycle_id</text>
+  <text x="1832" y="96"  text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1580" y1="102" x2="1840" y2="102" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1592" y="116" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1622" y="116" font-size="9" fill="#1D4ED8">order_id</text>
+  <text x="1832" y="116" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1580" y1="122" x2="1840" y2="122" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1592" y="136" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1622" y="136" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="1832" y="136" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1580" y1="142" x2="1840" y2="142" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1622" y="156" font-size="9" fill="#475569">status</text>
+  <text x="1832" y="156" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="1580" y1="162" x2="1840" y2="162" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1622" y="176" font-size="9" fill="#475569">previous_status</text>
+  <text x="1832" y="176" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1580" y1="182" x2="1840" y2="182" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1622" y="196" font-size="9" fill="#DC2626">revenue_delta</text>
+  <text x="1832" y="196" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1580" y1="202" x2="1840" y2="202" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1622" y="216" font-size="9" fill="#475569">source_event</text>
+  <text x="1832" y="216" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1580" y1="222" x2="1840" y2="222" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1622" y="236" font-size="9" fill="#475569">status_ts</text>
+  <text x="1832" y="236" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ NN</text>
+  <line x1="1580" y1="242" x2="1840" y2="242" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1622" y="256" font-size="9" fill="#475569">notes</text>
+  <text x="1832" y="256" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+
+  <!-- order_items -->
+  <rect x="1300" y="380" width="540" height="220" rx="5" fill="#fff" stroke="#15803D" stroke-width="1.5"/>
+  <rect x="1300" y="380" width="540" height="24"  rx="5" fill="#BBF7D0"/>
+  <rect x="1300" y="397" width="540" height="7"   fill="#BBF7D0"/>
+  <text x="1570" y="397" text-anchor="middle" font-size="11" font-weight="700" fill="#15803D">order_items</text>
+  <line x1="1300" y1="404" x2="1840" y2="404" stroke="#BBF7D0" stroke-width="1"/>
+
+  <text x="1312" y="420" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1342" y="420" font-size="9" fill="#0F172A">item_id</text>
+  <text x="1832" y="420" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1300" y1="426" x2="1840" y2="426" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="440" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="440" font-size="9" fill="#1D4ED8">order_id</text>
+  <text x="1832" y="440" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1300" y1="446" x2="1840" y2="446" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="460" font-size="9" fill="#475569">product_id</text>
+  <text x="1832" y="460" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1300" y1="466" x2="1840" y2="466" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="480" font-size="9" fill="#475569">variant_id</text>
+  <text x="1832" y="480" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1300" y1="486" x2="1840" y2="486" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="500" font-size="9" fill="#475569">product_title</text>
+  <text x="1832" y="500" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1300" y1="506" x2="1840" y2="506" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="520" font-size="9" fill="#475569">category</text>
+  <text x="1832" y="520" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1300" y1="526" x2="1840" y2="526" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="540" font-size="9" fill="#475569">quantity</text>
+  <text x="1832" y="540" text-anchor="end" font-size="8" fill="#94A3B8">INT NN</text>
+  <line x1="1300" y1="546" x2="1840" y2="546" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="560" font-size="9" fill="#475569">unit_price</text>
+  <text x="1832" y="560" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC NN</text>
+  <line x1="1300" y1="566" x2="1840" y2="566" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="580" font-size="9" fill="#475569">total_price</text>
+  <text x="1832" y="580" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC NN</text>
+  <line x1="1300" y1="586" x2="1840" y2="586" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="600" font-size="9" fill="#475569">cogs</text>
+  <text x="1832" y="600" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+
+  <!-- ============================================================
+       ATTRIBUTION TABLE
+  ============================================================= -->
+
+  <!-- attributions -->
+  <rect x="1300" y="720" width="540" height="262" rx="5" fill="#fff" stroke="#DC2626" stroke-width="2"/>
+  <rect x="1300" y="720" width="540" height="24"  rx="5" fill="#FECACA"/>
+  <rect x="1300" y="737" width="540" height="7"   fill="#FECACA"/>
+  <text x="1570" y="737" text-anchor="middle" font-size="11" font-weight="700" fill="#DC2626">attributions</text>
+  <line x1="1300" y1="744" x2="1840" y2="744" stroke="#FECACA" stroke-width="1"/>
+
+  <text x="1312" y="760" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1342" y="760" font-size="9" fill="#0F172A">attribution_id</text>
+  <text x="1832" y="760" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1300" y1="766" x2="1840" y2="766" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="780" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="780" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="1832" y="780" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1300" y1="786" x2="1840" y2="786" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="800" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="800" font-size="9" fill="#1D4ED8">order_id</text>
+  <text x="1832" y="800" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN &#x2192; orders</text>
+  <line x1="1300" y1="806" x2="1840" y2="806" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="820" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="820" font-size="9" fill="#1D4ED8">session_id</text>
+  <text x="1832" y="820" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN &#x2192; sessions</text>
+  <line x1="1300" y1="826" x2="1840" y2="826" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="840" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="840" font-size="9" fill="#1D4ED8">mk_cid</text>
+  <text x="1832" y="840" text-anchor="end" font-size="8" fill="#94A3B8">TEXT (null ok) &#x2192; click_ids</text>
+  <line x1="1300" y1="846" x2="1840" y2="846" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1312" y="860" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1342" y="860" font-size="9" fill="#1D4ED8">customer_id</text>
+  <text x="1832" y="860" text-anchor="end" font-size="8" fill="#94A3B8">UUID &#x2192; customers</text>
+  <line x1="1300" y1="866" x2="1840" y2="866" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="880" font-size="9" fill="#475569">path</text>
+  <text x="1832" y="880" text-anchor="end" font-size="8" fill="#94A3B8">TEXT (A/B/C)</text>
+  <line x1="1300" y1="886" x2="1840" y2="886" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="900" font-size="9" fill="#475569">confidence</text>
+  <text x="1832" y="900" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC(3,2)</text>
+  <line x1="1300" y1="906" x2="1840" y2="906" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="920" font-size="9" fill="#475569">attributed_revenue</text>
+  <text x="1832" y="920" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1300" y1="926" x2="1840" y2="926" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="940" font-size="9" fill="#DC2626">is_restated</text>
+  <text x="1832" y="940" text-anchor="end" font-size="8" fill="#94A3B8">BOOL</text>
+  <line x1="1300" y1="946" x2="1840" y2="946" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="960" font-size="9" fill="#DC2626">restatement_ts</text>
+  <text x="1832" y="960" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="1300" y1="966" x2="1840" y2="966" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1342" y="980" font-size="9" fill="#475569">attributed_ts</text>
+  <text x="1832" y="980" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ============================================================
+       METRICS TABLES
+  ============================================================= -->
+
+  <!-- daily_metrics -->
+  <rect x="1940" y="56"  width="260" height="304" rx="5" fill="#fff" stroke="#065F46" stroke-width="1.5"/>
+  <rect x="1940" y="56"  width="260" height="24"  rx="5" fill="#A7F3D0"/>
+  <rect x="1940" y="73"  width="260" height="7"   fill="#A7F3D0"/>
+  <text x="2070" y="73"  text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">daily_metrics</text>
+  <line x1="1940" y1="80" x2="2200" y2="80" stroke="#A7F3D0" stroke-width="1"/>
+
+  <text x="1952" y="96"  font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1982" y="96"  font-size="9" fill="#0F172A">metric_id</text>
+  <text x="2192" y="96"  text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="102" x2="2200" y2="102" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1952" y="116" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1982" y="116" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="2192" y="116" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="122" x2="2200" y2="122" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1952" y="136" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1982" y="136" font-size="9" fill="#1D4ED8">campaign_pk</text>
+  <text x="2192" y="136" text-anchor="end" font-size="8" fill="#94A3B8">UUID</text>
+  <line x1="1940" y1="142" x2="2200" y2="142" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="156" font-size="9" fill="#475569">date</text>
+  <text x="2192" y="156" text-anchor="end" font-size="8" fill="#94A3B8">DATE NN</text>
+  <line x1="1940" y1="162" x2="2200" y2="162" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="176" font-size="9" fill="#475569">channel</text>
+  <text x="2192" y="176" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1940" y1="182" x2="2200" y2="182" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="196" font-size="9" fill="#475569">attribution_path</text>
+  <text x="2192" y="196" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1940" y1="202" x2="2200" y2="202" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="216" font-size="9" fill="#065F46" font-weight="600">corrected_roas</text>
+  <text x="2192" y="216" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="222" x2="2200" y2="222" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="236" font-size="9" fill="#065F46" font-weight="600">platform_roas</text>
+  <text x="2192" y="236" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="242" x2="2200" y2="242" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="256" font-size="9" fill="#065F46" font-weight="600">delta_roas</text>
+  <text x="2192" y="256" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="262" x2="2200" y2="262" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="276" font-size="9" fill="#475569">net_revenue</text>
+  <text x="2192" y="276" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="282" x2="2200" y2="282" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="296" font-size="9" fill="#475569">ad_spend</text>
+  <text x="2192" y="296" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="302" x2="2200" y2="302" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="316" font-size="9" fill="#475569">cac</text>
+  <text x="2192" y="316" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="322" x2="2200" y2="322" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="336" font-size="9" fill="#475569">rto_rate</text>
+  <text x="2192" y="336" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="342" x2="2200" y2="342" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="356" font-size="9" fill="#475569">attribution_match_rate</text>
+  <text x="2192" y="356" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="362" x2="2200" y2="362" stroke="#F8FAFC" stroke-width="1"/>
+  <text x="1982" y="380" font-size="9" fill="#64748B" font-style="italic">UQ(workspace_id, date, campaign_pk, path)</text>
+
+  <!-- anomalies -->
+  <rect x="1940" y="400" width="260" height="220" rx="5" fill="#fff" stroke="#065F46" stroke-width="1.5"/>
+  <rect x="1940" y="400" width="260" height="24"  rx="5" fill="#A7F3D0"/>
+  <rect x="1940" y="417" width="260" height="7"   fill="#A7F3D0"/>
+  <text x="2070" y="417" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">anomalies</text>
+  <line x1="1940" y1="424" x2="2200" y2="424" stroke="#A7F3D0" stroke-width="1"/>
+
+  <text x="1952" y="440" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1982" y="440" font-size="9" fill="#0F172A">anomaly_id</text>
+  <text x="2192" y="440" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="446" x2="2200" y2="446" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1952" y="460" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1982" y="460" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="2192" y="460" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="466" x2="2200" y2="466" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="480" font-size="9" fill="#475569">metric_name</text>
+  <text x="2192" y="480" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="1940" y1="486" x2="2200" y2="486" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="500" font-size="9" fill="#475569">date</text>
+  <text x="2192" y="500" text-anchor="end" font-size="8" fill="#94A3B8">DATE NN</text>
+  <line x1="1940" y1="506" x2="2200" y2="506" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="520" font-size="9" fill="#475569">severity</text>
+  <text x="2192" y="520" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1940" y1="526" x2="2200" y2="526" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="540" font-size="9" fill="#475569">expected_value</text>
+  <text x="2192" y="540" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="546" x2="2200" y2="546" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="560" font-size="9" fill="#475569">actual_value</text>
+  <text x="2192" y="560" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="566" x2="2200" y2="566" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="580" font-size="9" fill="#475569">z_score</text>
+  <text x="2192" y="580" text-anchor="end" font-size="8" fill="#94A3B8">NUMERIC</text>
+  <line x1="1940" y1="586" x2="2200" y2="586" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="600" font-size="9" fill="#475569">detected_at</text>
+  <text x="2192" y="600" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+  <line x1="1940" y1="606" x2="2200" y2="606" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="620" font-size="9" fill="#475569">resolved_at</text>
+  <text x="2192" y="620" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ============================================================
+       QUERY / AGENT TABLES
+  ============================================================= -->
+
+  <!-- metric_definitions -->
+  <rect x="1940" y="600" width="260" height="220" rx="5" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="1940" y="600" width="260" height="24"  rx="5" fill="#BAE6FD"/>
+  <rect x="1940" y="617" width="260" height="7"   fill="#BAE6FD"/>
+  <text x="2070" y="617" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">metric_definitions</text>
+  <line x1="1940" y1="624" x2="2200" y2="624" stroke="#BAE6FD" stroke-width="1"/>
+
+  <text x="1952" y="640" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1982" y="640" font-size="9" fill="#0F172A">name</text>
+  <text x="2192" y="640" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN UQ</text>
+  <line x1="1940" y1="646" x2="2200" y2="646" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="660" font-size="9" fill="#475569">formula</text>
+  <text x="2192" y="660" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="1940" y1="666" x2="2200" y2="666" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="680" font-size="9" fill="#475569">source_table</text>
+  <text x="2192" y="680" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="1940" y1="686" x2="2200" y2="686" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="700" font-size="9" fill="#475569">dimensions</text>
+  <text x="2192" y="700" text-anchor="end" font-size="8" fill="#94A3B8">TEXT[]</text>
+  <line x1="1940" y1="706" x2="2200" y2="706" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="720" font-size="9" fill="#475569">verticals</text>
+  <text x="2192" y="720" text-anchor="end" font-size="8" fill="#94A3B8">TEXT[]</text>
+  <line x1="1940" y1="726" x2="2200" y2="726" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="740" font-size="9" fill="#475569">filters</text>
+  <text x="2192" y="740" text-anchor="end" font-size="8" fill="#94A3B8">JSONB</text>
+  <line x1="1940" y1="746" x2="2200" y2="746" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="760" font-size="9" fill="#475569">tags</text>
+  <text x="2192" y="760" text-anchor="end" font-size="8" fill="#94A3B8">TEXT[]</text>
+  <line x1="1940" y1="766" x2="2200" y2="766" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="780" font-size="9" fill="#475569">description</text>
+  <text x="2192" y="780" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1940" y1="786" x2="2200" y2="786" stroke="#F8FAFC" stroke-width="1"/>
+  <text x="1982" y="804" font-size="9" fill="#64748B" font-style="italic">In-memory (YAML); row for audit trail</text>
+
+  <!-- query_log -->
+  <rect x="1940" y="840" width="260" height="206" rx="5" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="1940" y="840" width="260" height="24"  rx="5" fill="#BAE6FD"/>
+  <rect x="1940" y="857" width="260" height="7"   fill="#BAE6FD"/>
+  <text x="2070" y="857" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">query_log</text>
+  <line x1="1940" y1="864" x2="2200" y2="864" stroke="#BAE6FD" stroke-width="1"/>
+
+  <text x="1952" y="880" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1982" y="880" font-size="9" fill="#0F172A">query_id</text>
+  <text x="2192" y="880" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="886" x2="2200" y2="886" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1952" y="900" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1982" y="900" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="2192" y="900" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="906" x2="2200" y2="906" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="920" font-size="9" fill="#475569">metric_name</text>
+  <text x="2192" y="920" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1940" y1="926" x2="2200" y2="926" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="940" font-size="9" fill="#475569">dimensions_used</text>
+  <text x="2192" y="940" text-anchor="end" font-size="8" fill="#94A3B8">TEXT[]</text>
+  <line x1="1940" y1="946" x2="2200" y2="946" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="960" font-size="9" fill="#475569">filters_applied</text>
+  <text x="2192" y="960" text-anchor="end" font-size="8" fill="#94A3B8">JSONB</text>
+  <line x1="1940" y1="966" x2="2200" y2="966" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="980" font-size="9" fill="#475569">result_rows</text>
+  <text x="2192" y="980" text-anchor="end" font-size="8" fill="#94A3B8">INT</text>
+  <line x1="1940" y1="986" x2="2200" y2="986" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1000" font-size="9" fill="#475569">latency_ms</text>
+  <text x="2192" y="1000" text-anchor="end" font-size="8" fill="#94A3B8">INT</text>
+  <line x1="1940" y1="1006" x2="2200" y2="1006" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1020" font-size="9" fill="#475569">error</text>
+  <text x="2192" y="1020" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1940" y1="1026" x2="2200" y2="1026" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1040" font-size="9" fill="#475569">executed_at</text>
+  <text x="2192" y="1040" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- agent_runs -->
+  <rect x="1940" y="1070" width="260" height="192" rx="5" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="1940" y="1070" width="260" height="24"  rx="5" fill="#BAE6FD"/>
+  <rect x="1940" y="1087" width="260" height="7"   fill="#BAE6FD"/>
+  <text x="2070" y="1087" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">agent_runs</text>
+  <line x1="1940" y1="1094" x2="2200" y2="1094" stroke="#BAE6FD" stroke-width="1"/>
+
+  <text x="1952" y="1110" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1982" y="1110" font-size="9" fill="#0F172A">run_id</text>
+  <text x="2192" y="1110" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="1116" x2="2200" y2="1116" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1952" y="1130" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1982" y="1130" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="2192" y="1130" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="1136" x2="2200" y2="1136" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1150" font-size="9" fill="#475569">user_id</text>
+  <text x="2192" y="1150" text-anchor="end" font-size="8" fill="#94A3B8">UUID</text>
+  <line x1="1940" y1="1156" x2="2200" y2="1156" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1170" font-size="9" fill="#475569">mode</text>
+  <text x="2192" y="1170" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="1940" y1="1176" x2="2200" y2="1176" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1190" font-size="9" fill="#475569">status</text>
+  <text x="2192" y="1190" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1940" y1="1196" x2="2200" y2="1196" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1210" font-size="9" fill="#475569">tool_calls</text>
+  <text x="2192" y="1210" text-anchor="end" font-size="8" fill="#94A3B8">INT</text>
+  <line x1="1940" y1="1216" x2="2200" y2="1216" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1230" font-size="9" fill="#475569">tokens_used</text>
+  <text x="2192" y="1230" text-anchor="end" font-size="8" fill="#94A3B8">INT</text>
+  <line x1="1940" y1="1236" x2="2200" y2="1236" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1250" font-size="9" fill="#475569">started_at</text>
+  <text x="2192" y="1250" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- agent_actions -->
+  <rect x="1940" y="1285" width="260" height="192" rx="5" fill="#fff" stroke="#0369A1" stroke-width="1.5"/>
+  <rect x="1940" y="1285" width="260" height="24"  rx="5" fill="#BAE6FD"/>
+  <rect x="1940" y="1302" width="260" height="7"   fill="#BAE6FD"/>
+  <text x="2070" y="1302" text-anchor="middle" font-size="11" font-weight="700" fill="#0369A1">agent_actions</text>
+  <line x1="1940" y1="1309" x2="2200" y2="1309" stroke="#BAE6FD" stroke-width="1"/>
+
+  <text x="1952" y="1325" font-size="9" fill="#F59E0B" font-weight="700">PK</text>
+  <text x="1982" y="1325" font-size="9" fill="#0F172A">action_id</text>
+  <text x="2192" y="1325" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="1331" x2="2200" y2="1331" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1952" y="1345" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1982" y="1345" font-size="9" fill="#1D4ED8">run_id</text>
+  <text x="2192" y="1345" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="1351" x2="2200" y2="1351" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1952" y="1365" font-size="9" fill="#3B82F6" font-weight="700">FK</text>
+  <text x="1982" y="1365" font-size="9" fill="#1D4ED8">workspace_id</text>
+  <text x="2192" y="1365" text-anchor="end" font-size="8" fill="#94A3B8">UUID NN</text>
+  <line x1="1940" y1="1371" x2="2200" y2="1371" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1385" font-size="9" fill="#475569">tool_name</text>
+  <text x="2192" y="1385" text-anchor="end" font-size="8" fill="#94A3B8">TEXT NN</text>
+  <line x1="1940" y1="1391" x2="2200" y2="1391" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1405" font-size="9" fill="#475569">proposal</text>
+  <text x="2192" y="1405" text-anchor="end" font-size="8" fill="#94A3B8">JSONB</text>
+  <line x1="1940" y1="1411" x2="2200" y2="1411" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1425" font-size="9" fill="#475569">approved_by</text>
+  <text x="2192" y="1425" text-anchor="end" font-size="8" fill="#94A3B8">UUID</text>
+  <line x1="1940" y1="1431" x2="2200" y2="1431" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1445" font-size="9" fill="#475569">status</text>
+  <text x="2192" y="1445" text-anchor="end" font-size="8" fill="#94A3B8">TEXT</text>
+  <line x1="1940" y1="1451" x2="2200" y2="1451" stroke="#F8FAFC" stroke-width="1"/>
+
+  <text x="1982" y="1465" font-size="9" fill="#475569">executed_at</text>
+  <text x="2192" y="1465" text-anchor="end" font-size="8" fill="#94A3B8">TIMESTAMPTZ</text>
+
+  <!-- ============================================================
+       RELATIONSHIPS (crow's foot lines)
+       1 workspaces → * workspace_config       one-to-one (UQ FK)
+       1 workspaces → * workspace_stage_map    one-to-many
+       1 workspaces → * workspace_users        one-to-many
+       1 workspaces → * workspace_api_keys     one-to-many
+       1 workspaces → * ad_platform_accounts   one-to-many
+       1 ad_platform_accounts → * ad_platform_campaigns
+       1 ad_platform_campaigns → * ad_platform_spend
+       1 click_ids → * anonymous_visitors      one-to-many (nullable)
+       1 click_ids → * sessions                one-to-many (nullable)
+       1 click_ids → * orders                  one-to-many (nullable)
+       1 click_ids → * attributions            one-to-many (nullable)
+       1 anonymous_visitors → * identity_edges (anon side)
+       1 customers → * identity_edges          (customer side)
+       1 customers → * orders
+       1 customers → * events
+       1 sessions → * events
+       1 sessions → * page_views
+       1 sessions → * orders                   (nullable)
+       1 sessions → * attributions
+       1 orders → * order_lifecycle
+       1 orders → * order_items
+       1 orders → * attributions
+       1 attributions → * daily_metrics        (logical roll-up)
+       1 ad_platform_campaigns → * daily_metrics
+       1 agent_runs → * agent_actions
+  ============================================================= -->
+
+  <!-- workspaces → workspace_config (1:1) -->
+  <path d="M 170,159 Q 170,280 170,280" stroke="#92400E" stroke-width="1.2" fill="none" marker-end="url(#manyg)"/>
+
+  <!-- workspaces → workspace_stage_map (1:many) -->
+  <path d="M 260,159 Q 380,159 380,56" stroke="#92400E" stroke-width="1.2" fill="none" marker-end="url(#manyg)"/>
+
+  <!-- workspaces → workspace_users (1:many) -->
+  <path d="M 260,200 Q 450,200 450,280" stroke="#92400E" stroke-width="1.2" fill="none" marker-end="url(#manyg)"/>
+
+  <!-- workspaces → workspace_api_keys (1:many) -->
+  <path d="M 170,262 Q 170,520 170,520" stroke="#92400E" stroke-width="1.2" fill="none" marker-end="url(#manyg)"/>
+
+  <!-- workspaces → ad_platform_accounts (1:many) — cross group -->
+  <path d="M 170,262 Q 170,900 170,1038" stroke="#92400E" stroke-width="1" stroke-dasharray="5 3" fill="none" marker-end="url(#manyg)"/>
+  <text x="182" y="900" font-size="7" fill="#92400E">workspace_id</text>
+
+  <!-- ad_platform_accounts → ad_platform_campaigns (1:many) -->
+  <path d="M 170,1244 Q 170,1262 170,1262" stroke="#0369A1" stroke-width="1.2" fill="none" marker-end="url(#manyac)"/>
+
+  <!-- ad_platform_campaigns → ad_platform_spend (1:many) -->
+  <path d="M 300,1380 Q 450,1380 450,1310" stroke="#0369A1" stroke-width="1.2" fill="none" marker-end="url(#manyac)"/>
+
+  <!-- click_ids → anonymous_visitors (1:many, nullable) -->
+  <path d="M 450,1350 Q 600,1350 600,200 Q 600,136 702,136" stroke="#0369A1" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#manyac)"/>
+
+  <!-- click_ids → sessions (1:many, nullable) -->
+  <path d="M 580,1400 Q 640,1400 640,740" stroke="#0369A1" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#manyac)"/>
+
+  <!-- click_ids → orders (1:many, nullable) -->
+  <path d="M 580,1440 Q 1280,1440 1280,176" stroke="#0369A1" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#manyac)"/>
+
+  <!-- anonymous_visitors → identity_edges (1:many) -->
+  <path d="M 790,276 Q 790,300 790,300" stroke="#1D4ED8" stroke-width="1.2" fill="none" marker-end="url(#manyb)"/>
+
+  <!-- customers → identity_edges (1:many) -->
+  <path d="M 1070,290 Q 1070,350 1070,300" stroke="#1D4ED8" stroke-width="1.2" fill="none" marker-end="url(#manyb)"/>
+
+  <!-- customers → orders (1:many) -->
+  <path d="M 1200,136 Q 1280,136 1280,136" stroke="#1D4ED8" stroke-width="1.2" fill="none" marker-end="url(#manyb)"/>
+
+  <!-- customers → events (1:many, nullable) -->
+  <path d="M 1200,176 Q 1250,176 1250,700 Q 1250,740 1200,740" stroke="#1D4ED8" stroke-width="1" stroke-dasharray="5 3" fill="none" marker-end="url(#manyb)"/>
+
+  <!-- sessions → events (1:many) -->
+  <path d="M 920,760 Q 940,760 940,700" stroke="#7C3AED" stroke-width="1.2" fill="none" marker-end="url(#manyp)"/>
+
+  <!-- sessions → page_views (1:many) -->
+  <path d="M 790,916 Q 790,940 790,940" stroke="#7C3AED" stroke-width="1.2" fill="none" marker-end="url(#manyp)"/>
+
+  <!-- sessions → orders (nullable) -->
+  <path d="M 920,760 Q 1280,760 1280,156" stroke="#7C3AED" stroke-width="1" stroke-dasharray="5 3" fill="none" marker-end="url(#manyp)"/>
+
+  <!-- orders → order_lifecycle (1:many) -->
+  <path d="M 1560,136 Q 1580,136 1580,136" stroke="#15803D" stroke-width="1.2" fill="none" marker-end="url(#manyg)"/>
+
+  <!-- orders → order_items (1:many) -->
+  <path d="M 1430,360 Q 1430,380 1430,380" stroke="#15803D" stroke-width="1.2" fill="none" marker-end="url(#manyg)"/>
+
+  <!-- orders → attributions (1:many) -->
+  <path d="M 1430,360 Q 1430,720 1430,720" stroke="#15803D" stroke-width="1.2" fill="none" marker-end="url(#manyr)"/>
+
+  <!-- sessions → attributions (1:many) -->
+  <path d="M 920,916 Q 1290,916 1290,760 Q 1290,740 1300,740" stroke="#7C3AED" stroke-width="1" stroke-dasharray="5 3" fill="none" marker-end="url(#manyp)"/>
+
+  <!-- attributions → daily_metrics (logical) -->
+  <path d="M 1840,800 Q 1920,800 1920,136" stroke="#DC2626" stroke-width="1.2" stroke-dasharray="5 3" fill="none" marker-end="url(#manyr)"/>
+  <text x="1848" y="500" font-size="7" fill="#DC2626">rolls up to</text>
+
+  <!-- ad_platform_campaigns → daily_metrics -->
+  <path d="M 300,1320 Q 1920,1320 1920,200" stroke="#0369A1" stroke-width="1" stroke-dasharray="5 3" fill="none" marker-end="url(#manyac)"/>
+
+  <!-- agent_runs → agent_actions (1:many) -->
+  <path d="M 2070,1262 Q 2070,1285 2070,1285" stroke="#0369A1" stroke-width="1.2" fill="none" marker-end="url(#manyac)"/>
+
+  <!-- ============================================================
+       LEGEND & FOOTER
+  ============================================================= -->
+  <rect x="20" y="1560" width="2760" height="240" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="40"  y="1582" font-size="11" font-weight="700" fill="#0F172A">Entity Relationship Diagram — Notation &amp; Key Relationships</text>
+  <line x1="20" y1="1590" x2="2780" y2="1590" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Notation legend -->
+  <text x="40"  y="1610" font-size="9" font-weight="700" fill="#475569">Notation:</text>
+  <rect x="110" y="1600" width="28" height="14" rx="2" fill="#FEF9C3" stroke="#F59E0B" stroke-width="1"/>
+  <text x="124" y="1611" text-anchor="middle" font-size="7" font-weight="700" fill="#92400E">PK</text>
+  <text x="142" y="1611" font-size="9" fill="#475569">Primary key</text>
+
+  <rect x="240" y="1600" width="28" height="14" rx="2" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+  <text x="254" y="1611" text-anchor="middle" font-size="7" font-weight="700" fill="#1D4ED8">FK</text>
+  <text x="272" y="1611" font-size="9" fill="#475569">Foreign key</text>
+
+  <text x="380" y="1611" font-size="9" fill="#475569">NN = not null &nbsp;&nbsp; UQ = unique constraint &nbsp;&nbsp; Dashed border = denormalised / derived table &nbsp;&nbsp; Italic field = computed</text>
+
+  <!-- Key relationships -->
+  <text x="40"  y="1635" font-size="9" font-weight="700" fill="#475569">Critical FK chains:</text>
+
+  <text x="40"  y="1655" font-size="9" fill="#0F172A">workspaces.workspace_id <tspan fill="#94A3B8">&#x2192;</tspan> ALL 25 other tables (tenant isolation — every row scoped)</text>
+  <text x="40"  y="1672" font-size="9" fill="#0F172A">click_ids.mk_cid <tspan fill="#94A3B8">&#x2192;</tspan> anonymous_visitors.mk_cid <tspan fill="#94A3B8">&#x2192;</tspan> sessions.mk_cid <tspan fill="#94A3B8">&#x2192;</tspan> orders.mk_cid <tspan fill="#94A3B8">&#x2192;</tspan> attributions.mk_cid &nbsp;<tspan fill="#C2410C" font-weight="600">(the attribution spine)</tspan></text>
+  <text x="40"  y="1689" font-size="9" fill="#0F172A">anonymous_visitors.anon_id <tspan fill="#94A3B8">&#x2194;</tspan> identity_edges <tspan fill="#94A3B8">&#x2194;</tspan> customers.customer_id &nbsp;<tspan fill="#1D4ED8" font-weight="600">(identity resolution bridge)</tspan></text>
+  <text x="40"  y="1706" font-size="9" fill="#0F172A">orders.order_id <tspan fill="#94A3B8">&#x2192;</tspan> order_lifecycle (state machine) &nbsp;&nbsp; orders.order_id <tspan fill="#94A3B8">&#x2192;</tspan> order_items (line items) &nbsp;&nbsp; orders.order_id <tspan fill="#94A3B8">&#x2192;</tspan> attributions.order_id</text>
+  <text x="40"  y="1723" font-size="9" fill="#0F172A">attributions (order &#x2715; session &#x2715; click_id) <tspan fill="#94A3B8">&#x2192;</tspan> daily_metrics (nightly rollup) &nbsp;&nbsp; ad_platform_spend.spend <tspan fill="#94A3B8">&#x2192;</tspan> daily_metrics.ad_spend (ROAS denominator)</text>
+  <text x="40"  y="1740" font-size="9" fill="#0F172A">agent_runs.run_id <tspan fill="#94A3B8">&#x2192;</tspan> agent_actions.run_id (propose&#x2192;approve&#x2192;execute gate) &nbsp;&nbsp; workspace_api_keys (JWT auth) gates ALL query_log rows</text>
+
+  <line x1="20" y1="1752" x2="2780" y2="1752" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="40"  y="1770" font-size="9" fill="#475569">Cardinality: workspaces 1&#x2014;&#x2227; (many) for all child tables &nbsp;&#xB7;&nbsp; click_ids 1&#x2014;0..* (optional) sessions, orders, attributions &nbsp;&#xB7;&nbsp; orders 1&#x2014;* order_lifecycle, order_items &nbsp;&#xB7;&nbsp; agent_runs 1&#x2014;* agent_actions</text>
+  <text x="40"  y="1787" font-size="9" fill="#64748B">Meerkats.ai &nbsp;&#xB7;&nbsp; Church Street ESolutions Pvt Ltd &nbsp;&#xB7;&nbsp; Bengaluru &nbsp;&#xB7;&nbsp; ER Diagram v1.0 &nbsp;&#xB7;&nbsp; 26 entities &nbsp;&#xB7;&nbsp; PostgreSQL</text>
+
+</svg>
+</body>
+</html>
